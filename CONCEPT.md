@@ -36,6 +36,22 @@ which one you are and never puts you in a box. It's built patient enough for the
 ones who really struggle to start, and quick enough for the ones who were only
 bored. **Same app. You don't have to know which you are.**
 
+## First run — your starting type
+
+Before anything else, a short, playful quiz learns **how you get stuck and what
+tends to move you**, and hands you a *starting type* — a friendlier, less
+buttoned-up cousin of a personality test ("the overwhelmed perfectionist," "the
+bored sprinter," "the 1am spiraler," "the too-many-tabs"). A mirror, not a
+diagnosis — it tunes which door opens first, how tasks get worded, and how loud
+the voice is. It asks age and gender too (a 13-year-old and a 19-year-old need
+different words; gender optional and open-ended).
+
+- **On-device, optional, skippable.** All of it stays in the browser; want to
+  skip the quiz and just start? Start.
+- **Not pseudo-science.** Strict Myers-Briggs doesn't hold up well
+  scientifically, so budge keeps the *fun* of a recognizable type without
+  dressing it up as fact — it's a personalization tool, not a verdict.
+
 ## The core loop
 
 ```
@@ -58,11 +74,16 @@ That's the whole app. If a teen can't explain it in one sentence, it failed.
 ## The feeling menu (emotional granularity)
 
 "Unmotivated" is rarely one thing — it's foggy, or wired-but-tired, or hollow,
-or a dread you can't name. The first tap isn't "rate your mood 1–10"; it's a
-small **vocabulary of the ways a person actually gets stuck**, right down to
-*"can't name it."* Putting a precise word to a feeling (emotional granularity /
-affect labeling) is itself one of the most reliable ways to loosen its grip — so
-the menu isn't decoration, it's the first intervention.
+or a dread you can't name. And you're not always low, either: sometimes you're
+*lit up*. The first tap isn't "rate your mood 1–10"; it's a real **vocabulary of
+states, from numb to joyful**, right down to *"can't name it."* Putting a precise
+word to any feeling (emotional granularity / affect labeling) is one of the most
+reliable ways to work with it instead of drowning in it — so the menu isn't
+decoration, it's the first intervention.
+
+**It's not only for the hard days.** Naming a *good* feeling — joy, pride, calm —
+makes it last longer (that's *savoring*, a real effect), so you can check in when
+you're up too, and spend the momentum while it's here.
 
 The feeling words route to a first step that fits the state you're in:
 
@@ -72,17 +93,19 @@ The feeling words route to a first step that fits the state you're in:
 | on edge / anxious / dread / overwhelmed / keyed up | can't settle | ground first, then a micro-dose of the thing you're dodging. too small to spook you. |
 | restless / antsy / scattered | energy, no aim | point it somewhere — move your body, race a 2-minute timer against whatever's nearest. |
 | drained / burnt out / heavy / wired but tired | tank's out | permission to rest. one stretch, then back under. resting on purpose counts. |
-| bored / meh / stuck / blah | under-stimulated | a hit of novelty — one weird small thing you'd never normally do. |
+| bored / meh / stuck / blah / curious | under-stimulated | a hit of novelty — one weird small thing you'd never normally do. |
+| joyful / proud / excited / grateful / lit up | riding a good one | capture it or spend it — note what's working, or start the thing you've been dreading while it's suddenly easy. |
+| content / calm / relieved | steady | bank it. one breath to notice it, or set future-you up with one small thing. |
 | okay / alright | some gas left | a normal small win, plus a gentle offer of something a notch bigger. |
 | **can't name it** | just off | no word needed. one breath, one small move. we'll figure it out later. |
 
-**A low-battery day never gets met with a big ask.**
+**A low-battery day never gets met with a big ask — and a good day gets to stay good.**
 
 ## The rules that make it work (these *are* the product)
 
 1. **One thing at a time.** Never a list. A list is a wall of obligation.
 2. **The first step is ≤ 2 minutes.** If it feels big, it's the wrong step.
-3. **No streaks, no score to lose.** Numbers only go up. You cannot fail. Miss a month? Invisible.
+3. **Nothing you can lose.** The core counters only ever go up. Any streak you make is opt-in and *pauses* on a miss — never a reset-to-zero. You cannot fail. Miss a month? Invisible.
 4. **Skip is free.** "Not feeling it" deals a gentler start — which makes you *more* likely to take one.
 5. **No login, ever.** Start in one tap. Nobody stuck at the starting line makes an account first.
 
@@ -107,6 +130,14 @@ How you enter depends on how much bandwidth you have in the moment:
 | **Sensory & access** | Reduced motion, dyslexia-friendly font, high contrast, a fully quiet mode. Core, not a settings-page afterthought. |
 | **A way to a real person** | When a day is more than a nudge can hold, a calm, never-alarming path to actual help is always reachable. |
 
+**The "keep going" layer** — optional, for when starting isn't the hard part anymore. The person who just needs one shove out the door never has to see any of it:
+
+| feature | what it does |
+|---|---|
+| **Journal & buildable habits** | A one-line-a-day journal, and small habits you *choose* to build (read, move, breathe). Opt-in, never assigned. |
+| **Gentle streaks you make yourself** | Make a streak for anything you're already doing. Miss a day and it *pauses* — never resets to zero or flashes red. The feeling of a run, minus the shame of breaking one. |
+| **Custom trackers** | Count whatever you decide matters — cups of water, hours of focused work, times you went outside. Your metrics, on your device. No targets to fail. |
+
 **Fast-follows (post-launch):** session-only momentum ("the roll"), a nudge you
 write to future-you, habit-anchoring, sending a friend a start, and a system
 share-sheet to throw anything straight into the Shrinker.
@@ -114,10 +145,12 @@ share-sheet to throw anything straight into the Shrinker.
 ## What budge won't build
 
 The "no" list is half the design. Every one of these lifts engagement — and
-quietly costs this exact person. Refusing them is the whole promise.
+quietly costs this exact person. Refusing them is the whole promise. (The streaks
+budge *does* offer are the opt-in, pause-don't-punish kind — what it refuses is
+the reset-to-zero shame machine.)
 
-> streaks · leaderboards · nagging notifications · accounts & cloud sync ·
-> points & coins · an AI "therapist" · infinite scroll · wilting-plant guilt
+> reset-to-zero streaks · leaderboards · nagging notifications · accounts & cloud
+> sync · points & coins · an AI "therapist" · infinite scroll · wilting-plant guilt
 
 ## The philosophy: teach you to start without it
 
