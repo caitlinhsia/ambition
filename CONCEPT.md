@@ -86,6 +86,39 @@ The feeling words route to a first step that fits the state you're in:
 4. **Skip is free.** "Not feeling it" deals a gentler start — which makes you *more* likely to take one.
 5. **No login, ever.** Start in one tap. Nobody stuck at the starting line makes an account first.
 
+## The three front doors
+
+How you enter depends on how much bandwidth you have in the moment:
+
+- **The 10-second start** — one button (*"I can't start"*) hands you one thing and counts down from ten. For when *choosing* is already too much. Likely the home screen itself.
+- **The feeling menu** — name where you're at from the vocabulary of stuck → a first step tuned to that exact state. For when you've got enough bandwidth to choose.
+- **The Shrinker** — type the specific thing you're dreading → one stupidly small first move, and it never shows you step two. For when you know exactly what you're avoiding.
+
+## The features (first version)
+
+| feature | what it does |
+|---|---|
+| **The slow garden** | Every start adds a little green. It *only ever grows* — no streak, no "your plant is dying." Miss a month, it's right where you left it. |
+| **Start-with-me** | A 2-minute "ready… start" timer with quiet, anonymous company. Body doubling — the felt sense of not starting alone. |
+| **Receipts** | A private "you did this" log. Counter-evidence to the *"I never do anything"* story the brain tells on bad days. |
+| **Learns what works on you** | On-device: leans toward the first steps you actually finish. Personal, never surveilled — nothing leaves your phone. |
+| **Wind-down mode** | Late at night it stops handing you projects and helps you start *ending* the day instead (the 1am spiral). |
+| **Local-first & offline** | No login, works with no signal, installs to the home screen. Opening it must be as easy as the step it asks for. |
+| **Sensory & access** | Reduced motion, dyslexia-friendly font, high contrast, a fully quiet mode. Core, not a settings-page afterthought. |
+| **A way to a real person** | When a day is more than a nudge can hold, a calm, never-alarming path to actual help is always reachable. |
+
+**Fast-follows (post-launch):** session-only momentum ("the roll"), a nudge you
+write to future-you, habit-anchoring, sending a friend a start, and a system
+share-sheet to throw anything straight into the Shrinker.
+
+## What budge won't build
+
+The "no" list is half the design. Every one of these lifts engagement — and
+quietly costs this exact person. Refusing them is the whole promise.
+
+> streaks · leaderboards · nagging notifications · accounts & cloud sync ·
+> points & coins · an AI "therapist" · infinite scroll · wilting-plant guilt
+
 ## The philosophy: teach you to start without it
 
 budge wants to move the skill of starting out of the app and **into your own
