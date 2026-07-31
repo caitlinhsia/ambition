@@ -52,20 +52,31 @@ That's the whole app. If a teen can't explain it in one sentence, it failed.
 | **Action → motivation** | Motivation follows movement, not the reverse. One small action taken *regardless* of mood breaks the stall. A real, well-studied effect. |
 | **Tiny by design** | We can't summon willpower on command, so we remove the need for it — make the first step so small failing is basically impossible. |
 | **Instant payoff** | A hit of "done" the second you finish is what wires *starting* into a habit — especially for a brain that can't wait around for a later reward. |
+| **Name it to tame it** | Affect labeling: putting the right word to a feeling measurably turns its volume down. The feeling menu is the first intervention, not decoration. |
 | **Zero shame** | Guilt makes you avoid the thing harder. Take shame off the table and starting gets cheaper. So there's nothing here to fail. |
 
-## It meets you where you are
+## The feeling menu (emotional granularity)
 
-One tap — not a form, just a read on your energy right now. **A low-battery day
-never gets met with a big ask.**
+"Unmotivated" is rarely one thing — it's foggy, or wired-but-tired, or hollow,
+or a dread you can't name. The first tap isn't "rate your mood 1–10"; it's a
+small **vocabulary of the ways a person actually gets stuck**, right down to
+*"can't name it."* Putting a precise word to a feeling (emotional granularity /
+affect labeling) is itself one of the most reliable ways to loosen its grip — so
+the menu isn't decoration, it's the first intervention.
 
-| you tapped | what that's like | your first step |
+The feeling words route to a first step that fits the state you're in:
+
+| the flavor | what that's like | your first step |
 |---|---|---|
-| 😶 flat | nothing's landing | the gentlest nudge — open the curtains, drink water. proof the machine still turns on. |
-| 😰 buzzing | can't settle | ground first, then a micro-dose of the thing you're dodging. approach, too small to spook you. |
-| 🌀 restless | energy, no aim | point it somewhere — move your body, then race a 2-minute timer against whatever's nearest. |
-| 😴 empty | tank's out | permission to rest. one stretch, then back under. resting on purpose counts as starting. |
-| 🙂 alright | some gas left | a normal small win — plus a gentle offer of something a notch bigger, while starting's easy. |
+| flat / numb / hollow / foggy / detached | nothing's landing | gentlest nudge — open the curtains, drink water. proof the machine still turns on. |
+| on edge / anxious / dread / overwhelmed / keyed up | can't settle | ground first, then a micro-dose of the thing you're dodging. too small to spook you. |
+| restless / antsy / scattered | energy, no aim | point it somewhere — move your body, race a 2-minute timer against whatever's nearest. |
+| drained / burnt out / heavy / wired but tired | tank's out | permission to rest. one stretch, then back under. resting on purpose counts. |
+| bored / meh / stuck / blah | under-stimulated | a hit of novelty — one weird small thing you'd never normally do. |
+| okay / alright | some gas left | a normal small win, plus a gentle offer of something a notch bigger. |
+| **can't name it** | just off | no word needed. one breath, one small move. we'll figure it out later. |
+
+**A low-battery day never gets met with a big ask.**
 
 ## The rules that make it work (these *are* the product)
 
@@ -110,6 +121,15 @@ your bad days.
 | a low day | rough one, huh. one stretch, then get right back under the covers. that fully counts. |
 | you started | look at you. that was real, i saw it. |
 | you came back | hey, you're back. no notes, no catching up — just good to see you. what's one thing? |
+
+## Launch (waitlist)
+
+budge isn't open yet. A pre-launch **email waitlist** collects one thing — an
+address — with an explicit, ethos-consistent promise: *one email, ever, the day
+it opens.* No newsletter, no reminders, no selling the list. This is deliberately
+kept separate from the app itself, which **never asks you to sign in** — so the
+waitlist reinforces the no-login / no-dark-patterns stance rather than
+undercutting it.
 
 ## Identity
 
