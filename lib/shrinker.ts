@@ -94,20 +94,21 @@ const FALLBACK: string[] = [
   "get everything you need within arm's reach.",
 ];
 
-const FALLBACK_SYMPATHY = "we're not doing the whole thing. just the opener.";
+const FALLBACK_INTRO = "we're not doing the whole thing. just the opener.";
 
+/**
+ * Returns the step at `cursor` (wrapping), plus how many distinct steps exist
+ * for this thing. Callers decide what counts as progress — browsing the
+ * options and working through them are deliberately separate.
+ */
 export function shrink(
   input: string,
-  stepIndex = 0
-): { intro: string; step: string; more: boolean } {
+  cursor = 0
+): { intro: string; step: string; total: number } {
   const text = input.trim();
   const rule = RULES.find((r) => r.match.test(text));
   const steps = rule ? rule.steps : FALLBACK;
-  const intro = rule?.intro ?? FALLBACK_SYMPATHY;
-  const i = stepIndex % steps.length;
-  return {
-    intro,
-    step: steps[i],
-    more: stepIndex < steps.length - 1,
-  };
+  const intro = rule?.intro ?? FALLBACK_INTRO;
+  const i = ((cursor % steps.length) + steps.length) % steps.length;
+  return { intro, step: steps[i], total: steps.length };
 }
