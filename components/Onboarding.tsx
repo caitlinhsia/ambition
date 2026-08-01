@@ -31,11 +31,11 @@ export default function Onboarding({
   if (result) {
     return (
       <div className="panel">
-        <p className="eyebrow">// your starting type</p>
+        
         <h2 className="h">{result.name}</h2>
         <p className="body">{result.blurb}</p>
         <p className="sub" style={{ marginTop: 18 }}>
-          two last things, both optional — they just help budg3 pick its words.
+          two optional details, so budg3 can tailor things.
         </p>
         <div className="field" style={{ marginBottom: 10 }}>
           <input
@@ -58,11 +58,10 @@ export default function Onboarding({
           className="btn primary big"
           onClick={() => onDone({ typeKey: result.key, age: age.trim(), gender: gender.trim() })}
         >
-          okay, let&apos;s start
+          done
         </button>
         <p className="note" style={{ margin: "12px 0 0" }}>
-          this never leaves your device. it&apos;s not a personality test and it isn&apos;t science —
-          just a way for budg3 to know how to talk to you.
+          stays on your device. not a real personality test — just a way to tailor what you see.
         </p>
       </div>
     );
@@ -71,11 +70,9 @@ export default function Onboarding({
   const q = QUIZ[i];
   return (
     <div className="panel">
-      <p className="eyebrow">
-        // {i + 1} of {QUIZ.length}
-      </p>
+      <p className="eyebrow">{i + 1} of {QUIZ.length}</p>
       <h2 className="h">{q.q}</h2>
-      <p className="sub">no wrong answers. it&apos;s just so budg3 knows how to talk to you.</p>
+      <p className="sub">no wrong answers.</p>
       <div className="chips">
         {q.a.map((opt) => (
           <button key={opt.label} className="chip" onClick={() => answer(opt.axis, opt.value)}>
@@ -84,7 +81,7 @@ export default function Onboarding({
         ))}
       </div>
       <button className="link" onClick={() => onDone({})}>
-        skip this, i just want to start →
+        skip the quiz →
       </button>
     </div>
   );

@@ -11,6 +11,12 @@ const SUGGESTIONS: { name: string; unit: string }[] = [
   { name: "pages read", unit: "pages" },
   { name: "workouts", unit: "sessions" },
   { name: "screen-free time", unit: "hrs" },
+  { name: "sleep", unit: "hrs" },
+  { name: "money saved", unit: "£" },
+  { name: "practice", unit: "mins" },
+  { name: "meals cooked", unit: "meals" },
+  { name: "study", unit: "mins" },
+  { name: "days without", unit: "days" },
 ];
 
 /**
@@ -37,9 +43,9 @@ export default function Trackers({
   return (
     <>
       <div className="panel">
-        <p className="eyebrow">// trackers</p>
-        <h2 className="h">count whatever matters to you.</h2>
-        <p className="sub">cups of water, hours of work, walks. your numbers, no targets to miss.</p>
+        
+        <h2 className="h">your trackers</h2>
+        <p className="sub">count anything you want to keep an eye on.</p>
 
         <form
           className="field"
@@ -73,7 +79,7 @@ export default function Trackers({
         </form>
 
         {trackers.length === 0 ? (
-          <p className="empty">no trackers yet. only add one if it&apos;d actually help.</p>
+          <p className="empty">no trackers yet.</p>
         ) : (
           <ul className="list">
             {trackers.map((tr) => {
@@ -91,8 +97,8 @@ export default function Trackers({
                   </button>
                   <button
                     className="iconbtn on"
-                    onClick={() => {
-                      celebrate();
+                    onClick={(e) => {
+                      celebrate(e.currentTarget);
                       onBump(tr.id, 1);
                     }}
                     aria-label={`more ${tr.name}`}
@@ -110,8 +116,8 @@ export default function Trackers({
       </div>
 
       <div className="panel">
-        <p className="eyebrow">// ideas</p>
-        <h2 className="h">common ones.</h2>
+        
+        <h2 className="h">ideas</h2>
         <div className="chips">
           {SUGGESTIONS.map((sug) => {
             const added = existing.has(sug.name.toLowerCase());
@@ -120,8 +126,8 @@ export default function Trackers({
                 key={sug.name}
                 className={"chip" + (added ? " pos" : "")}
                 disabled={added}
-                onClick={() => {
-                  celebrate();
+                onClick={(e) => {
+                  celebrate(e.currentTarget);
                   onAdd(sug.name, sug.unit);
                 }}
               >

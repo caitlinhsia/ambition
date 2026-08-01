@@ -114,11 +114,10 @@ export default function Home() {
 
       {lateNight && tab === "start" ? (
         <div className="panel" style={{ marginBottom: 14 }}>
-          <p className="eyebrow">// it&apos;s late</p>
-          <h2 className="h">let&apos;s not start a project right now.</h2>
+          <h2 className="h">it&apos;s late.</h2>
           <p className="sub">
-            it&apos;s past 11. tonight the only good first step is the one that makes bed easier to
-            get to — brush your teeth, put the phone on the charger across the room, close one tab.
+            steps are smaller after 11 — the kind that make getting to bed easier rather than
+            starting something new.
           </p>
         </div>
       ) : null}

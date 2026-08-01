@@ -32,12 +32,12 @@ export default function Auth({
 
   return (
     <div className="panel">
-      <p className="eyebrow">// {mode === "up" ? "make an account" : "welcome back"}</p>
-      <h2 className="h">{mode === "up" ? "keep your stuff." : "pick up where you left off."}</h2>
+      
+      <h2 className="h">{mode === "up" ? "create an account" : "sign in"}</h2>
       <p className="sub">
         {mode === "up"
-          ? "an email is all it takes. your habits, streaks and receipts get saved under it."
-          : "same email you signed up with."}
+          ? "your habits, streaks and history get saved under your email."
+          : "use the email you signed up with."}
       </p>
 
       <form className="field" onSubmit={submit}>
@@ -75,12 +75,11 @@ export default function Auth({
       </div>
 
       <button className="link" onClick={onSkip}>
-        skip — just let me start →
+        skip for now →
       </button>
 
       <p className="note" style={{ margin: "16px 0 0" }}>
-        no password, no spam, no selling anything. right now your account lives on this device —
-        it&apos;s yours to export or erase any time.
+        no password needed. your data stays on this device and you can export or erase it any time.
       </p>
     </div>
   );

@@ -20,8 +20,8 @@
     --paper: #16180f;
     --paper-2: #1e2116;
     --ink: #e7e6d9;
-    --ink-soft: #9a9382;
-    --ink-faint: #6c6655;
+    --ink-soft: #b6b0a0;
+    --ink-faint: #8e8877;
     --line: #2c2e21;
     --line-2: #3a3c2d;
     --accent: #82b78e;
@@ -49,8 +49,8 @@
   --paper: #16180f;
   --paper-2: #1e2116;
   --ink: #e7e6d9;
-  --ink-soft: #9a9382;
-  --ink-faint: #6c6655;
+  --ink-soft: #b6b0a0;
+  --ink-faint: #8e8877;
   --line: #2c2e21;
   --line-2: #3a3c2d;
   --accent: #82b78e;
@@ -493,21 +493,23 @@ input::placeholder {
 }
 .spark {
   position: fixed;
-  font-size: 17px;
+  font-size: 20px;
+  color: var(--accent);
+  font-weight: 700;
   pointer-events: none;
   z-index: 50;
   will-change: transform, opacity;
 }
 @keyframes floatUp {
   from {
-    transform: translateY(0) scale(0.7);
+    transform: translateY(0) scale(0.6);
     opacity: 0;
   }
-  18% {
-    opacity: 1;
+  25% {
+    opacity: 0.9;
   }
   to {
-    transform: translateY(-90px) scale(1.05);
+    transform: translateY(-34px) scale(1);
     opacity: 0;
   }
 }

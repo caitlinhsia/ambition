@@ -54,7 +54,7 @@ export default function StartDoor({
   if (phase.k === "counting") {
     return (
       <div className="panel">
-        <p className="eyebrow">// don&apos;t think. just go.</p>
+        
         <h2 className="h">{phase.task}</h2>
         <p className="timer">{phase.left}</p>
         <div className="row">
@@ -75,17 +75,15 @@ export default function StartDoor({
   if (phase.k === "step") {
     return (
       <div className="panel">
-        <p className="eyebrow">
-          {phase.feeling ? `// "${phase.feeling}." okay. here's where you start:` : "// here's where you start:"}
-        </p>
+        <p className="eyebrow">{phase.feeling ? phase.feeling : "your first step"}</p>
         <div className="task">
-          {phase.gentler ? <p className="note">yeah, that&apos;s fair. here&apos;s a gentler one.</p> : null}
+          {phase.gentler ? <p className="note">here's an easier one.</p> : null}
           <p className="text">{phase.task}</p>
           <div className="row">
             <button
               className="btn primary"
-              onClick={() => {
-                celebrate();
+              onClick={(e) => {
+                celebrate(e.currentTarget);
                 done(phase.task, phase.pool, phase.feeling);
               }}
             >
@@ -103,7 +101,7 @@ export default function StartDoor({
                 })
               }
             >
-              not feeling it
+              something else
             </button>
           </div>
         </div>
@@ -128,7 +126,7 @@ export default function StartDoor({
               })
             }
           >
-            give me another →
+            another one →
           </button>
         </div>
       </div>
@@ -137,23 +135,22 @@ export default function StartDoor({
 
   return (
     <div className="panel">
-      <p className="eyebrow">// can&apos;t get going?</p>
-      <h2 className="h">start here.</h2>
-      <p className="sub">one small thing. that&apos;s the whole app.</p>
+      <h2 className="h">start something.</h2>
+      <p className="sub">one small thing to get you moving.</p>
 
       <button className="btn primary big" onClick={quickStart}>
-        i can&apos;t start
+        give me something to do
       </button>
 
       <div style={{ marginTop: 14 }}>
         {!openMenu ? (
           <button className="link" onClick={() => setOpenMenu(true)}>
-            or tell it how you&apos;re landing first →
+            pick how you're feeling instead →
           </button>
         ) : (
           <>
             <p className="sub" style={{ margin: "4px 0 12px" }}>
-              how are you landing right now? naming it helps more than you&apos;d think.
+              how are you feeling right now?
             </p>
             <div className="chips">
               {FEELINGS.map((f) => (

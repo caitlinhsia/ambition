@@ -16,9 +16,8 @@ export default function Garden({ started }: { started: number }) {
         {leaves}
       </span>
       <span>
-        times you&apos;ve started: <b>{started}</b>
+        started: <b>{started}</b>
       </span>
-      <span className="right">never resets. promise.</span>
     </div>
   );
 }

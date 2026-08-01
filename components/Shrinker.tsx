@@ -36,7 +36,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
     const { sympathy, step, more } = shrink(target, stepIndex);
     return (
       <div className="panel">
-        <p className="eyebrow">// the thing: {target}</p>
+        <p className="eyebrow">{target}</p>
         {won ? (
           <div className="task">
             <p className="win">{won}</p>
@@ -57,7 +57,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
               </button>
             </div>
             <p className="note" style={{ margin: "12px 0 0" }}>
-              you don&apos;t have to keep going. stopping here is a win too.
+              stopping here is fine.
             </p>
           </div>
         ) : (
@@ -67,8 +67,8 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
             <div className="row">
               <button
                 className="btn primary"
-                onClick={() => {
-                  celebrate();
+                onClick={(e) => {
+                  celebrate(e.currentTarget);
                   onStarted(`${target} — ${step}`);
                   setWon(pickWin());
                 }}
@@ -76,7 +76,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
                 i did it
               </button>
               <button className="btn ghost" onClick={() => setStepIndex((i) => i + 1)}>
-                give me a different one
+                different step
               </button>
               <button className="btn ghost" onClick={reset}>
                 start over
@@ -90,10 +90,10 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
 
   return (
     <div className="panel">
-      <p className="eyebrow">// the shrinker</p>
+      
       <h2 className="h">what are you avoiding?</h2>
       <p className="sub">
-        type it in. budg3 shrinks it down to one first move — and never shows you the whole staircase.
+        type it in and get one small first step — not the whole plan.
       </p>
       <form className="field" onSubmit={submit}>
         <input
@@ -108,7 +108,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
         </button>
       </form>
       <p className="note" style={{ margin: "12px 0 0" }}>
-        stays on your device. nobody sees this but you.
+        only you can see this.
       </p>
     </div>
   );

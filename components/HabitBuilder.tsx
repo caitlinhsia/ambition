@@ -31,12 +31,12 @@ export default function HabitBuilder({
   return (
     <>
       <div className="panel">
-        <p className="eyebrow">// habit builder</p>
-        <h2 className="h">things you&apos;re building.</h2>
+        
+        <h2 className="h">your habits</h2>
         <p className="sub">
           {habits.length === 0
-            ? "pick from below or write your own. small ones stick better than big ones."
-            : `${doneToday} of ${habits.length} done today. no pressure on the rest.`}
+            ? "add one below, or write your own."
+            : `${doneToday} of ${habits.length} done today.`}
         </p>
 
         <form
@@ -62,7 +62,7 @@ export default function HabitBuilder({
         </form>
 
         {habits.length === 0 ? (
-          <p className="empty">nothing here yet. that&apos;s fine — add one if you want one.</p>
+          <p className="empty">no habits yet.</p>
         ) : (
           <ul className="list">
             {habits.map((h) => {
@@ -72,8 +72,8 @@ export default function HabitBuilder({
                 <li key={h.id}>
                   <button
                     className={"iconbtn" + (done ? " on" : "")}
-                    onClick={() => {
-                      if (!done) celebrate();
+                    onClick={(e) => {
+                      if (!done) celebrate(e.currentTarget);
                       onToggle(h.id);
                     }}
                     aria-pressed={done}
@@ -83,7 +83,7 @@ export default function HabitBuilder({
                   <span className="grow">
                     <span className="what">{h.name}</span>
                     <span className="when">
-                      {run > 0 ? `${run} day run` : total > 0 ? "paused — pick it up whenever" : "not started yet"}
+                      {run > 0 ? `${run} day run` : total > 0 ? "paused" : "not started"}
                     </span>
                   </span>
                   <span className="count">{total} total</span>
@@ -98,9 +98,9 @@ export default function HabitBuilder({
       </div>
 
       <div className="panel">
-        <p className="eyebrow">// ideas</p>
-        <h2 className="h">need somewhere to start?</h2>
-        <p className="sub">tap an area, then tap any habit to add it.</p>
+        
+        <h2 className="h">ideas</h2>
+        <p className="sub">pick a category, then tap to add.</p>
         <div className="chips">
           {AREAS.map((a) => (
             <button
@@ -121,8 +121,8 @@ export default function HabitBuilder({
                   key={h}
                   className={"chip" + (added ? " pos" : "")}
                   disabled={added}
-                  onClick={() => {
-                    celebrate();
+                  onClick={(e) => {
+                    celebrate(e.currentTarget);
                     onAdd(h);
                   }}
                 >

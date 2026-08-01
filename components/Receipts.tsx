@@ -18,14 +18,14 @@ export default function Receipts({
 }) {
   return (
     <div className="panel">
-      <p className="eyebrow">// receipts</p>
-      <h2 className="h">you did this.</h2>
+      
+      <h2 className="h">what you've done</h2>
       <p className="sub">
-        proof, for the days your brain insists you never do anything. it&apos;s more than you think.
+        everything you've started, most recent first.
       </p>
 
       {receipts.length === 0 ? (
-        <p className="empty">nothing here yet. that&apos;s fine. want to start something?</p>
+        <p className="empty">nothing here yet.</p>
       ) : (
         <ul className="list">
           {receipts.slice(0, 60).map((r) => (
@@ -52,14 +52,14 @@ export default function Receipts({
         <button
           className="btn ghost"
           onClick={() => {
-            if (confirm("erase everything budg3 remembers? this can't be undone.")) onWipe();
+            if (confirm("erase everything? this can't be undone.")) onWipe();
           }}
         >
           erase everything
         </button>
       </div>
       <p className="note" style={{ margin: "12px 0 0" }}>
-        it&apos;s yours. it lives in this browser and nowhere else.
+        your data, stored on this device.
       </p>
     </div>
   );

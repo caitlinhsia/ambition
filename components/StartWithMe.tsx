@@ -51,13 +51,12 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
 
   return (
     <div className="panel">
-      <p className="eyebrow">// start with me</p>
+      
       {phase === "idle" && (
         <>
-          <h2 className="h">we&apos;ll start together.</h2>
+          <h2 className="h">two minutes, together.</h2>
           <p className="sub">
-            two minutes, side by side. you don&apos;t have to finish anything — you just have to be
-            starting at the same time as someone else.
+            a two minute timer. you don't have to finish anything, just start.
           </p>
           <div className="field" style={{ marginBottom: 12 }}>
             <input
@@ -69,26 +68,26 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
             />
           </div>
           <button className="btn primary big" onClick={begin}>
-            ok, let&apos;s go
+            start the timer
           </button>
         </>
       )}
 
       {phase === "ready" && (
         <>
-          <h2 className="h">okay. ready…</h2>
+          <h2 className="h">ready…</h2>
           <p className="sub">put the thing in front of you.</p>
         </>
       )}
 
       {phase === "going" && (
         <>
-          <h2 className="h">go. i&apos;m right here.</h2>
+          <h2 className="h">go.</h2>
           <p className="timer">
             {mm}:{ss}
           </p>
           <p className="sub">
-            {what.trim() ? `we're on: ${what.trim()}` : "doesn't have to be good. it just has to be started."}
+            {what.trim() ? `we're on: ${what.trim()}` : "you're on the clock."}
           </p>
           <button className="btn ghost" onClick={stop}>
             stop
@@ -98,14 +97,14 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
 
       {phase === "done" && (
         <>
-          <h2 className="h">that&apos;s two minutes.</h2>
-          <p className="sub">keep going or stop — both completely fine.</p>
+          <h2 className="h">two minutes done.</h2>
+          <p className="sub">keep going, or stop here.</p>
           <div className="row">
             <button className="btn primary" onClick={begin}>
-              another two
+              two more minutes
             </button>
             <button className="btn ghost" onClick={stop}>
-              i&apos;m good
+              done
             </button>
           </div>
         </>

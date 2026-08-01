@@ -24,7 +24,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
   if (area && step) {
     return (
       <div className="panel">
-        <p className="eyebrow">// {area.name}</p>
+        <p className="eyebrow">{area.name}</p>
         {won ? (
           <div className="task">
             <p className="win">{won}</p>
@@ -36,7 +36,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
                   setWon(null);
                 }}
               >
-                another one
+                next step
               </button>
               <button className="btn ghost" onClick={() => setArea(null)}>
                 different area
@@ -49,8 +49,8 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
             <div className="row">
               <button
                 className="btn primary"
-                onClick={() => {
-                  celebrate();
+                onClick={(e) => {
+                  celebrate(e.currentTarget);
                   onStarted(step);
                   setWon(pickWin());
                 }}
@@ -58,7 +58,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
                 i did it
               </button>
               <button className="btn ghost" onClick={() => setStep(pickStart(area, step))}>
-                different one
+                different step
               </button>
               <button className="btn ghost" onClick={() => setArea(null)}>
                 back
@@ -72,9 +72,9 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
 
   return (
     <div className="panel">
-      <p className="eyebrow">// pick a lane</p>
-      <h2 className="h">what do you want to get moving on?</h2>
-      <p className="sub">no mood check, no questions. pick a thing and get a first step.</p>
+      
+      <h2 className="h">what do you want to work on?</h2>
+      <p className="sub">pick a category and get a first step.</p>
       <div className="areas">
         {AREAS.map((a) => (
           <button key={a.key} className="area" onClick={() => choose(a)}>
