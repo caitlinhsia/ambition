@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AREAS } from "@/lib/areas";
 import { Habit, streakOf, today } from "@/lib/store";
 import { celebrate } from "./Celebrate";
+import WeekRow from "./WeekRow";
 
 /**
  * The habit builder. Streaks here pause on a miss — they never reset to zero
@@ -83,10 +84,10 @@ export default function HabitBuilder({
                   <span className="grow">
                     <span className="what">{h.name}</span>
                     <span className="when">
-                      {run > 0 ? `${run} day run` : total > 0 ? "paused" : "not started"}
+                      {run > 0 ? `${run} day run` : total > 0 ? "paused" : "not started"} · {total} total
                     </span>
                   </span>
-                  <span className="count">{total} total</span>
+                  <WeekRow habit={h} />
                   <button className="iconbtn" onClick={() => onRemove(h.id)} aria-label={`remove ${h.name}`}>
                     ×
                   </button>

@@ -2,6 +2,8 @@
 
 import { Habit, Receipt, State, Tracker, streakOf, today } from "@/lib/store";
 import { celebrate } from "./Celebrate";
+import WeekOverview from "./WeekOverview";
+import WeekRow from "./WeekRow";
 
 function greeting(): string {
   const h = new Date().getHours();
@@ -75,6 +77,8 @@ export default function Dashboard({
         </button>
       </div>
 
+      <WeekOverview state={state} />
+
       <div className="panel">
         <h2 className="h">today&apos;s habits</h2>
         {habits.length === 0 ? (
@@ -109,8 +113,9 @@ export default function Dashboard({
                     </button>
                     <span className="grow">
                       <span className="what">{h.name}</span>
+                      {run > 0 ? <span className="when">{run} day run</span> : null}
                     </span>
-                    <span className="count">{run > 0 ? `${run} day run` : ""}</span>
+                    <WeekRow habit={h} />
                   </li>
                 );
               })}

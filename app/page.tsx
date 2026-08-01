@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       ) : null}
 
-      {tab !== "home" && tab !== "receipts" ? <TodayStrip state={s.state} /> : null}
+      {tab !== "home" && tab !== "receipts" ? <TodayStrip state={s.state} onUndo={s.undoStart} /> : null}
 
       {tab === "home" && (
         <Dashboard

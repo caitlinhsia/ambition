@@ -947,3 +947,176 @@ footer.foot {
   font-size: 15px;
   color: var(--accent-ink);
 }
+
+/* ---- week row (habits) ---- */
+.weekrow {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+}
+.wcell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.wcell .wl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+.wbox {
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  display: block;
+}
+.wbox.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.wbox.today {
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+/* ---- week chart (dashboard) ---- */
+.weekchart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  align-items: end;
+  margin-top: 6px;
+}
+.wcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.wbar-track {
+  width: 100%;
+  height: 62px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.wbar {
+  width: 100%;
+  max-width: 34px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.6;
+  transition: height 0.3s ease;
+}
+.wbar.now {
+  opacity: 1;
+}
+.wnum {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  min-height: 13px;
+}
+.wcol .wl {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+}
+
+/* ---- milestones ---- */
+.milestone {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.ms-hit {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.ms-next {
+  color: var(--ink-faint);
+}
+.ms-track {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.ms-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ---- sparkline (trackers) ---- */
+.spark-wrap {
+  margin-top: 10px;
+}
+.spark-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40px;
+}
+.sbar {
+  flex: 1;
+  background: var(--accent);
+  border-radius: 1px;
+  opacity: 0.5;
+  min-height: 3px;
+}
+.sbar.now {
+  opacity: 1;
+}
+.spark-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+/* ---- undo ---- */
+.undo {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  flex: none;
+}
+.undo:hover {
+  color: var(--flag);
+}
+
+/* a list row that wraps a full-width chart underneath its controls */
+.list li.stacked {
+  flex-wrap: wrap;
+}
+.list li.stacked > .spark-wrap {
+  flex-basis: 100%;
+}
+.today-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.today-list li > span:first-child {
+  flex: 1;
+}

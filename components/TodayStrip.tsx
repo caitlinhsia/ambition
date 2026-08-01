@@ -11,7 +11,13 @@ import { Receipt, State, streakOf, today } from "@/lib/store";
  * evaporated. Here the count ticks up in front of you and the things you've
  * done stay on screen.
  */
-export default function TodayStrip({ state }: { state: State }) {
+export default function TodayStrip({
+  state,
+  onUndo,
+}: {
+  state: State;
+  onUndo?: (id: string) => void;
+}) {
   const t = today();
   const doneToday: Receipt[] = state.receipts.filter(
     (r) => new Date(r.at).toISOString().slice(0, 10) === t
@@ -67,7 +73,14 @@ export default function TodayStrip({ state }: { state: State }) {
       {doneToday.length > 0 ? (
         <ul className="today-list">
           {doneToday.slice(0, 4).map((r) => (
-            <li key={r.id}>{r.text}</li>
+            <li key={r.id}>
+              <span>{r.text}</span>
+              {onUndo ? (
+                <button className="undo" onClick={() => onUndo(r.id)} aria-label={`undo ${r.text}`}>
+                  undo
+                </button>
+              ) : null}
+            </li>
           ))}
           {doneToday.length > 4 ? <li className="muted">+{doneToday.length - 4} more</li> : null}
         </ul>

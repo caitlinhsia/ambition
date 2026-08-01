@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Tracker, today } from "@/lib/store";
 import { celebrate } from "./Celebrate";
+import Sparkline from "./Sparkline";
+import { trackerSeries } from "@/lib/history";
 
 const SUGGESTIONS: { name: string; unit: string }[] = [
   { name: "water", unit: "cups" },
@@ -85,7 +87,7 @@ export default function Trackers({
             {trackers.map((tr) => {
               const n = tr.counts[t] ?? 0;
               return (
-                <li key={tr.id}>
+                <li key={tr.id} className="stacked">
                   <span className="grow">
                     <span className="what">{tr.name}</span>
                     <span className="when">
@@ -108,6 +110,7 @@ export default function Trackers({
                   <button className="iconbtn" onClick={() => onRemove(tr.id)} aria-label={`remove ${tr.name}`}>
                     ×
                   </button>
+                  <Sparkline series={trackerSeries(tr, 14)} unit={tr.unit} />
                 </li>
               );
             })}

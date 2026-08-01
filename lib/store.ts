@@ -23,6 +23,10 @@ export type Tracker = {
   counts: Record<string, number>;
 };
 
+export type Plan = { id: string; text: string; forDay: string; done: boolean };
+
+export type JournalEntry = { id: string; day: string; text: string; at: number };
+
 export type Profile = {
   typeKey?: string;
   age?: string;
@@ -37,6 +41,8 @@ export type State = {
   receipts: Receipt[];
   habits: Habit[];
   trackers: Tracker[];
+  plans: Plan[];
+  journal: JournalEntry[];
 };
 
 const EMPTY: State = {
@@ -45,6 +51,8 @@ const EMPTY: State = {
   receipts: [],
   habits: [],
   trackers: [],
+  plans: [],
+  journal: [],
 };
 
 function read(key: string): State {
@@ -140,6 +148,80 @@ export function useStore() {
     [update]
   );
 
+  /** Remove a start you logged by mistake. The total goes back down too — a
+   *  number you can't correct is worse than one that moves. */
+  const undoStart = useCallback(
+    (id: string) =>
+      update((s) => {
+        if (!s.receipts.some((r) => r.id === id)) return s;
+        return {
+          ...s,
+          started: Math.max(0, s.started - 1),
+          receipts: s.receipts.filter((r) => r.id !== id),
+        };
+      }),
+    [update]
+  );
+
+  const addPlan = useCallback(
+    (text: string, forDay: string) =>
+      update((s) => ({
+        ...s,
+        plans: [...s.plans, { id: `p${Date.now()}${Math.random().toString(36).slice(2, 5)}`, text, forDay, done: false }],
+      })),
+    [update]
+  );
+
+  const removePlan = useCallback(
+    (id: string) => update((s) => ({ ...s, plans: s.plans.filter((p) => p.id !== id) })),
+    [update]
+  );
+
+  const completePlan = useCallback(
+    (id: string) =>
+      update((s) => {
+        const plan = s.plans.find((p) => p.id === id);
+        if (!plan || plan.done) return s;
+        return {
+          ...s,
+          started: s.started + 1,
+          plans: s.plans.map((p) => (p.id === id ? { ...p, done: true } : p)),
+          receipts: [
+            {
+              id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+              text: plan.text,
+              at: Date.now(),
+            },
+            ...s.receipts,
+          ].slice(0, 500),
+        };
+      }),
+    [update]
+  );
+
+  const addJournal = useCallback(
+    (text: string) =>
+      update((s) => ({
+        ...s,
+        journal: [
+          { id: `j${Date.now()}`, day: today(), text, at: Date.now() },
+          ...s.journal,
+        ].slice(0, 1000),
+      })),
+    [update]
+  );
+
+  const removeJournal = useCallback(
+    (id: string) => update((s) => ({ ...s, journal: s.journal.filter((j) => j.id !== id) })),
+    [update]
+  );
+
+  const renameHabit = useCallback(
+    (id: string, name: string) =>
+      update((s) => ({ ...s, habits: s.habits.map((h) => (h.id === id ? { ...h, name } : h)) })),
+    [update]
+  );
+
   const setProfile = useCallback(
     (p: Partial<Profile>) => update((s) => ({ ...s, profile: { ...s.profile, ...p } })),
     [update]
@@ -228,6 +310,13 @@ export function useStore() {
     useAccount,
     signOut,
     recordStart,
+    undoStart,
+    addPlan,
+    removePlan,
+    completePlan,
+    addJournal,
+    removeJournal,
+    renameHabit,
     setProfile,
     addHabit,
     toggleHabitToday,
