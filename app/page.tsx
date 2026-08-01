@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/lib/store";
 import { TYPES } from "@/lib/quiz";
+import Landing from "@/components/Landing";
 import Auth from "@/components/Auth";
 import Onboarding from "@/components/Onboarding";
+import Dashboard from "@/components/Dashboard";
 import StartDoor from "@/components/StartDoor";
 import AreaDoor from "@/components/AreaDoor";
 import Shrinker from "@/components/Shrinker";
@@ -14,9 +16,18 @@ import Trackers from "@/components/Trackers";
 import Receipts from "@/components/Receipts";
 import Garden from "@/components/Garden";
 
-type Tab = "start" | "areas" | "shrink" | "together" | "habits" | "track" | "receipts";
+export type Tab =
+  | "home"
+  | "start"
+  | "areas"
+  | "shrink"
+  | "together"
+  | "habits"
+  | "track"
+  | "receipts";
 
 const TABS: { k: Tab; label: string }[] = [
+  { k: "home", label: "home" },
   { k: "start", label: "start" },
   { k: "areas", label: "pick a lane" },
   { k: "shrink", label: "shrink a thing" },
@@ -26,19 +37,44 @@ const TABS: { k: Tab; label: string }[] = [
   { k: "receipts", label: "receipts" },
 ];
 
-function Mark() {
-  return (
-    <h1 className="mark">
+/** Landing → sign-up → quiz → the app itself. */
+type Gate = "landing" | "auth";
+
+function Mark({ onClick }: { onClick?: () => void }) {
+  const inner = (
+    <>
       budg<span className="three">3</span>
       <span className="caret" aria-hidden="true" />
+    </>
+  );
+  if (!onClick) return <h1 className="mark">{inner}</h1>;
+  return (
+    <h1 className="mark">
+      <button
+        onClick={onClick}
+        style={{
+          all: "unset",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          letterSpacing: "inherit",
+        }}
+        aria-label="go home"
+      >
+        {inner}
+      </button>
     </h1>
   );
 }
 
 export default function Home() {
   const s = useStore();
-  const [tab, setTab] = useState<Tab>("start");
+  const [tab, setTab] = useState<Tab>("home");
   const [lateNight, setLateNight] = useState(false);
+  const [gate, setGate] = useState<Gate>("landing");
+  const [authMode, setAuthMode] = useState<"up" | "in">("up");
   const [skippedAuth, setSkippedAuth] = useState(false);
 
   useEffect(() => {
@@ -57,15 +93,38 @@ export default function Home() {
     );
   }
 
-  // Signed out and hasn't chosen to skip yet.
+  // ---- signed out, hasn't skipped: landing page, then the form ----
   if (!s.account && !skippedAuth) {
     return (
       <main className="wrap">
         <div className="mast">
-          <Mark />
+          <Mark onClick={() => setGate("landing")} />
           <span className="tag">learn to start.</span>
         </div>
-        <Auth onIn={(a) => s.useAccount(a)} onSkip={() => setSkippedAuth(true)} />
+        {gate === "landing" ? (
+          <Landing
+            onSignUp={() => {
+              setAuthMode("up");
+              setGate("auth");
+            }}
+            onSignIn={() => {
+              setAuthMode("in");
+              setGate("auth");
+            }}
+            onSkip={() => setSkippedAuth(true)}
+          />
+        ) : (
+          <>
+            <Auth
+              initialMode={authMode}
+              onIn={(a) => s.useAccount(a)}
+              onSkip={() => setSkippedAuth(true)}
+            />
+            <button className="link" onClick={() => setGate("landing")}>
+              ← back
+            </button>
+          </>
+        )}
         <Foot />
       </main>
     );
@@ -89,7 +148,7 @@ export default function Home() {
   return (
     <main className="wrap">
       <div className="mast">
-        <Mark />
+        <Mark onClick={() => setTab("home")} />
         <span className="tag">learn to start.</span>
         <span className="spacer" />
         {type ? <span className="tag">{type.name}</span> : null}
@@ -112,7 +171,7 @@ export default function Home() {
         ))}
       </nav>
 
-      {lateNight && tab === "start" ? (
+      {lateNight && (tab === "start" || tab === "home") ? (
         <div className="panel" style={{ marginBottom: 14 }}>
           <h2 className="h">it&apos;s late — play it smart.</h2>
           <p className="sub">
@@ -121,6 +180,14 @@ export default function Home() {
         </div>
       ) : null}
 
+      {tab === "home" && (
+        <Dashboard
+          state={s.state}
+          onGo={setTab}
+          onToggleHabit={s.toggleHabitToday}
+          onBumpTracker={s.bumpTracker}
+        />
+      )}
       {tab === "start" && <StartDoor onStarted={(text, feeling) => s.recordStart(text, feeling)} />}
       {tab === "areas" && <AreaDoor onStarted={(text) => s.recordStart(text)} />}
       {tab === "shrink" && <Shrinker onStarted={(text) => s.recordStart(text)} />}
@@ -145,7 +212,7 @@ export default function Home() {
         <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />
       )}
 
-      <Garden started={s.state.started} />
+      {tab !== "home" ? <Garden started={s.state.started} /> : null}
       <Foot />
     </main>
   );

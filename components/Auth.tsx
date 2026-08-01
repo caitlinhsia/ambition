@@ -9,13 +9,15 @@ import { Account, signIn, signUp } from "@/lib/account";
  * the cost of starting.
  */
 export default function Auth({
+  initialMode = "up",
   onIn,
   onSkip,
 }: {
+  initialMode?: "up" | "in";
   onIn: (a: Account) => void;
   onSkip: () => void;
 }) {
-  const [mode, setMode] = useState<"up" | "in">("up");
+  const [mode, setMode] = useState<"up" | "in">(initialMode);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
