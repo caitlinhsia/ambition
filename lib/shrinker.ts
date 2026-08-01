@@ -3,6 +3,132 @@
 
 type Rule = { match: RegExp; steps: string[]; intro?: string };
 
+/**
+ * Walls that are feelings rather than jobs — "feeling happier", "being less
+ * anxious", "liking myself".
+ *
+ * These need different bricks. You can't will a feeling into existing, so
+ * every step here is a small ACTION that reliably nudges the state, never an
+ * instruction to feel something. They're listed before the task rules so a
+ * feeling gets matched as a feeling.
+ *
+ * This is a nudge tool, not treatment, and nothing here pretends otherwise.
+ */
+const STATE_RULES: Rule[] = [
+  {
+    match: /\b(happy|happier|cheer|feel better|feeling good|feel good|joy|content|less sad|not sad|mood)/i,
+    intro: "you can't decide to feel happy. but some things reliably help.",
+    steps: [
+      "get outside for five minutes. daylight does more than it sounds like it should.",
+      "message someone you like. contact beats almost everything for this.",
+      "do one thing you used to enjoy, badly, for two minutes.",
+      "move your body for a song's length. any movement counts.",
+      "write down one good thing about today, however small.",
+      "do one small thing for someone else. it works on you as much as them.",
+    ],
+  },
+  {
+    match: /\b(anxious|anxiety|calm|calmer|panic|worry|worried|stress|overthink|nervous|on edge)/i,
+    intro: "you can't argue yourself calm. you can give your body something to do.",
+    steps: [
+      "one slow breath. in for 4, out for 6. the long out-breath is the part that works.",
+      "name 5 things you can see right now.",
+      "write the worry down in one line. out of your head, onto paper.",
+      "feet flat on the floor. press down hard for 10 seconds, then let go.",
+      "do the smallest possible piece of the thing you're dreading. avoidance feeds this.",
+      "cold water on your face or wrists.",
+    ],
+  },
+  {
+    match: /\b(confiden|self.?esteem|self.?worth|believe in myself|like myself|hate myself|proud of myself)/i,
+    intro: "confidence follows evidence. we're going to get you some.",
+    steps: [
+      "do one small thing you said you'd do. keeping your word to yourself is where this starts.",
+      "write down one thing you did this week that took effort.",
+      "do one thing that scares you slightly. not a lot. slightly.",
+      "stand up straight and take up your actual amount of space for a minute.",
+      "say the thing you're thinking in a conversation today, once.",
+    ],
+  },
+  {
+    match: /\b(lonely|loneliness|friends|friendship|social|meet people|connect|isolated)/i,
+    intro: "this one only moves by contact. small contact counts.",
+    steps: [
+      "message one person. 'hey, how are you' is a complete message.",
+      "say yes to the next thing you're invited to.",
+      "go somewhere with other people in it. you don't have to talk to them.",
+      "ask someone one question about themselves today.",
+      "reconnect with one person you've drifted from. one line.",
+    ],
+  },
+  {
+    match: /\b(motivat|discipline|productive|lazy|energy|willpower|get going|bothered)/i,
+    intro: "motivation shows up after you move, not before. that's the whole trick.",
+    steps: [
+      "do any two-minute thing right now. the feeling follows the action.",
+      "make the task smaller until it's almost insulting, then do that.",
+      "put the thing you need in front of you and walk away. you'll pick it up.",
+      "set a timer for 2 minutes and stop when it goes. stopping on time builds trust.",
+      "do the version of it you'd do on your worst day.",
+    ],
+  },
+  {
+    match: /\b(focus|concentrat|distract|attention|procrastinat|scroll)/i,
+    intro: "focus is mostly about what you remove.",
+    steps: [
+      "put your phone in another room. not face down. another room.",
+      "close every tab except one.",
+      "set a 2 minute timer and work until it goes.",
+      "write the one thing you're doing on paper and put it where you can see it.",
+      "clear the desk. one sweep.",
+    ],
+  },
+  {
+    match: /\b(sleep better|fix my sleep|insomnia|tired all|sleep schedule|rest more|sleeping)/i,
+    intro: "sleep gets fixed at the edges, not in the middle of the night.",
+    steps: [
+      "set a wake-up alarm for tomorrow and keep it whatever time you sleep. the wake time fixes the rest.",
+      "put your charger somewhere you'd have to stand up to reach.",
+      "turn the big light off and a small one on.",
+      "get daylight in your eyes within an hour of waking tomorrow.",
+      "no new episode. the one you're on is enough.",
+    ],
+  },
+  {
+    match: /\b(health|healthy|fit|fitter|strong|stronger|in shape|lose weight|shape)/i,
+    intro: "this is built from ordinary days, not big plans.",
+    steps: [
+      "drink a glass of water.",
+      "move for ten minutes. walking counts fully.",
+      "eat something proper — you'll do everything else better fed.",
+      "put your shoes on and go outside.",
+      "do 10 of something. pushups, squats, stairs.",
+      "go to bed 20 minutes earlier tonight.",
+    ],
+  },
+  {
+    match: /\b(grateful|gratitude|appreciate|present|mindful|slow down|savour|savor)/i,
+    intro: "noticing is the whole skill, and it's trainable.",
+    steps: [
+      "write down three things that went right today. tiny ones count.",
+      "tell one person what you appreciate about them.",
+      "sit with one thing you like for a full minute, doing nothing else.",
+      "take a photo of something ordinary you'd miss.",
+    ],
+  },
+  {
+    match: /\b(bored|boredom|nothing to do|stuck in a rut|rut|same every day)/i,
+    intro: "boredom wants novelty, not effort.",
+    steps: [
+      "do one thing today in a different order than usual.",
+      "go somewhere you've never been, even if it's one street over.",
+      "learn one fact about something you know nothing about.",
+      "make something badly for ten minutes.",
+      "message someone you haven't spoken to in months.",
+    ],
+  },
+];
+
 const RULES: Rule[] = [
   {
     match: /essay|paper|report|write|writing|thesis|paragraph/i,
@@ -206,7 +332,7 @@ export function shrink(
   cursor = 0
 ): { intro: string; step: string; total: number } {
   const text = input.trim();
-  const rule = RULES.find((r) => r.match.test(text));
+  const rule = STATE_RULES.find((r) => r.match.test(text)) ?? RULES.find((r) => r.match.test(text));
   const steps = rule ? rule.steps : FALLBACK;
   const intro = rule?.intro ?? FALLBACK_INTRO;
   const i = ((cursor % steps.length) + steps.length) % steps.length;

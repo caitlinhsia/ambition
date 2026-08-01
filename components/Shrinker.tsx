@@ -111,13 +111,16 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
   return (
     <div className="panel">
       <h2 className="h">which wall are you facing?</h2>
-      <p className="sub">name it and budg3 knocks one brick loose. never the whole wall.</p>
+      <p className="sub">
+        a task, or a way you want to feel. name it and budg3 knocks one brick loose — never the
+        whole wall.
+      </p>
       <form className="field" onSubmit={submit}>
         <input
           type="text"
           value={thing}
           onChange={(e) => setThing(e.target.value)}
-          placeholder="history essay, text mom back, the dishes…"
+          placeholder="history essay, feeling happier, making friends…"
           aria-label="the thing you're avoiding"
         />
         <button className="btn primary" type="submit">
