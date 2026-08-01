@@ -35,7 +35,7 @@ export default function Onboarding({
         <h2 className="h">{result.name}</h2>
         <p className="body">{result.blurb}</p>
         <p className="sub" style={{ marginTop: 18 }}>
-          two last things, both optional — they just help budge pick its words.
+          two last things, both optional — they just help budg3 pick its words.
         </p>
         <div className="field" style={{ marginBottom: 10 }}>
           <input
@@ -62,7 +62,7 @@ export default function Onboarding({
         </button>
         <p className="note" style={{ margin: "12px 0 0" }}>
           this never leaves your device. it&apos;s not a personality test and it isn&apos;t science —
-          just a way for budge to know how to talk to you.
+          just a way for budg3 to know how to talk to you.
         </p>
       </div>
     );
@@ -75,7 +75,7 @@ export default function Onboarding({
         // {i + 1} of {QUIZ.length}
       </p>
       <h2 className="h">{q.q}</h2>
-      <p className="sub">no wrong answers. it&apos;s just so budge knows how to talk to you.</p>
+      <p className="sub">no wrong answers. it&apos;s just so budg3 knows how to talk to you.</p>
       <div className="chips">
         {q.a.map((opt) => (
           <button key={opt.label} className="chip" onClick={() => answer(opt.axis, opt.value)}>

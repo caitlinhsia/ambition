@@ -1,12 +1,12 @@
-# budge.
+# budg3.
 
 **learn to start.**
 
 > turns out most of "being unmotivated" is just *not having started yet.*
-> so start is the only thing budge teaches.
+> so start is the only thing budg3 teaches.
 
 A no-login, local-first web app for teens, built on one idea: **motivation is
-mostly just starting.** budge hands you one tiny first step at a time and, over
+mostly just starting.** budg3 hands you one tiny first step at a time and, over
 time, teaches you to take that step on your own — until you don't need it.
 
 ---
@@ -16,7 +16,7 @@ time, teaches you to take that step on your own — until you don't need it.
 **Motivation isn't a feeling you wait for. It's a skill. The skill is starting.**
 
 You wait to *feel like it*, but the feeling shows up *after* you've started, not
-before. So budge stops asking you to feel motivated. It hands you **one tiny
+before. So budg3 stops asking you to feel motivated. It hands you **one tiny
 thing** — small enough that starting it is easier than closing the tab. The first
 ten seconds are the whole battle; win those and the rest tends to follow.
 
@@ -31,7 +31,7 @@ having already thought *"yeah, I'm not starting."* Everyone's been there — the
 blank page, the assignment you keep not opening, the day that got away from you.
 
 Some of the most capable people are the most stuck: sharp kids who coast, people
-whose brains just make *beginning* disproportionately hard. budge doesn't ask
+whose brains just make *beginning* disproportionately hard. budg3 doesn't ask
 which one you are and never puts you in a box. It's built patient enough for the
 ones who really struggle to start, and quick enough for the ones who were only
 bored. **Same app. You don't have to know which you are.**
@@ -49,7 +49,7 @@ different words; gender optional and open-ended).
 - **On-device, optional, skippable.** All of it stays in the browser; want to
   skip the quiz and just start? Start.
 - **Not pseudo-science.** Strict Myers-Briggs doesn't hold up well
-  scientifically, so budge keeps the *fun* of a recognizable type without
+  scientifically, so budg3 keeps the *fun* of a recognizable type without
   dressing it up as fact — it's a personalization tool, not a verdict.
 
 ## The core loop
@@ -142,11 +142,11 @@ How you enter depends on how much bandwidth you have in the moment:
 write to future-you, habit-anchoring, sending a friend a start, and a system
 share-sheet to throw anything straight into the Shrinker.
 
-## What budge won't build
+## What budg3 won't build
 
 The "no" list is half the design. Every one of these lifts engagement — and
 quietly costs this exact person. Refusing them is the whole promise. (The streaks
-budge *does* offer are the opt-in, pause-don't-punish kind — what it refuses is
+budg3 *does* offer are the opt-in, pause-don't-punish kind — what it refuses is
 the reset-to-zero shame machine.)
 
 > reset-to-zero streaks · leaderboards · nagging notifications · accounts & cloud
@@ -154,7 +154,7 @@ the reset-to-zero shame machine.)
 
 ## The philosophy: teach you to start without it
 
-budge wants to move the skill of starting out of the app and **into your own
+budg3 wants to move the skill of starting out of the app and **into your own
 head** — until you can shrink any task and take the first step on your own, phone
 dead, nobody watching. That's what *learn to start* actually means.
 
@@ -163,13 +163,13 @@ fades. Leaving because you don't need it anymore is the **win**, not churn. Drif
 back after months and the tone is warm, not wounded: *"hey, you're back. no
 catching up. what's one thing?"*
 
-Which is why budge **refuses to measure success by watching you.** No analytics,
+Which is why budg3 **refuses to measure success by watching you.** No analytics,
 no surveillance — just an occasional, opt-in *"how's it going lately?"* on your
 terms.
 
 ## Built kind on purpose
 
-- **Just a nudge.** budge helps you start. It doesn't diagnose, treat, or pretend to be a professional.
+- **Just a nudge.** budg3 helps you start. It doesn't diagnose, treat, or pretend to be a professional.
 - **A real person, one tap away.** If a day gets heavy: a quiet, never-alarming path to talk to an actual human. *(Exact form finalized before build.)*
 - **Radical privacy.** Local-first. What you tap lives in your browser and goes nowhere else. No account, nothing to leak.
 - **No dark patterns.** No guilt pings, no loss aversion, no infinite scroll. The manipulative playbook is the opposite of learning to start.
@@ -190,7 +190,7 @@ your bad days.
 
 ## Launch (waitlist)
 
-budge isn't open yet. A pre-launch **email waitlist** collects one thing — an
+budg3 isn't open yet. A pre-launch **email waitlist** collects one thing — an
 address — with an explicit, ethos-consistent promise: *one email, ever, the day
 it opens.* No newsletter, no reminders, no selling the list. This is deliberately
 kept separate from the app itself, which **never asks you to sign in** — so the
@@ -199,17 +199,21 @@ undercutting it.
 
 ## Identity
 
-**budge.** — the smallest possible unit of movement. You don't have to move a
-mountain. You just have to budge.
+**budg3.** — from *budge*: the smallest possible unit of movement. You don't have
+to move a mountain. You just have to budge.
+
+The **3** is the stylization — a small, deliberate glitch in an ordinary word,
+the way a teen would type it. It also solves the practical problem that plain
+"budge" is taken everywhere.
 
 Taglines:
 - *learn to start.*
-- *just budge.*
+- *just budg3.*
 - *the hardest part is the first ten seconds.*
 - *you don't have to move a mountain.*
 
 ---
 
-*Concept v2. Built on the science of starting (action precedes motivation, tiny
-first steps, immediate reward). Nothing here is a medical claim; budge is a
+*Concept v3. Built on the science of starting (action precedes motivation, tiny
+first steps, immediate reward). Nothing here is a medical claim; budg3 is a
 supportive tool for starting, not treatment.*

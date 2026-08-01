@@ -27,7 +27,7 @@ export default function Home() {
   const [lateNight, setLateNight] = useState(false);
 
   useEffect(() => {
-    // Wind-down mode: late at night budge stops handing you projects.
+    // Wind-down mode: late at night budg3 stops handing you projects.
     const h = new Date().getHours();
     setLateNight(h >= 23 || h < 5);
   }, []);
@@ -37,7 +37,7 @@ export default function Home() {
       <main className="wrap">
         <div className="mast">
           <h1 className="mark">
-            budge<span className="caret" aria-hidden="true" />
+            budg<span className="three">3</span><span className="caret" aria-hidden="true" />
           </h1>
         </div>
       </main>
@@ -49,7 +49,7 @@ export default function Home() {
       <main className="wrap">
         <div className="mast">
           <h1 className="mark">
-            budge<span className="caret" aria-hidden="true" />
+            budg<span className="three">3</span><span className="caret" aria-hidden="true" />
           </h1>
           <span className="tag">learn to start.</span>
         </div>
@@ -65,7 +65,7 @@ export default function Home() {
     <main className="wrap">
       <div className="mast">
         <h1 className="mark">
-          budge<span className="caret" aria-hidden="true" />
+          budg<span className="three">3</span><span className="caret" aria-hidden="true" />
         </h1>
         <span className="tag">learn to start.</span>
         <span className="spacer" />
@@ -119,7 +119,7 @@ export default function Home() {
 function Foot() {
   return (
     <footer className="foot">
-      <span>budge — learn to start</span>
+      <span>budg3 — learn to start</span>
       <span>nothing leaves your device</span>
       <span>
         having a rough time?{" "}

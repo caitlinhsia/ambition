@@ -1,4 +1,4 @@
-# budge
+# budg3
 
 **learn to start.**
 
@@ -65,6 +65,6 @@ These aren't style preferences — they're the product:
 
 ## Not medical software
 
-budge is a supportive tool for starting. It doesn't diagnose, treat, or replace
+budg3 is a supportive tool for starting. It doesn't diagnose, treat, or replace
 real care, and it makes no medical claims. A calm route to real human support is
 always reachable from the footer.

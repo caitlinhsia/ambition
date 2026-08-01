@@ -1,4 +1,4 @@
-// The starting-type quiz. A mirror, not a diagnosis — it tunes how budge
+// The starting-type quiz. A mirror, not a diagnosis — it tunes how budg3
 // talks to you. Deliberately NOT Myers-Briggs: that doesn't hold up
 // scientifically, so we keep the fun of a recognizable type without
 // dressing it up as fact. Everything here stays on the device.
@@ -70,28 +70,28 @@ export const TYPES: Record<string, StartingType> = {
     key: "scale",
     name: "the too-many-tabs",
     blurb:
-      "you don't lack drive — you lack a small enough first step. everything shows up at once and freezes you. budge will keep shrinking things until they're stupidly easy.",
+      "you don't lack drive — you lack a small enough first step. everything shows up at once and freezes you. budg3 will keep shrinking things until they're stupidly easy.",
     door: "shrinker",
   },
   novelty: {
     key: "novelty",
     name: "the bored sprinter",
     blurb:
-      "you can go fast when it's interesting, and not at all when it isn't. budge will keep it novel, physical and short — and never hand you the same thing twice in a row.",
+      "you can go fast when it's interesting, and not at all when it isn't. budg3 will keep it novel, physical and short — and never hand you the same thing twice in a row.",
     door: "quick",
   },
   night: {
     key: "night",
     name: "the 1am spiraler",
     blurb:
-      "your worst stalling happens late, and it costs you the next day too. budge gets quieter at night and helps you start *ending* the day instead of starting projects.",
+      "your worst stalling happens late, and it costs you the next day too. budg3 gets quieter at night and helps you start *ending* the day instead of starting projects.",
     door: "feeling",
   },
   push: {
     key: "push",
     name: "the running-on-empty",
     blurb:
-      "you're not lazy, you're out of gas. budge will meet you low, ask for almost nothing, and count rest as a real win.",
+      "you're not lazy, you're out of gas. budg3 will meet you low, ask for almost nothing, and count rest as a real win.",
     door: "feeling",
   },
 };

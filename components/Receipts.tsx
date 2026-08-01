@@ -52,7 +52,7 @@ export default function Receipts({
         <button
           className="btn ghost"
           onClick={() => {
-            if (confirm("erase everything budge remembers? this can't be undone.")) onWipe();
+            if (confirm("erase everything budg3 remembers? this can't be undone.")) onWipe();
           }}
         >
           erase everything

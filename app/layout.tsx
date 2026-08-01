@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "budge — learn to start",
+  title: "budg3 — learn to start",
   description:
     "The thing you open when you can't get yourself to start. One tiny first step at a time. No login, nothing leaves your device.",
 };

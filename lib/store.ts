@@ -1,11 +1,11 @@
 "use client";
 
-// Local-first storage. Everything budge knows about you lives in this
+// Local-first storage. Everything budg3 knows about you lives in this
 // browser and is never transmitted anywhere. No account, nothing to leak.
 
 import { useCallback, useEffect, useState } from "react";
 
-const KEY = "budge.v1";
+const KEY = "budg3.v1";
 
 export type Receipt = { id: string; text: string; at: number; feeling?: string };
 
@@ -63,7 +63,7 @@ function write(s: State) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(s));
   } catch {
-    // storage full or blocked — budge still works, it just won't remember.
+    // storage full or blocked — budg3 still works, it just won't remember.
   }
 }
 
@@ -190,7 +190,7 @@ export function useStore() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "budge-export.json";
+    a.download = "budg3-export.json";
     a.click();
     URL.revokeObjectURL(url);
   }, [state]);

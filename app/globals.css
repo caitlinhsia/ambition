@@ -113,6 +113,9 @@ button {
   align-items: center;
   margin: 0;
 }
+.three {
+  color: var(--accent);
+}
 .caret {
   display: inline-block;
   width: 0.42em;

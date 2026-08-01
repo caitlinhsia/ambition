@@ -93,7 +93,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
       <p className="eyebrow">// the shrinker</p>
       <h2 className="h">what are you avoiding?</h2>
       <p className="sub">
-        type it in. budge shrinks it down to one first move — and never shows you the whole staircase.
+        type it in. budg3 shrinks it down to one first move — and never shows you the whole staircase.
       </p>
       <form className="field" onSubmit={submit}>
         <input
