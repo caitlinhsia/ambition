@@ -1129,3 +1129,109 @@ footer.foot {
   border-left: 2px solid var(--accent);
   line-height: 1.5;
 }
+
+/* ---- tutorial ---- */
+.tut-wrap {
+  padding: 6px 0 0;
+}
+.tut {
+  background: var(--paper-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  padding: 26px 24px 28px;
+}
+.tut-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.tdot {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--line);
+}
+.tdot.past {
+  background: var(--accent-soft);
+}
+.tdot.on {
+  background: var(--accent);
+}
+.tut-body {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 10px 0 12px;
+  max-width: 52ch;
+}
+.tut .h {
+  font-size: 21px;
+}
+
+/* ---- sub navigation ---- */
+.subnav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  background: var(--paper-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  padding: 4px;
+}
+.subnav button {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 12px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  flex: 1;
+  white-space: nowrap;
+  transition: background 0.14s, color 0.14s;
+}
+.subnav button:hover {
+  color: var(--accent-ink);
+}
+.subnav button[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--paper-2);
+  font-weight: 600;
+}
+@media (max-width: 520px) {
+  .subnav button {
+    flex: 1 1 42%;
+    font-size: 12px;
+    padding: 8px 8px;
+  }
+}
+
+/* ---- masthead extras ---- */
+.markbtn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+.helpbtn {
+  font-family: var(--mono);
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.helpbtn:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}

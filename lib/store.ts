@@ -33,6 +33,8 @@ export type Profile = {
   gender?: string;
   /** true once onboarding is done or skipped */
   onboarded: boolean;
+  /** true once the how-it-works walkthrough has been seen or skipped */
+  tutorialDone?: boolean;
 };
 
 export type State = {

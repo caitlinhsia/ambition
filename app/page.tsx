@@ -6,7 +6,9 @@ import { TYPES } from "@/lib/quiz";
 import Landing from "@/components/Landing";
 import Auth from "@/components/Auth";
 import Onboarding from "@/components/Onboarding";
+import Tutorial from "@/components/Tutorial";
 import Dashboard from "@/components/Dashboard";
+import SubNav from "@/components/SubNav";
 import StartDoor from "@/components/StartDoor";
 import AreaDoor from "@/components/AreaDoor";
 import Shrinker from "@/components/Shrinker";
@@ -18,30 +20,36 @@ import TodayStrip from "@/components/TodayStrip";
 import Journal from "@/components/Journal";
 import PlanTomorrow, { TodaysPlans } from "@/components/PlanTomorrow";
 
-export type Tab =
-  | "home"
-  | "start"
-  | "areas"
-  | "shrink"
-  | "together"
-  | "habits"
-  | "track"
-  | "journal"
-  | "receipts";
+/** Four sections. Everything else is a mode inside one of them. */
+type Section = "home" | "start" | "build" | "you";
+type StartMode = "quick" | "areas" | "shrink" | "together";
+type BuildMode = "habits" | "track";
+type YouMode = "journal" | "receipts";
 
-const TABS: { k: Tab; label: string }[] = [
+const SECTIONS: { k: Section; label: string }[] = [
   { k: "home", label: "home" },
   { k: "start", label: "start" },
-  { k: "areas", label: "pick a lane" },
-  { k: "shrink", label: "shrink a thing" },
-  { k: "together", label: "start with me" },
-  { k: "habits", label: "habits" },
-  { k: "track", label: "track" },
-  { k: "journal", label: "journal" },
-  { k: "receipts", label: "receipts" },
+  { k: "build", label: "build" },
+  { k: "you", label: "you" },
 ];
 
-/** Landing → sign-up → quiz → the app itself. */
+const START_MODES: { k: StartMode; label: string }[] = [
+  { k: "quick", label: "give me one" },
+  { k: "shrink", label: "shrink a thing" },
+  { k: "areas", label: "pick a lane" },
+  { k: "together", label: "together" },
+];
+
+const BUILD_MODES: { k: BuildMode; label: string }[] = [
+  { k: "habits", label: "habits" },
+  { k: "track", label: "trackers" },
+];
+
+const YOU_MODES: { k: YouMode; label: string }[] = [
+  { k: "journal", label: "journal" },
+  { k: "receipts", label: "everything you've done" },
+];
+
 type Gate = "landing" | "auth";
 
 function Mark({ onClick }: { onClick?: () => void }) {
@@ -54,19 +62,7 @@ function Mark({ onClick }: { onClick?: () => void }) {
   if (!onClick) return <h1 className="mark">{inner}</h1>;
   return (
     <h1 className="mark">
-      <button
-        onClick={onClick}
-        style={{
-          all: "unset",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          fontFamily: "inherit",
-          fontWeight: "inherit",
-          letterSpacing: "inherit",
-        }}
-        aria-label="go home"
-      >
+      <button onClick={onClick} className="markbtn" aria-label="go home">
         {inner}
       </button>
     </h1>
@@ -75,17 +71,35 @@ function Mark({ onClick }: { onClick?: () => void }) {
 
 export default function Home() {
   const s = useStore();
-  const [tab, setTab] = useState<Tab>("home");
+  const [section, setSection] = useState<Section>("home");
+  const [startMode, setStartMode] = useState<StartMode>("quick");
+  const [buildMode, setBuildMode] = useState<BuildMode>("habits");
+  const [youMode, setYouMode] = useState<YouMode>("journal");
   const [lateNight, setLateNight] = useState(false);
   const [gate, setGate] = useState<Gate>("landing");
   const [authMode, setAuthMode] = useState<"up" | "in">("up");
   const [skippedAuth, setSkippedAuth] = useState(false);
+  const [replayTutorial, setReplayTutorial] = useState(false);
 
   useEffect(() => {
-    // Wind-down mode: late at night budg3 stops handing you projects.
     const h = new Date().getHours();
     setLateNight(h >= 23 || h < 5);
   }, []);
+
+  /** Jump straight to a mode from anywhere (the dashboard shortcuts use this). */
+  function go(target: StartMode | BuildMode | YouMode | "home") {
+    if (target === "home") return setSection("home");
+    if ((START_MODES as { k: string }[]).some((m) => m.k === target)) {
+      setStartMode(target as StartMode);
+      return setSection("start");
+    }
+    if ((BUILD_MODES as { k: string }[]).some((m) => m.k === target)) {
+      setBuildMode(target as BuildMode);
+      return setSection("build");
+    }
+    setYouMode(target as YouMode);
+    setSection("you");
+  }
 
   if (!s.ready) {
     return (
@@ -97,7 +111,6 @@ export default function Home() {
     );
   }
 
-  // ---- signed out, hasn't skipped: landing page, then the form ----
   if (!s.account && !skippedAuth) {
     return (
       <main className="wrap">
@@ -147,15 +160,43 @@ export default function Home() {
     );
   }
 
+  // First run after the quiz: explain how the thing works before turning
+  // someone loose in it.
+  if (!s.state.profile.tutorialDone || replayTutorial) {
+    return (
+      <main className="wrap">
+        <div className="mast">
+          <Mark />
+          <span className="tag">learn to start.</span>
+        </div>
+        <Tutorial
+          onDone={() => {
+            setReplayTutorial(false);
+            if (!s.state.profile.tutorialDone) s.setProfile({ tutorialDone: true });
+          }}
+        />
+        <Foot />
+      </main>
+    );
+  }
+
   const type = s.state.profile.typeKey ? TYPES[s.state.profile.typeKey] : null;
+  const showStrip = section === "start" || section === "build";
 
   return (
     <main className="wrap">
       <div className="mast">
-        <Mark onClick={() => setTab("home")} />
+        <Mark onClick={() => setSection("home")} />
         <span className="tag">learn to start.</span>
         <span className="spacer" />
-        {type ? <span className="tag">{type.name}</span> : null}
+        <button
+          className="helpbtn"
+          onClick={() => setReplayTutorial(true)}
+          aria-label="how budg3 works"
+          title="how it works"
+        >
+          ?
+        </button>
         {s.account ? (
           <button className="link" style={{ marginTop: 0 }} onClick={s.signOut}>
             sign out
@@ -168,14 +209,14 @@ export default function Home() {
       </div>
 
       <nav className="nav">
-        {TABS.map((t) => (
-          <button key={t.k} aria-current={tab === t.k} onClick={() => setTab(t.k)}>
+        {SECTIONS.map((t) => (
+          <button key={t.k} aria-current={section === t.k} onClick={() => setSection(t.k)}>
             {t.label}
           </button>
         ))}
       </nav>
 
-      {lateNight && (tab === "start" || tab === "home") ? (
+      {lateNight && (section === "home" || section === "start") ? (
         <div style={{ marginBottom: 14 }}>
           <div className="panel">
             <h2 className="h">it&apos;s late — play it smart.</h2>
@@ -187,53 +228,69 @@ export default function Home() {
         </div>
       ) : null}
 
-      {tab !== "home" && tab !== "receipts" && tab !== "journal" ? (
-        <TodayStrip state={s.state} onUndo={s.undoStart} />
-      ) : null}
+      {showStrip ? <TodayStrip state={s.state} onUndo={s.undoStart} /> : null}
 
-      {tab === "home" && (
-        <TodaysPlans plans={s.state.plans} onComplete={s.completePlan} onRemove={s.removePlan} />
+      {section === "home" && (
+        <>
+          <TodaysPlans plans={s.state.plans} onComplete={s.completePlan} onRemove={s.removePlan} />
+          <Dashboard
+            state={s.state}
+            type={type}
+            onGo={go}
+            onToggleHabit={s.toggleHabitToday}
+            onBumpTracker={s.bumpTracker}
+          />
+        </>
       )}
-      {tab === "home" && (
-        <Dashboard
-          state={s.state}
-          type={type}
-          onGo={setTab}
-          onToggleHabit={s.toggleHabitToday}
-          onBumpTracker={s.bumpTracker}
-        />
+
+      {section === "start" && (
+        <>
+          <SubNav items={START_MODES} value={startMode} onChange={setStartMode} />
+          {startMode === "quick" && (
+            <StartDoor
+              onStarted={(text, feeling) => s.recordStart(text, feeling)}
+              favours={type?.favours}
+              cue={type?.cue}
+            />
+          )}
+          {startMode === "areas" && <AreaDoor onStarted={(text) => s.recordStart(text)} />}
+          {startMode === "shrink" && <Shrinker onStarted={(text) => s.recordStart(text)} />}
+          {startMode === "together" && <StartWithMe onStarted={(text) => s.recordStart(text)} />}
+        </>
       )}
-      {tab === "start" && (
-        <StartDoor
-          onStarted={(text, feeling) => s.recordStart(text, feeling)}
-          favours={type?.favours}
-          cue={type?.cue}
-        />
+
+      {section === "build" && (
+        <>
+          <SubNav items={BUILD_MODES} value={buildMode} onChange={setBuildMode} />
+          {buildMode === "habits" && (
+            <HabitBuilder
+              habits={s.state.habits}
+              onAdd={s.addHabit}
+              onToggle={s.toggleHabitToday}
+              onRemove={s.removeHabit}
+            />
+          )}
+          {buildMode === "track" && (
+            <Trackers
+              trackers={s.state.trackers}
+              onAdd={s.addTracker}
+              onBump={s.bumpTracker}
+              onRemove={s.removeTracker}
+            />
+          )}
+        </>
       )}
-      {tab === "areas" && <AreaDoor onStarted={(text) => s.recordStart(text)} />}
-      {tab === "shrink" && <Shrinker onStarted={(text) => s.recordStart(text)} />}
-      {tab === "together" && <StartWithMe onStarted={(text) => s.recordStart(text)} />}
-      {tab === "habits" && (
-        <HabitBuilder
-          habits={s.state.habits}
-          onAdd={s.addHabit}
-          onToggle={s.toggleHabitToday}
-          onRemove={s.removeHabit}
-        />
-      )}
-      {tab === "track" && (
-        <Trackers
-          trackers={s.state.trackers}
-          onAdd={s.addTracker}
-          onBump={s.bumpTracker}
-          onRemove={s.removeTracker}
-        />
-      )}
-      {tab === "journal" && (
-        <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />
-      )}
-      {tab === "receipts" && (
-        <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />
+
+      {section === "you" && (
+        <>
+          <SubNav items={YOU_MODES} value={youMode} onChange={setYouMode} />
+          {youMode === "journal" && (
+            <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />
+          )}
+          {youMode === "receipts" && (
+            <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />
+          )}
+        </>
       )}
 
       <Foot />

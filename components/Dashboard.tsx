@@ -20,6 +20,13 @@ function greeting(): string {
  * now?" at a glance — today's habits, what's running, and one obvious way to
  * start something.
  */
+const DOOR_TARGET: Record<string, "quick" | "areas" | "shrink" | "together"> = {
+  start: "quick",
+  areas: "areas",
+  shrink: "shrink",
+  together: "together",
+};
+
 const DOOR_LABEL: Record<string, string> = {
   start: "start something",
   areas: "pick a lane",
@@ -36,7 +43,7 @@ export default function Dashboard({
 }: {
   state: State;
   type?: StartingType | null;
-  onGo: (tab: "start" | "areas" | "shrink" | "together" | "habits" | "track" | "receipts") => void;
+  onGo: (target: "quick" | "areas" | "shrink" | "together" | "habits" | "track" | "journal" | "receipts") => void;
   onToggleHabit: (id: string) => void;
   onBumpTracker: (id: string, by: number) => void;
 }) {
@@ -87,7 +94,7 @@ export default function Dashboard({
         <button
           className="btn primary big"
           style={{ marginTop: 16 }}
-          onClick={() => onGo(type ? type.door : "start")}
+          onClick={() => onGo(type ? DOOR_TARGET[type.door] : "quick")}
         >
           {type ? DOOR_LABEL[type.door] : "start something now"}
         </button>
@@ -154,7 +161,7 @@ export default function Dashboard({
         <div className="panel">
           <h2 className="h">today&apos;s numbers</h2>
           <ul className="list">
-            {trackers.slice(0, 5).map((tr) => (
+            {trackers.slice(0, 4).map((tr) => (
               <li key={tr.id}>
                 <span className="grow">
                   <span className="what">{tr.name}</span>
@@ -178,48 +185,6 @@ export default function Dashboard({
         </div>
       ) : null}
 
-      <div className="panel">
-        <h2 className="h">other ways in</h2>
-        <div className="ways">
-          <button className="way" onClick={() => onGo("shrink")}>
-            <b>shrink a thing</b>
-            <span>something specific you&apos;re dreading</span>
-          </button>
-          <button className="way" onClick={() => onGo("areas")}>
-            <b>pick a lane</b>
-            <span>school, body, making things…</span>
-          </button>
-          <button className="way" onClick={() => onGo("together")}>
-            <b>start with me</b>
-            <span>two minutes, side by side</span>
-          </button>
-          <button className="way" onClick={() => onGo("track")}>
-            <b>track something</b>
-            <span>water, hours, walks</span>
-          </button>
-        </div>
-      </div>
-
-      {recent.length > 0 ? (
-        <div className="panel">
-          <h2 className="h">lately</h2>
-          <ul className="list">
-            {recent.map((r) => (
-              <li key={r.id}>
-                <span className="grow">
-                  <span className="when">
-                    {new Date(r.at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
-                  </span>
-                  <span className="what">{r.text}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <button className="link" onClick={() => onGo("receipts")}>
-            see everything →
-          </button>
-        </div>
-      ) : null}
     </>
   );
 }
