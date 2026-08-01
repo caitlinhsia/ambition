@@ -7,7 +7,7 @@ import Landing from "@/components/Landing";
 import Auth from "@/components/Auth";
 import Onboarding from "@/components/Onboarding";
 import Tutorial from "@/components/Tutorial";
-import Dashboard from "@/components/Dashboard";
+import Record from "@/components/Record";
 import SubNav from "@/components/SubNav";
 import SectionHeader from "@/components/SectionHeader";
 import Walls from "@/components/Walls";
@@ -18,21 +18,19 @@ import Shrinker from "@/components/Shrinker";
 import StartWithMe from "@/components/StartWithMe";
 import HabitBuilder from "@/components/HabitBuilder";
 import Trackers from "@/components/Trackers";
-import Receipts from "@/components/Receipts";
 import TodayStrip from "@/components/TodayStrip";
 import Journal from "@/components/Journal";
 import PlanTomorrow, { TodaysPlans } from "@/components/PlanTomorrow";
 
 /** Four sections. Everything else is a mode inside one of them. */
-type Section = "home" | "walls" | "start" | "build" | "you";
+type Section = "home" | "start" | "build" | "you";
 type StartMode = "quick" | "areas" | "shrink" | "together";
 type BuildMode = "habits" | "track";
-type YouMode = "journal" | "receipts";
+type YouMode = "journal" | "record";
 
 const SECTIONS: { k: Section; label: string }[] = [
-  { k: "home", label: "home" },
-  { k: "walls", label: "walls" },
-  { k: "start", label: "start" },
+  { k: "home", label: "your wall" },
+  { k: "start", label: "one brick" },
   { k: "build", label: "build" },
   { k: "you", label: "you" },
 ];
@@ -50,8 +48,8 @@ const BUILD_MODES: { k: BuildMode; label: string }[] = [
 ];
 
 const YOU_MODES: { k: YouMode; label: string }[] = [
+  { k: "record", label: "your record" },
   { k: "journal", label: "journal" },
-  { k: "receipts", label: "everything you've done" },
 ];
 
 type Gate = "landing" | "auth";
@@ -78,7 +76,7 @@ export default function Home() {
   const [section, setSection] = useState<Section>("home");
   const [startMode, setStartMode] = useState<StartMode>("quick");
   const [buildMode, setBuildMode] = useState<BuildMode>("habits");
-  const [youMode, setYouMode] = useState<YouMode>("journal");
+  const [youMode, setYouMode] = useState<YouMode>("record");
   const [lateNight, setLateNight] = useState(false);
   const [gate, setGate] = useState<Gate>("landing");
   const [authMode, setAuthMode] = useState<"up" | "in">("up");
@@ -92,7 +90,7 @@ export default function Home() {
   }, []);
 
   /** Jump straight to a mode from anywhere (the dashboard shortcuts use this). */
-  function go(target: StartMode | BuildMode | YouMode | "home") {
+  function go(target: StartMode | BuildMode | "home") {
     if (target === "home") return setSection("home");
     if ((START_MODES as { k: string }[]).some((m) => m.k === target)) {
       setStartMode(target as StartMode);
@@ -102,7 +100,6 @@ export default function Home() {
       setBuildMode(target as BuildMode);
       return setSection("build");
     }
-    setYouMode(target as YouMode);
     setSection("you");
   }
 
@@ -236,29 +233,7 @@ export default function Home() {
         </div>
       ) : null}
 
-      {section === "home" && (
-        <>
-          <SectionHeader
-            title={`${startedToday} today`}
-            blurb={
-              startedToday === 0
-                ? "no bricks out yet. the first one is always the heaviest."
-                : "the wall's thinner than it was this morning."
-            }
-            count={startedToday}
-          />
-          <TodaysPlans plans={s.state.plans} onComplete={s.completePlan} onRemove={s.removePlan} />
-          <Dashboard
-            state={s.state}
-            type={type}
-            onGo={go}
-            onToggleHabit={s.toggleHabitToday}
-            onBumpTracker={s.bumpTracker}
-          />
-        </>
-      )}
-
-      {section === "walls" &&
+      {section === "home" &&
         (() => {
           const wall = s.state.walls.find((w) => w.id === openWall);
           if (wall) {
@@ -281,15 +256,34 @@ export default function Home() {
           return (
             <>
               <SectionHeader
-                title="your walls"
-                blurb="name what you're up against and it becomes bricks. take them out one at a time."
-                count={s.state.walls.filter((w) => !w.bricks.some((b) => b.state === "in")).length}
+                title={startedToday > 0 ? `${startedToday} out today` : "what's in your way?"}
+                blurb={
+                  startedToday > 0
+                    ? "the wall's thinner than it was this morning."
+                    : "name it, and budg3 breaks it into bricks you can actually lift."
+                }
+                count={startedToday}
+              />
+              <TodaysPlans
+                plans={s.state.plans}
+                onComplete={s.completePlan}
+                onRemove={s.removePlan}
               />
               <Walls
                 walls={s.state.walls}
                 onOpen={(id) => setOpenWall(id)}
                 onAdd={(n, steps) => s.addWall(n, steps)}
               />
+              <p className="note" style={{ margin: "18px 0 0" }}>
+                don&apos;t want to name anything?{" "}
+                <button
+                  className="link"
+                  style={{ marginTop: 0 }}
+                  onClick={() => setSection("start")}
+                >
+                  just give me one brick →
+                </button>
+              </p>
             </>
           );
         })()}
@@ -352,11 +346,11 @@ export default function Home() {
             count={Math.min(8, Math.ceil(s.state.started / 5))}
           />
           <SubNav items={YOU_MODES} value={youMode} onChange={setYouMode} />
+          {youMode === "record" && (
+            <Record state={s.state} onExport={s.exportAll} onWipe={s.wipe} />
+          )}
           {youMode === "journal" && (
             <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />
-          )}
-          {youMode === "receipts" && (
-            <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />
           )}
         </>
       )}
