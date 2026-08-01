@@ -4,9 +4,9 @@
 
 > turns out most of "being unmotivated" is just *not having started yet.*
 
-A local-first web app for teens who can't get going. One tiny first step at a
-time. No login, no accounts, no analytics — everything lives in the browser and
-never leaves the device.
+A web app for anyone who can't get going. One tiny first step at a time —
+whether you want to start an essay, get to the gym, make something, or just
+get off the chair. Sign up with an email to keep your habits and streaks.
 
 See [CONCEPT.md](./CONCEPT.md) for the full product thinking.
 
@@ -42,7 +42,9 @@ vercel --prod   # production deploy
 
 | path | what's in it |
 |---|---|
-| `app/page.tsx` | Shell, tab routing, wind-down mode |
+| `app/page.tsx` | Shell, auth gate, tab routing, wind-down mode |
+| `lib/account.ts` | **Accounts — the one file to change for real cross-device sync** |
+| `lib/areas.ts` | Life areas (school, body, creative, people…) with starts and habit ideas |
 | `lib/feelings.ts` | The feeling menu (numb → joyful) and the step pools it routes to |
 | `lib/shrinker.ts` | Turns a dreaded thing into one small first move |
 | `lib/quiz.ts` | First-run starting-type quiz |
@@ -58,10 +60,31 @@ These aren't style preferences — they're the product:
 2. **Skipping is free.** Every step has a no-cost way out that deals a gentler one.
 3. **The reward is immediate.** `celebrate()` fires on the same tick as the tap —
    that immediacy is what wires the habit.
-4. **Nothing leaves the device.** No network calls, no analytics, no accounts.
+4. **Your data stays yours.** No analytics, no tracking, no selling anything.
    Export and erase are one tap each.
 5. **No dark patterns.** No guilt notifications, no loss aversion, no streaks
    that punish, no infinite scroll.
+
+## Accounts, and what "signed in" means today
+
+Sign-up is real — an email creates an account and all data (habits, streaks,
+trackers, receipts) is stored under it, so two accounts on the same browser
+never see each other's stuff. **But right now that storage is `localStorage`,
+so an account is device-local**: signing in on a phone won't show what you did
+on a laptop.
+
+That's deliberate — it keeps the app deployable with zero configuration and
+keeps personal data off a server until there's a considered place to put it.
+
+To make accounts sync across devices, replace the four functions in
+`lib/account.ts` (`signUp`, `signIn`, `signOut`, `currentAccount`) with an auth
+provider and a database, and persist `State` server-side instead of in
+`localStorage`. Nothing else in the app needs to change — everything reads
+accounts through that one interface. Practical options: Supabase (email auth +
+Postgres in one), or Auth.js with Vercel Postgres and Resend for magic links.
+
+Before storing this data on a server, be aware it may include minors' personal
+information — worth deciding on retention, deletion, and a privacy policy first.
 
 ## Not medical software
 

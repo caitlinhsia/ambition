@@ -4,8 +4,7 @@
 // browser and is never transmitted anywhere. No account, nothing to leak.
 
 import { useCallback, useEffect, useState } from "react";
-
-const KEY = "budg3.v1";
+import { Account, currentAccount, dataKeyFor, signOut as clearActive } from "./account";
 
 export type Receipt = { id: string; text: string; at: number; feeling?: string };
 
@@ -48,10 +47,10 @@ const EMPTY: State = {
   trackers: [],
 };
 
-function read(): State {
+function read(key: string): State {
   if (typeof window === "undefined") return EMPTY;
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(key);
     if (!raw) return EMPTY;
     return { ...EMPTY, ...(JSON.parse(raw) as State) };
   } catch {
@@ -59,9 +58,9 @@ function read(): State {
   }
 }
 
-function write(s: State) {
+function write(key: string, s: State) {
   try {
-    window.localStorage.setItem(KEY, JSON.stringify(s));
+    window.localStorage.setItem(key, JSON.stringify(s));
   } catch {
     // storage full or blocked — budg3 still works, it just won't remember.
   }
@@ -95,18 +94,36 @@ export function streakOf(days: string[]): { run: number; total: number; paused: 
 export function useStore() {
   const [state, setState] = useState<State>(EMPTY);
   const [ready, setReady] = useState(false);
+  const [account, setAccount] = useState<Account | null>(null);
 
   useEffect(() => {
-    setState(read());
+    const acct = currentAccount();
+    setAccount(acct);
+    setState(read(dataKeyFor(acct)));
     setReady(true);
   }, []);
 
-  const update = useCallback((fn: (s: State) => State) => {
-    setState((prev) => {
-      const next = fn(prev);
-      write(next);
-      return next;
-    });
+  const update = useCallback(
+    (fn: (s: State) => State) => {
+      setState((prev) => {
+        const next = fn(prev);
+        write(dataKeyFor(account), next);
+        return next;
+      });
+    },
+    [account]
+  );
+
+  /** Switch to an account and load its data. */
+  const useAccount = useCallback((acct: Account | null) => {
+    setAccount(acct);
+    setState(read(dataKeyFor(acct)));
+  }, []);
+
+  const signOut = useCallback(() => {
+    clearActive();
+    setAccount(null);
+    setState(read(dataKeyFor(null)));
   }, []);
 
   const recordStart = useCallback(
@@ -197,16 +214,19 @@ export function useStore() {
 
   const wipe = useCallback(() => {
     try {
-      window.localStorage.removeItem(KEY);
+      window.localStorage.removeItem(dataKeyFor(account));
     } catch {
       // nothing to clear
     }
     setState(EMPTY);
-  }, []);
+  }, [account]);
 
   return {
     state,
     ready,
+    account,
+    useAccount,
+    signOut,
     recordStart,
     setProfile,
     addHabit,
