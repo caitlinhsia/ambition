@@ -23,6 +23,19 @@ export type Tracker = {
   counts: Record<string, number>;
 };
 
+/** One small task. "in" = still in the wall, "down" = knocked out,
+ *  "aside" = moved out of the way for now, not a failure. */
+export type Brick = { id: string; text: string; state: "in" | "down" | "aside" };
+
+/** A wall is one thing you're facing, broken into bricks. */
+export type Wall = {
+  id: string;
+  name: string;
+  bricks: Brick[];
+  createdAt: number;
+  finishedAt?: number;
+};
+
 export type Plan = { id: string; text: string; forDay: string; done: boolean };
 
 export type JournalEntry = { id: string; day: string; text: string; at: number };
@@ -45,6 +58,7 @@ export type State = {
   trackers: Tracker[];
   plans: Plan[];
   journal: JournalEntry[];
+  walls: Wall[];
 };
 
 const EMPTY: State = {
@@ -55,6 +69,7 @@ const EMPTY: State = {
   trackers: [],
   plans: [],
   journal: [],
+  walls: [],
 };
 
 function read(key: string): State {
@@ -162,6 +177,123 @@ export function useStore() {
           receipts: s.receipts.filter((r) => r.id !== id),
         };
       }),
+    [update]
+  );
+
+  // ---- walls ----
+
+  const addWall = useCallback(
+    (name: string, steps: string[]) =>
+      update((s) => ({
+        ...s,
+        walls: [
+          {
+            id: `w${Date.now()}`,
+            name,
+            createdAt: Date.now(),
+            bricks: steps.map((text, i) => ({
+              id: `b${Date.now()}${i}`,
+              text,
+              state: "in" as const,
+            })),
+          },
+          ...s.walls,
+        ],
+      })),
+    [update]
+  );
+
+  const removeWall = useCallback(
+    (wallId: string) => update((s) => ({ ...s, walls: s.walls.filter((w) => w.id !== wallId) })),
+    [update]
+  );
+
+  const addBrick = useCallback(
+    (wallId: string, text: string) =>
+      update((s) => ({
+        ...s,
+        walls: s.walls.map((w) =>
+          w.id === wallId
+            ? {
+                ...w,
+                bricks: [
+                  ...w.bricks,
+                  { id: `b${Date.now()}${Math.random().toString(36).slice(2, 5)}`, text, state: "in" as const },
+                ],
+              }
+            : w
+        ),
+      })),
+    [update]
+  );
+
+  const editBrick = useCallback(
+    (wallId: string, brickId: string, text: string) =>
+      update((s) => ({
+        ...s,
+        walls: s.walls.map((w) =>
+          w.id === wallId
+            ? { ...w, bricks: w.bricks.map((b) => (b.id === brickId ? { ...b, text } : b)) }
+            : w
+        ),
+      })),
+    [update]
+  );
+
+  const removeBrick = useCallback(
+    (wallId: string, brickId: string) =>
+      update((s) => ({
+        ...s,
+        walls: s.walls.map((w) =>
+          w.id === wallId ? { ...w, bricks: w.bricks.filter((b) => b.id !== brickId) } : w
+        ),
+      })),
+    [update]
+  );
+
+  /** Knock a brick out — this is a real start, so it counts everywhere else too. */
+  const knockBrick = useCallback(
+    (wallId: string, brickId: string) =>
+      update((s) => {
+        const wall = s.walls.find((w) => w.id === wallId);
+        const brick = wall?.bricks.find((b) => b.id === brickId);
+        if (!wall || !brick || brick.state === "down") return s;
+        const bricks = wall.bricks.map((b) =>
+          b.id === brickId ? { ...b, state: "down" as const } : b
+        );
+        const allDown = bricks.every((b) => b.state !== "in");
+        return {
+          ...s,
+          started: s.started + 1,
+          receipts: [
+            {
+              id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+              text: `${wall.name} — ${brick.text}`,
+              at: Date.now(),
+            },
+            ...s.receipts,
+          ].slice(0, 500),
+          walls: s.walls.map((w) =>
+            w.id === wallId
+              ? { ...w, bricks, finishedAt: allDown ? Date.now() : w.finishedAt }
+              : w
+          ),
+        };
+      }),
+    [update]
+  );
+
+  /** Move a brick out of the way. Not done, not failed — just not now. */
+  const setBrickState = useCallback(
+    (wallId: string, brickId: string, state: Brick["state"]) =>
+      update((s) => ({
+        ...s,
+        walls: s.walls.map((w) =>
+          w.id === wallId
+            ? { ...w, bricks: w.bricks.map((b) => (b.id === brickId ? { ...b, state } : b)) }
+            : w
+        ),
+      })),
     [update]
   );
 
@@ -313,6 +445,13 @@ export function useStore() {
     signOut,
     recordStart,
     undoStart,
+    addWall,
+    removeWall,
+    addBrick,
+    editBrick,
+    removeBrick,
+    knockBrick,
+    setBrickState,
     addPlan,
     removePlan,
     completePlan,

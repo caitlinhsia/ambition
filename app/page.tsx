@@ -10,6 +10,8 @@ import Tutorial from "@/components/Tutorial";
 import Dashboard from "@/components/Dashboard";
 import SubNav from "@/components/SubNav";
 import SectionHeader from "@/components/SectionHeader";
+import Walls from "@/components/Walls";
+import WallView from "@/components/WallView";
 import StartDoor from "@/components/StartDoor";
 import AreaDoor from "@/components/AreaDoor";
 import Shrinker from "@/components/Shrinker";
@@ -22,13 +24,14 @@ import Journal from "@/components/Journal";
 import PlanTomorrow, { TodaysPlans } from "@/components/PlanTomorrow";
 
 /** Four sections. Everything else is a mode inside one of them. */
-type Section = "home" | "start" | "build" | "you";
+type Section = "home" | "walls" | "start" | "build" | "you";
 type StartMode = "quick" | "areas" | "shrink" | "together";
 type BuildMode = "habits" | "track";
 type YouMode = "journal" | "receipts";
 
 const SECTIONS: { k: Section; label: string }[] = [
   { k: "home", label: "home" },
+  { k: "walls", label: "walls" },
   { k: "start", label: "start" },
   { k: "build", label: "build" },
   { k: "you", label: "you" },
@@ -81,6 +84,7 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<"up" | "in">("up");
   const [skippedAuth, setSkippedAuth] = useState(false);
   const [replayTutorial, setReplayTutorial] = useState(false);
+  const [openWall, setOpenWall] = useState<string | null>(null);
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -253,6 +257,42 @@ export default function Home() {
           />
         </>
       )}
+
+      {section === "walls" &&
+        (() => {
+          const wall = s.state.walls.find((w) => w.id === openWall);
+          if (wall) {
+            return (
+              <WallView
+                wall={wall}
+                onKnock={(b) => s.knockBrick(wall.id, b)}
+                onSetState={(b, st) => s.setBrickState(wall.id, b, st)}
+                onEdit={(b, t) => s.editBrick(wall.id, b, t)}
+                onRemoveBrick={(b) => s.removeBrick(wall.id, b)}
+                onAddBrick={(t) => s.addBrick(wall.id, t)}
+                onRemoveWall={() => {
+                  s.removeWall(wall.id);
+                  setOpenWall(null);
+                }}
+                onBack={() => setOpenWall(null)}
+              />
+            );
+          }
+          return (
+            <>
+              <SectionHeader
+                title="your walls"
+                blurb="name what you're up against and it becomes bricks. take them out one at a time."
+                count={s.state.walls.filter((w) => !w.bricks.some((b) => b.state === "in")).length}
+              />
+              <Walls
+                walls={s.state.walls}
+                onOpen={(id) => setOpenWall(id)}
+                onAdd={(n, steps) => s.addWall(n, steps)}
+              />
+            </>
+          );
+        })()}
 
       {section === "start" && (
         <>

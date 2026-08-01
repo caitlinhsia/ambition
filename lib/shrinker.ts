@@ -338,3 +338,15 @@ export function shrink(
   const i = ((cursor % steps.length) + steps.length) % steps.length;
   return { intro, step: steps[i], total: steps.length };
 }
+
+
+/** Every step for a thing, for building a wall out of it in one go. */
+export function allSteps(input: string): { intro: string; steps: string[] } {
+  const text = input.trim();
+  const rule =
+    STATE_RULES.find((r) => r.match.test(text)) ?? RULES.find((r) => r.match.test(text));
+  return {
+    intro: rule?.intro ?? FALLBACK_INTRO,
+    steps: rule ? [...rule.steps] : [...FALLBACK],
+  };
+}

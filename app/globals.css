@@ -1302,3 +1302,170 @@ footer.foot {
   border: 1px solid var(--line-2);
   opacity: 1;
 }
+
+/* ---- the wall ---- */
+.wallhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.wallcount {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.wall {
+  background: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  padding: 14px 12px;
+  overflow: hidden;
+}
+.bricks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+/* Alternate courses sit offset, the way brickwork actually does. */
+.wbrick {
+  flex: 1 1 calc(50% - 5px);
+  min-height: 46px;
+  border-radius: 2px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--paper-2);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.35;
+  text-align: left;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.12s, background 0.18s, border-color 0.18s;
+  overflow: hidden;
+}
+.wbrick.wide {
+  flex-basis: 100%;
+}
+.wbrick:hover {
+  transform: translateY(-1px);
+}
+.wbrick.sel {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.wbrick .wbtext {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* knocked out: a gap where a brick used to be */
+.wbrick.down {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--line-2);
+  color: var(--ink-faint);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+/* moved aside: still here, just not in the way */
+.wbrick.aside {
+  background: transparent;
+  border-color: var(--line-2);
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.plaque {
+  background: var(--paper-2);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  padding: 12px 18px;
+  text-align: center;
+  margin: 5px 0;
+}
+.plaque .plabel {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-bottom: 2px;
+}
+.plaque .pname {
+  display: block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.brickpanel {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.brickname {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+.wallwin {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--accent-ink);
+  margin: 14px 0 0;
+}
+
+.previewbricks {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: grid;
+  gap: 6px;
+}
+.previewbricks li {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--accent-soft);
+  border-radius: 2px;
+  padding: 10px 12px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* miniature wall in the list */
+.mini {
+  display: grid;
+  grid-template-columns: repeat(4, 9px);
+  gap: 2px;
+  flex: none;
+}
+.mini .mb {
+  height: 6px;
+  border-radius: 1px;
+  background: var(--accent);
+}
+.mini .mb.down {
+  background: transparent;
+  border: 1px solid var(--line-2);
+}
+.mini .mb.aside {
+  background: var(--line-2);
+}
+
+@media (max-width: 520px) {
+  .wbrick {
+    flex-basis: 100%;
+    min-height: 42px;
+  }
+
+}
