@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FEELINGS, POSITIVE_POOLS, Pool, pickTask } from "@/lib/feelings";
+import { FEELINGS, POSITIVE_POOLS, Pool, defaultPool, pickTask } from "@/lib/feelings";
 import { pickAgain, pickCountdown, pickIdleSub, pickSwapped, pickWin } from "@/lib/lines";
 import { celebrate } from "./Celebrate";
 
@@ -17,8 +17,13 @@ type Phase =
  */
 export default function StartDoor({
   onStarted,
+  favours,
+  cue,
 }: {
   onStarted: (text: string, feeling?: string) => void;
+  /** Step pools the reader's starting type responds to. */
+  favours?: Pool[];
+  cue?: string;
 }) {
   const [phase, setPhase] = useState<Phase>({ k: "idle" });
   const [openMenu, setOpenMenu] = useState(false);
@@ -35,6 +40,11 @@ export default function StartDoor({
   // Never leave an interval running behind us.
   useEffect(() => stopTimer, []);
 
+  /** A task from the pools this person's type responds to. */
+  function nextQuick(avoid?: string | null) {
+    return pickTask(defaultPool(favours), avoid);
+  }
+
   /** Start (or restart) the countdown on a given task. */
   function countDown(task: string) {
     stopTimer();
@@ -44,7 +54,7 @@ export default function StartDoor({
         if (p.k !== "counting") return p;
         if (p.left <= 1) {
           stopTimer();
-          return { k: "step", task: p.task, pool: "steady", swapNote: null };
+          return { k: "step", task: p.task, pool: defaultPool(favours), swapNote: null };
         }
         return { ...p, left: p.left - 1 };
       });
@@ -72,14 +82,14 @@ export default function StartDoor({
             className="btn primary"
             onClick={() => {
               stopTimer();
-              setPhase({ k: "step", task: phase.task, pool: "steady", swapNote: null });
+              setPhase({ k: "step", task: phase.task, pool: defaultPool(favours), swapNote: null });
             }}
           >
             go now
           </button>
           {/* Swap deals a different task and restarts the clock — it must not
               drop you back to the start screen. */}
-          <button className="btn ghost" onClick={() => countDown(pickTask("steady", phase.task))}>
+          <button className="btn ghost" onClick={() => countDown(nextQuick(phase.task))}>
             swap it
           </button>
           <button
@@ -161,9 +171,9 @@ export default function StartDoor({
   return (
     <div className="panel">
       <h2 className="h">let&apos;s get moving.</h2>
-      <p className="sub">{idleSub}</p>
+      <p className="sub">{cue ?? idleSub}</p>
 
-      <button className="btn primary big" onClick={() => countDown(pickTask("steady"))}>
+      <button className="btn primary big" onClick={() => countDown(nextQuick())}>
         this is the start
       </button>
 

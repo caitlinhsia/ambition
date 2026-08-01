@@ -1,3 +1,5 @@
+import { Pool } from "./feelings";
+
 // The starting-type quiz. A mirror, not a diagnosis — it tunes how budg3
 // talks to you. Deliberately NOT Myers-Briggs: that doesn't hold up
 // scientifically, so we keep the fun of a recognizable type without
@@ -62,7 +64,12 @@ export type StartingType = {
   key: string;
   name: string;
   blurb: string;
-  door: "quick" | "feeling" | "shrinker";
+  /** Which tab opens first for this type. */
+  door: "start" | "areas" | "shrink" | "together";
+  /** Step pools this type responds to, weighted ahead of the rest. */
+  favours: Pool[];
+  /** A line on the home screen written for this type. */
+  cue: string;
 };
 
 export const TYPES: Record<string, StartingType> = {
@@ -71,28 +78,36 @@ export const TYPES: Record<string, StartingType> = {
     name: "the big thinker",
     blurb:
       "you see the whole thing at once — that's a real strength, and it's also what stalls you. budg3 breaks it into moves small enough to just take.",
-    door: "shrinker",
+    door: "shrink",
+    favours: ["steady", "bored"],
+    cue: "you see the whole thing. we only need the first move.",
   },
   novelty: {
     key: "novelty",
     name: "the sprinter",
     blurb:
       "when something clicks, you fly. budg3 keeps things short, varied and physical so it clicks a lot more often.",
-    door: "quick",
+    door: "start",
+    favours: ["move", "bored"],
+    cue: "short and interesting beats long and sensible. go.",
   },
   night: {
     key: "night",
     name: "the night owl",
     blurb:
       "your energy shows up late. budg3 helps you spend it well, then set tomorrow up instead of burning the night.",
-    door: "feeling",
+    door: "areas",
+    favours: ["ground", "rest"],
+    cue: "use the energy while it's here, then wind it down.",
   },
   push: {
     key: "push",
     name: "the slow burner",
     blurb:
       "you go furthest when you build instead of sprint. budg3 starts you small and stacks the wins.",
-    door: "feeling",
+    door: "start",
+    favours: ["gentle", "rest"],
+    cue: "small and steady. that's how you get furthest.",
   },
 };
 

@@ -183,6 +183,16 @@ export const TASKS: Record<Pool, string[]> = {
   ],
 };
 
+/**
+ * Picks the pool to draw from when nothing more specific was chosen. A
+ * starting type's favoured pools get drawn from most of the time, so the quiz
+ * answers actually change what you see.
+ */
+export function defaultPool(favours?: Pool[]): Pool {
+  if (!favours || favours.length === 0) return "steady";
+  return Math.random() < 0.7 ? favours[Math.floor(Math.random() * favours.length)] : "steady";
+}
+
 export function pickTask(pool: Pool, avoid?: string | null): string {
   const list = TASKS[pool];
   if (list.length === 1) return list[0];

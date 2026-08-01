@@ -48,7 +48,9 @@ vercel --prod   # production deploy
 | `lib/feelings.ts` | The feeling menu (numb → joyful) and the step pools it routes to |
 | `lib/shrinker.ts` | Turns a dreaded thing into one small first move |
 | `lib/quiz.ts` | First-run starting-type quiz |
-| `lib/store.ts` | localStorage state: receipts, habits, trackers, gentle streaks |
+| `lib/store.ts` | localStorage state: receipts, habits, trackers, plans, journal, gentle streaks |
+| `lib/history.ts` | Week grids, tracker series, milestones — reading back what's stored |
+| `lib/quiz.ts` | Starting types: which door opens first, which step pools are favoured |
 | `components/` | The three front doors, start-with-me, keep-going, receipts, garden |
 
 ### The rules the code has to keep
@@ -64,6 +66,9 @@ These aren't style preferences — they're the product:
    Export and erase are one tap each.
 5. **No dark patterns.** No guilt notifications, no loss aversion, no streaks
    that punish, no infinite scroll.
+6. **Nothing shows failure.** A missed day in a week grid is an unfilled box,
+   never a red one. Trackers have no target lines. Milestones mark totals, so
+   they can only be reached, never broken.
 
 ## Accounts, and what "signed in" means today
 

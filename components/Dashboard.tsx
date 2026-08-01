@@ -1,6 +1,7 @@
 "use client";
 
 import { Habit, Receipt, State, Tracker, streakOf, today } from "@/lib/store";
+import { StartingType } from "@/lib/quiz";
 import { celebrate } from "./Celebrate";
 import WeekOverview from "./WeekOverview";
 import WeekRow from "./WeekRow";
@@ -19,13 +20,22 @@ function greeting(): string {
  * now?" at a glance — today's habits, what's running, and one obvious way to
  * start something.
  */
+const DOOR_LABEL: Record<string, string> = {
+  start: "start something",
+  areas: "pick a lane",
+  shrink: "shrink a thing",
+  together: "start with me",
+};
+
 export default function Dashboard({
   state,
+  type,
   onGo,
   onToggleHabit,
   onBumpTracker,
 }: {
   state: State;
+  type?: StartingType | null;
   onGo: (tab: "start" | "areas" | "shrink" | "together" | "habits" | "track" | "receipts") => void;
   onToggleHabit: (id: string) => void;
   onBumpTracker: (id: string, by: number) => void;
@@ -72,9 +82,20 @@ export default function Dashboard({
           </div>
         </div>
 
-        <button className="btn primary big" style={{ marginTop: 16 }} onClick={() => onGo("start")}>
-          start something now
+        {type ? <p className="typecue">{type.cue}</p> : null}
+
+        <button
+          className="btn primary big"
+          style={{ marginTop: 16 }}
+          onClick={() => onGo(type ? type.door : "start")}
+        >
+          {type ? DOOR_LABEL[type.door] : "start something now"}
         </button>
+        {type ? (
+          <p className="note" style={{ margin: "10px 0 0" }}>
+            picked for {type.name}. everything else is in the tabs.
+          </p>
+        ) : null}
       </div>
 
       <WeekOverview state={state} />

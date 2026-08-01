@@ -84,6 +84,106 @@ const RULES: Rule[] = [
       "do the first physical move — stand up, open the door, turn the tap.",
     ],
   },
+  {
+    match: /\b(book|appoint|doctor|dentist|gp|schedule|call.*(office|clinic)|renew|passport|licen[cs]e)\b/i,
+    intro: "one phone call's worth. that's it.",
+    steps: [
+      "find the number or the booking page. don't call yet.",
+      "write down what you need to say. one line.",
+      "make the call. if it's closed, that still counts as done.",
+      "put the appointment in your calendar the moment you have it.",
+    ],
+  },
+  {
+    match: /\b(pack|move|move out|suitcase|trip|holiday|travel|flight)\b/i,
+    intro: "packing is 50 small decisions. do one.",
+    steps: [
+      "get the bag out and open it.",
+      "put in the three things you'd be stuck without.",
+      "make a list of what's left. don't pack it yet.",
+      "pack one category — just socks, just chargers.",
+    ],
+  },
+  {
+    match: /\b(revise|revision|flashcard|memoris|memoriz|notes|recap)\b/i,
+    intro: "one topic. not the syllabus.",
+    steps: [
+      "open your notes at the topic you like least.",
+      "read one page and close it. that's a pass.",
+      "write 3 questions you can't answer yet.",
+      "cover the page and say what you remember out loud.",
+    ],
+  },
+  {
+    match: /\b(portfolio|website|cv|linkedin|profile|bio|about page)\b/i,
+    intro: "nobody sees the first draft.",
+    steps: [
+      "open it and change one word.",
+      "write one sentence about what you actually do.",
+      "add the most recent thing you made.",
+      "fix the one thing that's been bugging you.",
+    ],
+  },
+  {
+    match: /\b(guitar|piano|instrument|song|band|rehears|scales)\b/i,
+    intro: "five minutes beats a perfect hour that never happens.",
+    steps: [
+      "get it out of the case.",
+      "play one thing you already know well.",
+      "run the hardest bar four times slowly.",
+      "tune it. that counts as a session.",
+    ],
+  },
+  {
+    match: /\b(garden|plant|water the|repot|weed)\b/i,
+    intro: "small and outdoors. good combination.",
+    steps: [
+      "go and look at them. that's the task.",
+      "water the driest one.",
+      "pull five weeds and stop.",
+      "clear the dead leaves off one plant.",
+    ],
+  },
+  {
+    match: /\b(budget|tax|invoice|bill|receipt|expense|refund|bank)\b/i,
+    intro: "boring, quick, and off your mind after.",
+    steps: [
+      "open the app or the folder. don't add anything up yet.",
+      "deal with the single oldest item.",
+      "write down the one number you're avoiding knowing.",
+      "set a reminder for the deadline, then close it.",
+    ],
+  },
+  {
+    match: /\b(quit|stop|cut down|habit|streak|vape|smok|drink)\b/i,
+    intro: "we're not doing forever. just the next hour.",
+    steps: [
+      "move the thing out of arm's reach.",
+      "write down when you last did it, and when the urge hit.",
+      "do the replacement thing once — walk, water, gum.",
+      "tell one person you're trying.",
+    ],
+  },
+  {
+    match: /\b(read|book|chapter|article|paper|study.*read)\b/i,
+    intro: "one page is a real amount of reading.",
+    steps: [
+      "open it to where you left off.",
+      "read one page. stopping after is allowed.",
+      "read the first line of the chapter and decide from there.",
+      "put it somewhere you'll trip over it tomorrow.",
+    ],
+  },
+  {
+    match: /\b(present|presentation|speech|pitch|slides|deck|talk)\b/i,
+    intro: "slide one only.",
+    steps: [
+      "open the deck and title the first slide.",
+      "write the one sentence you want people to remember.",
+      "list your sections as bullets. no design yet.",
+      "say the opening line out loud once.",
+    ],
+  },
 ];
 
 const FALLBACK: string[] = [

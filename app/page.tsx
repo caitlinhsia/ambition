@@ -15,6 +15,8 @@ import HabitBuilder from "@/components/HabitBuilder";
 import Trackers from "@/components/Trackers";
 import Receipts from "@/components/Receipts";
 import TodayStrip from "@/components/TodayStrip";
+import Journal from "@/components/Journal";
+import PlanTomorrow, { TodaysPlans } from "@/components/PlanTomorrow";
 
 export type Tab =
   | "home"
@@ -24,6 +26,7 @@ export type Tab =
   | "together"
   | "habits"
   | "track"
+  | "journal"
   | "receipts";
 
 const TABS: { k: Tab; label: string }[] = [
@@ -34,6 +37,7 @@ const TABS: { k: Tab; label: string }[] = [
   { k: "together", label: "start with me" },
   { k: "habits", label: "habits" },
   { k: "track", label: "track" },
+  { k: "journal", label: "journal" },
   { k: "receipts", label: "receipts" },
 ];
 
@@ -172,25 +176,40 @@ export default function Home() {
       </nav>
 
       {lateNight && (tab === "start" || tab === "home") ? (
-        <div className="panel" style={{ marginBottom: 14 }}>
-          <h2 className="h">it&apos;s late — play it smart.</h2>
-          <p className="sub">
-            after 11 the winning move is setting tomorrow up, not starting something new.
-          </p>
+        <div style={{ marginBottom: 14 }}>
+          <div className="panel">
+            <h2 className="h">it&apos;s late — play it smart.</h2>
+            <p className="sub">
+              after 11 the winning move is setting tomorrow up, not starting something new.
+            </p>
+          </div>
+          <PlanTomorrow plans={s.state.plans} onAdd={s.addPlan} onRemove={s.removePlan} />
         </div>
       ) : null}
 
-      {tab !== "home" && tab !== "receipts" ? <TodayStrip state={s.state} onUndo={s.undoStart} /> : null}
+      {tab !== "home" && tab !== "receipts" && tab !== "journal" ? (
+        <TodayStrip state={s.state} onUndo={s.undoStart} />
+      ) : null}
 
+      {tab === "home" && (
+        <TodaysPlans plans={s.state.plans} onComplete={s.completePlan} onRemove={s.removePlan} />
+      )}
       {tab === "home" && (
         <Dashboard
           state={s.state}
+          type={type}
           onGo={setTab}
           onToggleHabit={s.toggleHabitToday}
           onBumpTracker={s.bumpTracker}
         />
       )}
-      {tab === "start" && <StartDoor onStarted={(text, feeling) => s.recordStart(text, feeling)} />}
+      {tab === "start" && (
+        <StartDoor
+          onStarted={(text, feeling) => s.recordStart(text, feeling)}
+          favours={type?.favours}
+          cue={type?.cue}
+        />
+      )}
       {tab === "areas" && <AreaDoor onStarted={(text) => s.recordStart(text)} />}
       {tab === "shrink" && <Shrinker onStarted={(text) => s.recordStart(text)} />}
       {tab === "together" && <StartWithMe onStarted={(text) => s.recordStart(text)} />}
@@ -209,6 +228,9 @@ export default function Home() {
           onBump={s.bumpTracker}
           onRemove={s.removeTracker}
         />
+      )}
+      {tab === "journal" && (
+        <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />
       )}
       {tab === "receipts" && (
         <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />

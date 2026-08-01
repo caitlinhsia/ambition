@@ -1120,3 +1120,12 @@ footer.foot {
 .today-list li > span:first-child {
   flex: 1;
 }
+.typecue {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent-ink);
+  margin: 16px 0 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--accent);
+  line-height: 1.5;
+}
