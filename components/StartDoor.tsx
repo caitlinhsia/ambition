@@ -9,7 +9,7 @@ type Phase =
   | { k: "idle" }
   | { k: "counting"; task: string; left: number; prompt: string }
   | { k: "step"; task: string; pool: Pool; feeling?: string; swapNote: string | null }
-  | { k: "won"; line: string; again: string; pool: Pool; feeling?: string };
+  | { k: "won"; line: string; again: string; pool: Pool; feeling?: string; last: string };
 
 /**
  * Doors one and two: the ten second start for when choosing is the blocker,
@@ -58,7 +58,7 @@ export default function StartDoor({
 
   function done(task: string, pool: Pool, feeling?: string) {
     onStarted(task, feeling);
-    setPhase({ k: "won", line: pickWin(), again: pickAgain(), pool, feeling });
+    setPhase({ k: "won", line: pickWin(), again: pickAgain(), pool, feeling, last: task });
   }
 
   if (phase.k === "counting") {
@@ -144,7 +144,7 @@ export default function StartDoor({
             onClick={() =>
               setPhase({
                 k: "step",
-                task: pickTask(phase.pool),
+                task: pickTask(phase.pool, phase.last),
                 pool: phase.pool,
                 feeling: phase.feeling,
                 swapNote: null,

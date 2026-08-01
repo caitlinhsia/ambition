@@ -44,13 +44,6 @@ export default function TodayStrip({ state }: { state: State }) {
           </span>
         </span>
 
-        <span className="today-marks" aria-hidden="true">
-          {Array.from({ length: marks }, (_, i) => (
-            <i key={i} className={i === marks - 1 && bump ? "mark fresh" : "mark"} />
-          ))}
-          {doneToday.length > 12 ? <span className="more">+{doneToday.length - 12}</span> : null}
-        </span>
-
         <span className="today-meta">
           {state.habits.length > 0 ? (
             <span>
@@ -61,6 +54,15 @@ export default function TodayStrip({ state }: { state: State }) {
           <span>{state.started} all time</span>
         </span>
       </div>
+
+      {marks > 0 ? (
+        <div className="today-marks" aria-hidden="true">
+          {Array.from({ length: marks }, (_, i) => (
+            <i key={i} className={i === marks - 1 && bump ? "mark fresh" : "mark"} />
+          ))}
+          {doneToday.length > 12 ? <span className="more">+{doneToday.length - 12}</span> : null}
+        </div>
+      ) : null}
 
       {doneToday.length > 0 ? (
         <ul className="today-list">
