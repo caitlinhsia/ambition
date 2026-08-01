@@ -138,6 +138,7 @@ export default function StartDoor({
       <div className="panel">
         <div className="task">
           <p className="win">{phase.line}</p>
+          <p className="gain"><span className="plus">+1</span> logged — it's on your record now.</p>
           <button
             className="link"
             onClick={() =>

@@ -14,7 +14,7 @@ import StartWithMe from "@/components/StartWithMe";
 import HabitBuilder from "@/components/HabitBuilder";
 import Trackers from "@/components/Trackers";
 import Receipts from "@/components/Receipts";
-import Garden from "@/components/Garden";
+import TodayStrip from "@/components/TodayStrip";
 
 export type Tab =
   | "home"
@@ -180,6 +180,8 @@ export default function Home() {
         </div>
       ) : null}
 
+      {tab !== "home" && tab !== "receipts" ? <TodayStrip state={s.state} /> : null}
+
       {tab === "home" && (
         <Dashboard
           state={s.state}
@@ -212,7 +214,6 @@ export default function Home() {
         <Receipts receipts={s.state.receipts} onExport={s.exportAll} onWipe={s.wipe} />
       )}
 
-      {tab !== "home" ? <Garden started={s.state.started} /> : null}
       <Foot />
     </main>
   );

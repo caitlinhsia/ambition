@@ -29,6 +29,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
         {won ? (
           <div className="task">
             <p className="win">{won}</p>
+            <p className="gain"><span className="plus">+1</span> logged — it's on your record now.</p>
             <div className="row" style={{ marginTop: 14 }}>
               <button
                 className="btn primary"
