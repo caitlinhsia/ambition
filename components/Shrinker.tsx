@@ -110,8 +110,8 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
 
   return (
     <div className="panel">
-      <h2 className="h">what do you want to tackle?</h2>
-      <p className="sub">name it and get your first move — not the whole plan.</p>
+      <h2 className="h">which wall are you facing?</h2>
+      <p className="sub">name it and budg3 knocks one brick loose. never the whole wall.</p>
       <form className="field" onSubmit={submit}>
         <input
           type="text"
@@ -121,7 +121,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
           aria-label="the thing you're avoiding"
         />
         <button className="btn primary" type="submit">
-          break it down
+          find a brick
         </button>
       </form>
       <p className="note" style={{ margin: "12px 0 0" }}>

@@ -33,6 +33,10 @@ export const WINS = [
   "you did the thing. keep going.",
   "in motion now.",
   "that's how the streak begins.",
+  "one brick out.",
+  "that's a brick gone.",
+  "wall's thinner than it was.",
+  "brick by brick. that's the way.",
 ];
 
 /** The line above the countdown. */

@@ -116,7 +116,7 @@ export default function Home() {
       <main className="wrap">
         <div className="mast">
           <Mark onClick={() => setGate("landing")} />
-          <span className="tag">learn to start.</span>
+          <span className="tag">brick by brick.</span>
         </div>
         {gate === "landing" ? (
           <Landing
@@ -152,7 +152,7 @@ export default function Home() {
       <main className="wrap">
         <div className="mast">
           <Mark />
-          <span className="tag">learn to start.</span>
+          <span className="tag">brick by brick.</span>
         </div>
         <Onboarding onDone={(p) => s.setProfile({ ...p, onboarded: true })} />
         <Foot />
@@ -167,7 +167,7 @@ export default function Home() {
       <main className="wrap">
         <div className="mast">
           <Mark />
-          <span className="tag">learn to start.</span>
+          <span className="tag">brick by brick.</span>
         </div>
         <Tutorial
           onDone={() => {
@@ -187,7 +187,7 @@ export default function Home() {
     <main className="wrap">
       <div className="mast">
         <Mark onClick={() => setSection("home")} />
-        <span className="tag">learn to start.</span>
+        <span className="tag">brick by brick.</span>
         <span className="spacer" />
         <button
           className="helpbtn"
@@ -301,7 +301,7 @@ export default function Home() {
 function Foot() {
   return (
     <footer className="foot">
-      <span>budg3 — learn to start</span>
+      <span>budg3 — brick by brick</span>
       <span>your stuff stays yours</span>
       <span>
         having a rough time?{" "}

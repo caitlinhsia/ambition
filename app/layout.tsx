@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "budg3 — learn to start",
+  title: "budg3 — brick by brick",
   description:
-    "The thing you open when you can't get yourself to start. One small first step at a time.",
+    "Don't run at the wall. Take it down brick by brick — one small step at a time.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,

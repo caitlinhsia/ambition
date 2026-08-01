@@ -1,9 +1,11 @@
 # budg3.
 
-**learn to start.**
+**brick by brick.**
 
-> turns out most of "being unmotivated" is just *not having started yet.*
-> so start is the only thing budg3 teaches.
+> don't run at the wall. take it down brick by brick.
+
+> turns out most of "being unmotivated" is just *not having started yet* — so
+> budg3 never hands you the wall, only the next brick.
 
 A no-login, local-first web app for teens, built on one idea: **motivation is
 mostly just starting.** budg3 hands you one tiny first step at a time and, over

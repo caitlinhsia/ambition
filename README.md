@@ -1,12 +1,13 @@
 # budg3
 
-**learn to start.**
+**brick by brick.**
 
-> turns out most of "being unmotivated" is just *not having started yet.*
+> don't run at the wall. take it down brick by brick.
 
-A web app for anyone who can't get going. One tiny first step at a time —
-whether you want to start an essay, get to the gym, make something, or just
-get off the chair. Sign up with an email to keep your habits and streaks.
+The thing you're avoiding is a wall, and running at it has never worked. budg3
+hands you one brick at a time — small enough to actually pull loose — whether
+the wall is an essay, the gym, a message you owe, or just getting off the
+chair. Sign up with an email to keep your bricks counted.
 
 See [CONCEPT.md](./CONCEPT.md) for the full product thinking.
 

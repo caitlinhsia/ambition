@@ -6,13 +6,13 @@ type Step = { title: string; body: string; hint?: string };
 
 const STEPS: Step[] = [
   {
-    title: "one small thing at a time",
-    body: "budg3 never gives you a list. it gives you a single step you could do in the next two minutes, and that's it. do it, and you get another.",
-    hint: "if a step doesn't fit, swap it. that costs you nothing.",
+    title: "don't run at the wall",
+    body: "the thing you're avoiding is a wall, and throwing yourself at it doesn't work. budg3 never hands you the wall — it hands you one brick, small enough to actually pull out. then the next one.",
+    hint: "if a brick won't budge, swap it. that costs you nothing.",
   },
   {
-    title: "four ways to get going",
-    body: "stuck with no idea where to begin? hit the big button. know exactly what you're avoiding? shrink it. want to pick an area of your life, or start alongside someone? both are there too.",
+    title: "four ways at the wall",
+    body: "no idea where to start? hit the big button and it picks a brick. know exactly which wall it is? name it and budg3 breaks a piece off. you can also pick an area of your life, or go at it alongside someone.",
     hint: "they all live under the start tab.",
   },
   {
@@ -21,8 +21,8 @@ const STEPS: Step[] = [
     hint: "under build.",
   },
   {
-    title: "nothing you do disappears",
-    body: "every start is logged and counted. you'll see today's building up as you go, your week on the home screen, and the whole record whenever you want it.",
+    title: "every brick gets counted",
+    body: "nothing you pull out disappears. you'll see today's pile building as you go, your week on the home screen, and the whole record whenever you want it.",
     hint: "tapped something by accident? undo is right there.",
   },
   {
