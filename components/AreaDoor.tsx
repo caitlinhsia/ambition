@@ -73,8 +73,8 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
   return (
     <div className="panel">
       
-      <h2 className="h">what do you want to work on?</h2>
-      <p className="sub">pick a category and get a first step.</p>
+      <h2 className="h">what are you taking on?</h2>
+      <p className="sub">pick a lane and get your first move.</p>
       <div className="areas">
         {AREAS.map((a) => (
           <button key={a.key} className="area" onClick={() => choose(a)}>

@@ -54,9 +54,9 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
       
       {phase === "idle" && (
         <>
-          <h2 className="h">two minutes, together.</h2>
+          <h2 className="h">two minutes. go together.</h2>
           <p className="sub">
-            a two minute timer. you don't have to finish anything, just start.
+            a two minute timer. you don't have to finish it, just get into it.
           </p>
           <div className="field" style={{ marginBottom: 12 }}>
             <input
@@ -68,7 +68,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
             />
           </div>
           <button className="btn primary big" onClick={begin}>
-            start the timer
+            start the clock
           </button>
         </>
       )}
@@ -76,7 +76,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
       {phase === "ready" && (
         <>
           <h2 className="h">ready…</h2>
-          <p className="sub">put the thing in front of you.</p>
+          <p className="sub">get it in front of you.</p>
         </>
       )}
 
@@ -87,7 +87,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
             {mm}:{ss}
           </p>
           <p className="sub">
-            {what.trim() ? `we're on: ${what.trim()}` : "you're on the clock."}
+            {what.trim() ? `we're on: ${what.trim()}` : "you're in it. keep going."}
           </p>
           <button className="btn ghost" onClick={stop}>
             stop
@@ -97,11 +97,11 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
 
       {phase === "done" && (
         <>
-          <h2 className="h">two minutes done.</h2>
-          <p className="sub">keep going, or stop here.</p>
+          <h2 className="h">two minutes down.</h2>
+          <p className="sub">ride it or bank it — both count.</p>
           <div className="row">
             <button className="btn primary" onClick={begin}>
-              two more minutes
+              two more
             </button>
             <button className="btn ghost" onClick={stop}>
               done

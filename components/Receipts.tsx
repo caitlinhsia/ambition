@@ -19,13 +19,13 @@ export default function Receipts({
   return (
     <div className="panel">
       
-      <h2 className="h">what you've done</h2>
+      <h2 className="h">everything you&apos;ve started</h2>
       <p className="sub">
-        everything you've started, most recent first.
+        proof you keep showing up. most recent first.
       </p>
 
       {receipts.length === 0 ? (
-        <p className="empty">nothing here yet.</p>
+        <p className="empty">your first one lands here.</p>
       ) : (
         <ul className="list">
           {receipts.slice(0, 60).map((r) => (

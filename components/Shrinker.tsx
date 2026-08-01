@@ -33,7 +33,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
   }
 
   if (target) {
-    const { sympathy, step, more } = shrink(target, stepIndex);
+    const { intro, step, more } = shrink(target, stepIndex);
     return (
       <div className="panel">
         <p className="eyebrow">{target}</p>
@@ -49,7 +49,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
                     setWon(null);
                   }}
                 >
-                  what&apos;s next?
+                  next move
                 </button>
               ) : null}
               <button className="btn ghost" onClick={reset}>
@@ -57,12 +57,12 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
               </button>
             </div>
             <p className="note" style={{ margin: "12px 0 0" }}>
-              stopping here is fine.
+              stop here or keep the momentum.
             </p>
           </div>
         ) : (
           <div className="task">
-            <p className="note">{sympathy}</p>
+            <p className="note">{intro}</p>
             <p className="text">{step}</p>
             <div className="row">
               <button
@@ -91,9 +91,9 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
   return (
     <div className="panel">
       
-      <h2 className="h">what are you avoiding?</h2>
+      <h2 className="h">what do you want to tackle?</h2>
       <p className="sub">
-        type it in and get one small first step — not the whole plan.
+        name it and get your first move — not the whole plan.
       </p>
       <form className="field" onSubmit={submit}>
         <input
@@ -104,7 +104,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
           aria-label="the thing you're avoiding"
         />
         <button className="btn primary" type="submit">
-          shrink it
+          break it down
         </button>
       </form>
       <p className="note" style={{ margin: "12px 0 0" }}>

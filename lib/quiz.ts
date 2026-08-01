@@ -68,30 +68,30 @@ export type StartingType = {
 export const TYPES: Record<string, StartingType> = {
   scale: {
     key: "scale",
-    name: "the too-many-tabs",
+    name: "the big thinker",
     blurb:
-      "you don't lack drive — you lack a small enough first step. everything shows up at once and freezes you. budg3 will keep shrinking things until they're stupidly easy.",
+      "you see the whole thing at once — that's a real strength, and it's also what stalls you. budg3 breaks it into moves small enough to just take.",
     door: "shrinker",
   },
   novelty: {
     key: "novelty",
-    name: "the bored sprinter",
+    name: "the sprinter",
     blurb:
-      "you can go fast when it's interesting, and not at all when it isn't. budg3 will keep it novel, physical and short — and never hand you the same thing twice in a row.",
+      "when something clicks, you fly. budg3 keeps things short, varied and physical so it clicks a lot more often.",
     door: "quick",
   },
   night: {
     key: "night",
-    name: "the 1am spiraler",
+    name: "the night owl",
     blurb:
-      "your worst stalling happens late, and it costs you the next day too. budg3 gets quieter at night and helps you start *ending* the day instead of starting projects.",
+      "your energy shows up late. budg3 helps you spend it well, then set tomorrow up instead of burning the night.",
     door: "feeling",
   },
   push: {
     key: "push",
-    name: "the running-on-empty",
+    name: "the slow burner",
     blurb:
-      "you're not lazy, you're out of gas. budg3 will meet you low, ask for almost nothing, and count rest as a real win.",
+      "you go furthest when you build instead of sprint. budg3 starts you small and stacks the wins.",
     door: "feeling",
   },
 };

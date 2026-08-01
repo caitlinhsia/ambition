@@ -62,10 +62,10 @@ export default function StartDoor({
             className="btn primary"
             onClick={() => setPhase({ k: "step", task: phase.task, pool: "steady", gentler: false })}
           >
-            start now
+            go now
           </button>
           <button className="btn ghost" onClick={() => setPhase({ k: "idle" })}>
-            not this one
+            swap it
           </button>
         </div>
       </div>
@@ -75,9 +75,9 @@ export default function StartDoor({
   if (phase.k === "step") {
     return (
       <div className="panel">
-        <p className="eyebrow">{phase.feeling ? phase.feeling : "your first step"}</p>
+        <p className="eyebrow">{phase.feeling ? phase.feeling : "your move"}</p>
         <div className="task">
-          {phase.gentler ? <p className="note">here's an easier one.</p> : null}
+          {phase.gentler ? <p className="note">try this one instead.</p> : null}
           <p className="text">{phase.task}</p>
           <div className="row">
             <button
@@ -126,7 +126,7 @@ export default function StartDoor({
               })
             }
           >
-            another one →
+            go again →
           </button>
         </div>
       </div>
@@ -135,11 +135,11 @@ export default function StartDoor({
 
   return (
     <div className="panel">
-      <h2 className="h">start something.</h2>
-      <p className="sub">one small thing to get you moving.</p>
+      <h2 className="h">let&apos;s get moving.</h2>
+      <p className="sub">one small thing, right now. that&apos;s how everything starts.</p>
 
       <button className="btn primary big" onClick={quickStart}>
-        give me something to do
+        this is the start
       </button>
 
       <div style={{ marginTop: 14 }}>

@@ -32,10 +32,10 @@ export default function HabitBuilder({
     <>
       <div className="panel">
         
-        <h2 className="h">your habits</h2>
+        <h2 className="h">what you&apos;re building</h2>
         <p className="sub">
           {habits.length === 0
-            ? "add one below, or write your own."
+            ? "pick one below, or write your own."
             : `${doneToday} of ${habits.length} done today.`}
         </p>
 
@@ -62,7 +62,7 @@ export default function HabitBuilder({
         </form>
 
         {habits.length === 0 ? (
-          <p className="empty">no habits yet.</p>
+          <p className="empty">add your first one and get it going.</p>
         ) : (
           <ul className="list">
             {habits.map((h) => {
@@ -100,7 +100,7 @@ export default function HabitBuilder({
       <div className="panel">
         
         <h2 className="h">ideas</h2>
-        <p className="sub">pick a category, then tap to add.</p>
+        <p className="sub">pick a lane, then tap to add.</p>
         <div className="chips">
           {AREAS.map((a) => (
             <button

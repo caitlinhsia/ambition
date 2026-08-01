@@ -44,8 +44,8 @@ export default function Trackers({
     <>
       <div className="panel">
         
-        <h2 className="h">your trackers</h2>
-        <p className="sub">count anything you want to keep an eye on.</p>
+        <h2 className="h">what you&apos;re counting</h2>
+        <p className="sub">watch the numbers go up.</p>
 
         <form
           className="field"
@@ -79,7 +79,7 @@ export default function Trackers({
         </form>
 
         {trackers.length === 0 ? (
-          <p className="empty">no trackers yet.</p>
+          <p className="empty">add one and start counting.</p>
         ) : (
           <ul className="list">
             {trackers.map((tr) => {
