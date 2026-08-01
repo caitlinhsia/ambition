@@ -46,7 +46,7 @@ export default function Trackers({
     <>
       <div className="panel">
         
-        <h2 className="h">what you&apos;re counting</h2>
+        <h2 className="h">today</h2>
         <p className="sub">watch the numbers go up.</p>
 
         <form
@@ -118,8 +118,7 @@ export default function Trackers({
         )}
       </div>
 
-      <div className="panel">
-        
+      <div className="panel flat">
         <h2 className="h">ideas</h2>
         <div className="chips">
           {SUGGESTIONS.map((sug) => {

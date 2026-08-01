@@ -83,7 +83,7 @@ export default function Journal({
       </div>
 
       {earlier.length > 0 ? (
-        <div className="panel">
+        <div className="panel flat">
           <h2 className="h">before this</h2>
           <ul className="list">
             {earlier.slice(0, 40).map((e) => (

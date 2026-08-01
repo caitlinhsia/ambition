@@ -59,7 +59,7 @@ export default function Dashboard({
 
   return (
     <>
-      <div className="panel">
+      <div className="panel lead">
         <h2 className="h">{greeting()}</h2>
         <p className="sub">
           {startedToday > 0
@@ -107,7 +107,7 @@ export default function Dashboard({
 
       <WeekOverview state={state} />
 
-      <div className="panel">
+      <div className="panel flat">
         <h2 className="h">today&apos;s habits</h2>
         {habits.length === 0 ? (
           <>
@@ -158,7 +158,7 @@ export default function Dashboard({
       </div>
 
       {trackers.length > 0 ? (
-        <div className="panel">
+        <div className="panel flat">
           <h2 className="h">today&apos;s numbers</h2>
           <ul className="list">
             {trackers.slice(0, 4).map((tr) => (

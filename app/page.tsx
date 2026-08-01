@@ -9,6 +9,7 @@ import Onboarding from "@/components/Onboarding";
 import Tutorial from "@/components/Tutorial";
 import Dashboard from "@/components/Dashboard";
 import SubNav from "@/components/SubNav";
+import SectionHeader from "@/components/SectionHeader";
 import StartDoor from "@/components/StartDoor";
 import AreaDoor from "@/components/AreaDoor";
 import Shrinker from "@/components/Shrinker";
@@ -181,7 +182,10 @@ export default function Home() {
   }
 
   const type = s.state.profile.typeKey ? TYPES[s.state.profile.typeKey] : null;
-  const showStrip = section === "start" || section === "build";
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const startedToday = s.state.receipts.filter(
+    (r) => new Date(r.at).toISOString().slice(0, 10) === todayKey
+  ).length;
 
   return (
     <main className="wrap">
@@ -228,10 +232,17 @@ export default function Home() {
         </div>
       ) : null}
 
-      {showStrip ? <TodayStrip state={s.state} onUndo={s.undoStart} /> : null}
-
       {section === "home" && (
         <>
+          <SectionHeader
+            title={`${startedToday} today`}
+            blurb={
+              startedToday === 0
+                ? "no bricks out yet. the first one is always the heaviest."
+                : "the wall's thinner than it was this morning."
+            }
+            count={startedToday}
+          />
           <TodaysPlans plans={s.state.plans} onComplete={s.completePlan} onRemove={s.removePlan} />
           <Dashboard
             state={s.state}
@@ -245,6 +256,12 @@ export default function Home() {
 
       {section === "start" && (
         <>
+          <SectionHeader
+            title="pick up a brick"
+            blurb="four ways at the wall. take whichever one you'll actually use right now."
+            count={startedToday}
+          />
+          <TodayStrip state={s.state} onUndo={s.undoStart} />
           <SubNav items={START_MODES} value={startMode} onChange={setStartMode} />
           {startMode === "quick" && (
             <StartDoor
@@ -261,6 +278,12 @@ export default function Home() {
 
       {section === "build" && (
         <>
+          <SectionHeader
+            title="what you're building"
+            blurb="habits you chose and numbers you care about. a missed day pauses a run, it never wipes it."
+            count={s.state.habits.filter((h) => h.days.includes(todayKey)).length}
+          />
+          <TodayStrip state={s.state} onUndo={s.undoStart} />
           <SubNav items={BUILD_MODES} value={buildMode} onChange={setBuildMode} />
           {buildMode === "habits" && (
             <HabitBuilder
@@ -283,6 +306,11 @@ export default function Home() {
 
       {section === "you" && (
         <>
+          <SectionHeader
+            title="your record"
+            blurb="a line a day if you want one, and every brick you've pulled out so far."
+            count={Math.min(8, Math.ceil(s.state.started / 5))}
+          />
           <SubNav items={YOU_MODES} value={youMode} onChange={setYouMode} />
           {youMode === "journal" && (
             <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />

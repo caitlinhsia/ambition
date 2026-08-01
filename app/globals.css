@@ -978,7 +978,7 @@ footer.foot {
   background: var(--accent);
   border-color: var(--accent);
 }
-.wbox.today {
+.wbox.now {
   box-shadow: 0 0 0 2px var(--accent-soft);
 }
 
@@ -1234,4 +1234,71 @@ footer.foot {
 .helpbtn:hover {
   border-color: var(--accent);
   color: var(--accent-ink);
+}
+
+/* ---- section headers: a course of bricks under each title ---- */
+.sechead {
+  margin: 4px 0 18px;
+}
+.sectitle {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(24px, 5vw, 30px);
+  letter-spacing: -0.03em;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+.secblurb {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  max-width: 46ch;
+  line-height: 1.5;
+}
+.course {
+  display: flex;
+  gap: 3px;
+  height: 7px;
+}
+.course .brick {
+  flex: 1;
+  max-width: 34px;
+  border-radius: 1px;
+  background: var(--line-2);
+}
+.course .brick.lit {
+  background: var(--accent);
+}
+
+/* ---- panel hierarchy ----
+   Everything used to be the same bordered box, so pages read as one long
+   stack. Now the primary action is heavier and secondary content is flat. */
+.panel.lead {
+  border-color: var(--accent);
+  border-left-width: 3px;
+}
+.panel.flat {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 20px 0 4px;
+}
+.panel.flat + .panel.flat {
+  margin-top: 0;
+}
+.panel.flat .h {
+  font-size: 16px;
+}
+
+/* quieter secondary headings inside flat panels */
+.panel.flat .sub {
+  margin-bottom: 12px;
+}
+/* an unworked day is an empty brick, not a stray mark */
+.wbar.empty {
+  background: transparent;
+  border: 1px solid var(--line-2);
+  opacity: 1;
 }

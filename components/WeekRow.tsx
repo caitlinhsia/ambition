@@ -18,7 +18,7 @@ export default function WeekRow({ habit, showLetters = false }: { habit: Habit; 
         <span key={w.day} className="wcell">
           {showLetters ? <span className="wl">{letters[i]}</span> : null}
           <span
-            className={"wbox" + (w.done ? " on" : "") + (i === week.length - 1 ? " today" : "")}
+            className={"wbox" + (w.done ? " on" : "") + (i === week.length - 1 ? " now" : "")}
             title={w.day}
           />
         </span>

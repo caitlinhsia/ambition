@@ -17,7 +17,7 @@ export default function WeekOverview({ state }: { state: State }) {
   const { hit, next } = milestoneFor(state.started);
 
   return (
-    <div className="panel">
+    <div className="panel flat">
       <h2 className="h">your week</h2>
       <p className="sub">
         {weekTotal === 0
@@ -30,8 +30,12 @@ export default function WeekOverview({ state }: { state: State }) {
           <div key={d.day} className="wcol">
             <div className="wbar-track">
               <div
-                className={"wbar" + (i === days.length - 1 ? " now" : "")}
-                style={{ height: d.count === 0 ? "2px" : `${Math.max(14, (d.count / max) * 100)}%` }}
+                className={
+                  "wbar" +
+                  (d.count === 0 ? " empty" : "") +
+                  (i === days.length - 1 ? " now" : "")
+                }
+                style={{ height: d.count === 0 ? "14%" : `${Math.max(20, (d.count / max) * 100)}%` }}
                 title={`${d.day}: ${d.count}`}
               />
             </div>
@@ -42,11 +46,11 @@ export default function WeekOverview({ state }: { state: State }) {
       </div>
 
       <div className="milestone">
-        {hit > 0 ? (
-          <span className="ms-hit">{hit}+ starts so far</span>
-        ) : (
-          <span className="ms-hit">just getting going</span>
-        )}
+        <span className="ms-hit">
+          {state.started === 0
+            ? "no bricks yet"
+            : `${state.started} ${state.started === 1 ? "brick" : "bricks"} out so far`}
+        </span>
         {next ? (
           <span className="ms-next">
             {next - state.started} more to {next}

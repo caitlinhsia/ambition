@@ -33,7 +33,7 @@ export default function HabitBuilder({
     <>
       <div className="panel">
         
-        <h2 className="h">what you&apos;re building</h2>
+        <h2 className="h">today</h2>
         <p className="sub">
           {habits.length === 0
             ? "pick one below, or write your own."
@@ -98,8 +98,7 @@ export default function HabitBuilder({
         )}
       </div>
 
-      <div className="panel">
-        
+      <div className="panel flat">
         <h2 className="h">ideas</h2>
         <p className="sub">pick a lane, then tap to add.</p>
         <div className="chips">
