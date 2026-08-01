@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AREAS, Area, pickStart } from "@/lib/areas";
-import { pickWin } from "@/lib/feelings";
+import { pickAgain, pickWin } from "@/lib/lines";
 import { celebrate } from "./Celebrate";
 
 /**
@@ -14,6 +14,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
   const [area, setArea] = useState<Area | null>(null);
   const [step, setStep] = useState<string | null>(null);
   const [won, setWon] = useState<string | null>(null);
+  const [again, setAgain] = useState(pickAgain);
 
   function choose(a: Area) {
     setArea(a);
@@ -36,7 +37,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
                   setWon(null);
                 }}
               >
-                next step
+                {again}
               </button>
               <button className="btn ghost" onClick={() => setArea(null)}>
                 different area
@@ -53,6 +54,7 @@ export default function AreaDoor({ onStarted }: { onStarted: (text: string) => v
                   celebrate(e.currentTarget);
                   onStarted(step);
                   setWon(pickWin());
+                  setAgain(pickAgain());
                 }}
               >
                 i did it

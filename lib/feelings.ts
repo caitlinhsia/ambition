@@ -183,16 +183,6 @@ export const TASKS: Record<Pool, string[]> = {
   ],
 };
 
-export const WINS = [
-  "that's momentum.",
-  "you're moving.",
-  "one down. keep it rolling.",
-  "that's how it starts.",
-  "good. go again?",
-  "hardest part's behind you.",
-  "you're on.",
-];
-
 export function pickTask(pool: Pool, avoid?: string | null): string {
   const list = TASKS[pool];
   if (list.length === 1) return list[0];
@@ -204,6 +194,3 @@ export function pickTask(pool: Pool, avoid?: string | null): string {
   return t;
 }
 
-export function pickWin(): string {
-  return WINS[Math.floor(Math.random() * WINS.length)];
-}

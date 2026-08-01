@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { pickTimerDone, pickTimerMid } from "@/lib/lines";
 import { celebrate } from "./Celebrate";
 
 /**
@@ -13,6 +14,8 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
   const [left, setLeft] = useState(120);
   const [what, setWhat] = useState("");
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [mid] = useState(pickTimerMid);
+  const [doneLine, setDoneLine] = useState(pickTimerDone);
 
   useEffect(() => {
     return () => {
@@ -30,6 +33,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
           if (l <= 1) {
             if (timer.current) clearInterval(timer.current);
             setPhase("done");
+            setDoneLine(pickTimerDone());
             celebrate();
             onStarted(what.trim() ? `2 minutes on: ${what.trim()}` : "2 minutes of starting");
             return 0;
@@ -87,7 +91,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
             {mm}:{ss}
           </p>
           <p className="sub">
-            {what.trim() ? `we're on: ${what.trim()}` : "you're in it. keep going."}
+            {what.trim() ? `we're on: ${what.trim()}` : mid}
           </p>
           <button className="btn ghost" onClick={stop}>
             stop
@@ -98,7 +102,7 @@ export default function StartWithMe({ onStarted }: { onStarted: (text: string) =
       {phase === "done" && (
         <>
           <h2 className="h">two minutes down.</h2>
-          <p className="sub">ride it or bank it — both count.</p>
+          <p className="sub">{doneLine}</p>
           <div className="row">
             <button className="btn primary" onClick={begin}>
               two more

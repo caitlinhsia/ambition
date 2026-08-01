@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { shrink } from "@/lib/shrinker";
-import { pickWin } from "@/lib/feelings";
+import { pickAgain, pickWin } from "@/lib/lines";
 import { celebrate } from "./Celebrate";
 
 /**
@@ -15,6 +15,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
   const [target, setTarget] = useState<string | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [won, setWon] = useState<string | null>(null);
+  const [again, setAgain] = useState(pickAgain);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,7 +50,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
                     setWon(null);
                   }}
                 >
-                  next move
+                  {again}
                 </button>
               ) : null}
               <button className="btn ghost" onClick={reset}>
@@ -71,6 +72,7 @@ export default function Shrinker({ onStarted }: { onStarted: (text: string) => v
                   celebrate(e.currentTarget);
                   onStarted(`${target} — ${step}`);
                   setWon(pickWin());
+                  setAgain(pickAgain());
                 }}
               >
                 i did it
