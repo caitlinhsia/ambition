@@ -33,7 +33,10 @@ export default function Walls({
     intro: string;
     steps: string[];
     note: string | null;
+    known: boolean;
   } | null>(null);
+  const [own, setOwn] = useState("");
+  const [mine, setMine] = useState<string[]>([]);
 
   const standing = walls.filter((w) => w.bricks.some((b) => b.state === "in"));
   const finished = walls.filter((w) => !w.bricks.some((b) => b.state === "in"));
@@ -47,15 +50,56 @@ export default function Walls({
         <h2 className="h">here&apos;s the wall</h2>
         <p className="sub">{preview.intro}</p>
         <ul className="previewbricks">
+          {mine.map((m, i) => (
+            <li key={`m${i}`} className="ownbrick">
+              {m}
+              <button
+                className="undo"
+                onClick={() => setMine(mine.filter((_, n) => n !== i))}
+                aria-label="remove"
+              >
+                remove
+              </button>
+            </li>
+          ))}
           {preview.steps.map((s, i) => (
             <li key={i}>{s}</li>
           ))}
         </ul>
+
+        {/* When budg3 doesn't recognise the thing, say so rather than
+            pretending the generic bricks were written for it. */}
+        <p className="note" style={{ margin: "14px 0 8px" }}>
+          {preview.known
+            ? "know it better than we do? add your own bricks too."
+            : "these are the general ones — budg3 doesn't know this thing specifically. your own will be better."}
+        </p>
+        <form
+          className="field"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const v = own.trim();
+            if (!v) return;
+            setMine([...mine, v]);
+            setOwn("");
+          }}
+        >
+          <input
+            type="text"
+            value={own}
+            onChange={(e) => setOwn(e.target.value)}
+            placeholder="a brick in your own words…"
+            aria-label="your own brick"
+          />
+          <button className="btn ghost" type="submit">
+            add brick
+          </button>
+        </form>
         <div className="row" style={{ marginTop: 18 }}>
           <button
             className="btn primary"
             onClick={() => {
-              onAdd(preview.name, preview.steps);
+              onAdd(preview.name, [...mine, ...preview.steps]);
               setPreview(null);
               setName("");
             }}
@@ -87,9 +131,10 @@ export default function Walls({
             e.preventDefault();
             const v = name.trim();
             if (!v) return;
-            const { intro, steps } = allSteps(v);
+            const { intro, steps, known } = allSteps(v);
             const shaped = shapeWall(steps, type);
-            setPreview({ name: v, intro, steps: shaped.steps, note: shaped.note });
+            setMine([]);
+            setPreview({ name: v, intro, steps: shaped.steps, note: shaped.note, known });
           }}
         >
           <input

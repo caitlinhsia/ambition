@@ -211,7 +211,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(book|appoint|doctor|dentist|gp|schedule|call.*(office|clinic)|renew|passport|licen[cs]e)\b/i,
+    match: /\b(book|appoint|doctor|dentist|gp|schedule|call.*(office|clinic)|renew|passport|licen[cs]e)/i,
     intro: "one phone call's worth. that's it.",
     steps: [
       "find the number or the booking page. don't call yet.",
@@ -221,7 +221,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(pack|move|move out|suitcase|trip|holiday|travel|flight)\b/i,
+    match: /\b(pack|move|move out|suitcase|trip|holiday|travel|flight)/i,
     intro: "packing is 50 small decisions. do one.",
     steps: [
       "get the bag out and open it.",
@@ -231,7 +231,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(revise|revision|flashcard|memoris|memoriz|notes|recap)\b/i,
+    match: /\b(revise|revision|flashcard|memoris|memoriz|notes|recap)/i,
     intro: "one topic. not the syllabus.",
     steps: [
       "open your notes at the topic you like least.",
@@ -241,7 +241,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(portfolio|website|cv|linkedin|profile|bio|about page)\b/i,
+    match: /\b(portfolio|website|cv|linkedin|profile|bio|about page)/i,
     intro: "nobody sees the first draft.",
     steps: [
       "open it and change one word.",
@@ -251,7 +251,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(guitar|piano|instrument|song|band|rehears|scales)\b/i,
+    match: /\b(guitar|piano|instrument|song|band|rehears|scales)/i,
     intro: "five minutes beats a perfect hour that never happens.",
     steps: [
       "get it out of the case.",
@@ -261,7 +261,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(garden|plant|water the|repot|weed)\b/i,
+    match: /\b(garden|plant|water the|repot|weed)/i,
     intro: "small and outdoors. good combination.",
     steps: [
       "go and look at them. that's the task.",
@@ -271,7 +271,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(budget|tax|invoice|bill|receipt|expense|refund|bank)\b/i,
+    match: /\b(budget|tax|invoice|bill|receipt|expense|refund|bank)/i,
     intro: "boring, quick, and off your mind after.",
     steps: [
       "open the app or the folder. don't add anything up yet.",
@@ -281,7 +281,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(quit|stop|cut down|habit|streak|vape|smok|drink)\b/i,
+    match: /\b(quit|stop|cut down|habit|streak|vape|smok|drink)/i,
     intro: "we're not doing forever. just the next hour.",
     steps: [
       "move the thing out of arm's reach.",
@@ -291,7 +291,7 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(read|book|chapter|article|paper|study.*read)\b/i,
+    match: /\b(read|book|chapter|article|paper|study.*read)/i,
     intro: "one page is a real amount of reading.",
     steps: [
       "open it to where you left off.",
@@ -301,13 +301,100 @@ const RULES: Rule[] = [
     ],
   },
   {
-    match: /\b(present|presentation|speech|pitch|slides|deck|talk)\b/i,
+    match: /\b(present|presentation|speech|pitch|slides|deck|talk)/i,
     intro: "slide one only.",
     steps: [
       "open the deck and title the first slide.",
       "write the one sentence you want people to remember.",
       "list your sections as bullets. no design yet.",
       "say the opening line out loud once.",
+    ],
+  },
+  {
+    match: /\b(fix|repair|broken|mend|bike|bicycle|car|laptop|phone screen|leak)/i,
+    intro: "fixing things is 90% finding out what's actually wrong.",
+    steps: [
+      "look at it properly for one minute. don't fix anything yet.",
+      "search the problem once. read one result.",
+      "find out whether you need a part, a tool, or a person.",
+      "get the tools together in one place.",
+      "do the bit you already know how to do.",
+    ],
+  },
+  {
+    match: /\b(learn|teach myself|language|spanish|french|german|guitar chords|course|tutorial|skill|chess)/i,
+    intro: "learning is reps, not readiness. start ugly.",
+    steps: [
+      "do five minutes of the actual thing, badly.",
+      "learn one word, one rule, or one move. one.",
+      "find where you'll practise it and open that.",
+      "do the beginner thing you feel too old for.",
+      "practise the bit you're worst at for two minutes.",
+    ],
+  },
+  {
+    match: /\b(parents|mum|mom|dad|family|sibling|brother|sister|argument|apolog|difficult conversation|confront|tell them)/i,
+    intro: "hard conversations shrink once you know your first sentence.",
+    steps: [
+      "write the first sentence you'd say. just that one.",
+      "write down what you actually want out of it.",
+      "pick when you'll do it, not whether.",
+      "say the easy 20% of it today.",
+      "send a message opening the door: 'can we talk later?'",
+    ],
+  },
+  {
+    match: /\b(photos|files|folders|downloads|inbox|desktop|storage|backup|digital)/i,
+    intro: "digital mess never gets tidier by itself, but it goes fast.",
+    steps: [
+      "delete ten things without thinking hard.",
+      "make one folder and name it properly.",
+      "sort just today's, then stop.",
+      "set a 2 minute timer and clear whatever you can.",
+      "back up the one thing you'd hate to lose.",
+    ],
+  },
+  {
+    match: /\b(therapist|counsell?or|doctor about|help for|support|helpline|talk to someone)/i,
+    intro: "asking for help is the hardest brick. it's still just one brick.",
+    steps: [
+      "look up one option. don't contact anyone yet.",
+      "write down what you'd want to say, in one line.",
+      "tell one person you're thinking about it.",
+      "send the first message or make the first call.",
+      "write down what's been going on, for yourself.",
+    ],
+  },
+  {
+    match: /\b(plan|organise|organize|birthday|party|event|trip|holiday plan|schedule a)/i,
+    intro: "planning is a stack of small decisions. make one.",
+    steps: [
+      "pick the date. everything else follows it.",
+      "write down the three things that have to happen.",
+      "message the one person you need an answer from.",
+      "decide the single biggest thing and leave the rest.",
+      "put it in your calendar now, half-planned.",
+    ],
+  },
+  {
+    match: /\b(cancel|unsubscribe|subscription|contract|switch|refund|return|complain)/i,
+    intro: "boring, slightly annoying, over in ten minutes.",
+    steps: [
+      "find the account or the email it came from.",
+      "look up how to cancel it. just look.",
+      "write the one line you'll send.",
+      "do it. if it's a phone call, put it in your calendar instead.",
+    ],
+  },
+  {
+    match: /\b(job|cv|interview|internship|work experience|apprentice|career)/i,
+    intro: "you're not doing the whole search. just one piece.",
+    steps: [
+      "open your cv and change one line.",
+      "look at one listing properly. don't apply yet.",
+      "write down one thing you're actually good at.",
+      "message one person who might know something.",
+      "apply to one. even a bad fit counts as reps.",
     ],
   },
 ];
@@ -320,7 +407,32 @@ const FALLBACK: string[] = [
   "get everything you need within arm's reach.",
 ];
 
-const FALLBACK_INTRO = "we're not doing the whole thing. just the opener.";
+const FALLBACK_INTRO = "no template for this one — so here's the general way in.";
+
+/**
+ * Moves that break down anything.
+ *
+ * The rules below only cover what someone thought to write down, so most real
+ * inputs land here. "open it. that's the first move." was useless for a thing
+ * you can't open — these are actual decomposition moves that hold for any
+ * task, which is the difference between a fallback and a shrug.
+ */
+const GENERIC: string[] = [
+  "get everything you need for it into one place. then stop.",
+  "two minutes on it. set a timer and stop when it goes.",
+  "write down what 'done' actually looks like. one line.",
+  "do the easiest piece you can see. order doesn't matter.",
+  "find the one thing you don't know yet, and look it up.",
+  "do the worst possible version of the first step.",
+  "put it somewhere you'll trip over it later today.",
+  "tell one person you're doing it. out loud counts.",
+  "split it in half and forget the second half exists.",
+  "do the part you already know how to do.",
+];
+
+function dedupe(list: string[]): string[] {
+  return Array.from(new Set(list));
+}
 
 /**
  * Returns the step at `cursor` (wrapping), plus how many distinct steps exist
@@ -340,13 +452,22 @@ export function shrink(
 }
 
 
-/** Every step for a thing, for building a wall out of it in one go. */
-export function allSteps(input: string): { intro: string; steps: string[] } {
+/**
+ * Every step for a thing.
+ *
+ * Matches ALL rules rather than the first, so "clean my room and write my
+ * essay" gets bricks from both. `known` reports whether budg3 actually
+ * recognised the thing, so the caller can be honest when it didn't.
+ */
+export function allSteps(input: string): { intro: string; steps: string[]; known: boolean } {
   const text = input.trim();
-  const rule =
-    STATE_RULES.find((r) => r.match.test(text)) ?? RULES.find((r) => r.match.test(text));
-  return {
-    intro: rule?.intro ?? FALLBACK_INTRO,
-    steps: rule ? [...rule.steps] : [...FALLBACK],
-  };
+  const matched = [...STATE_RULES, ...RULES].filter((r) => r.match.test(text));
+  if (matched.length > 0) {
+    return {
+      intro: matched[0].intro ?? FALLBACK_INTRO,
+      steps: dedupe(matched.flatMap((r) => r.steps)).slice(0, 12),
+      known: true,
+    };
+  }
+  return { intro: FALLBACK_INTRO, steps: [...GENERIC], known: false };
 }
