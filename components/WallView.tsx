@@ -39,6 +39,8 @@ export default function WallView({
   const [justWon, setJustWon] = useState<string | null>(null);
 
   const standing = wall.bricks.filter((b) => b.state === "in");
+  /** Still in the wall — aside bricks are moved over, not removed. */
+  const upright = wall.bricks.filter((b) => b.state !== "down");
   const aside = wall.bricks.filter((b) => b.state === "aside");
   const down = wall.bricks.filter((b) => b.state === "down");
   const isDown = standing.length === 0 && wall.bricks.length > 0;
@@ -90,15 +92,44 @@ export default function WallView({
         {/* The name sits in its own course rather than floating over the
             bricks, so it never covers what a brick says. */}
         <div className="wall" aria-label={`the ${wall.name} wall`}>
-          {renderCourse(wall.bricks.slice(0, Math.ceil(wall.bricks.length / 2)))}
+          {renderCourse(upright.slice(0, Math.ceil(upright.length / 2)))}
 
           <div className="plaque">
             <span className="plabel">{isDown ? "wall's down" : "the wall"}</span>
             <span className="pname">{wall.name}</span>
           </div>
 
-          {renderCourse(wall.bricks.slice(Math.ceil(wall.bricks.length / 2)))}
+          {renderCourse(upright.slice(Math.ceil(upright.length / 2)))}
+
+          {isDown ? <p className="wallgone">nothing left standing.</p> : null}
         </div>
+
+        {/* Knocked-out bricks leave the wall and land here, so you watch the
+            wall thin and the heap grow at the same time. */}
+        {down.length > 0 ? (
+          <div className="rubble">
+            <span className="rlabel">
+              {down.length} {down.length === 1 ? "brick" : "bricks"} out
+            </span>
+            <div className="heap">
+              {down.map((b, i) => (
+                <button
+                  key={b.id}
+                  className={"chip-brick" + (selected === b.id ? " sel" : "")}
+                  style={{ rotate: `${((i * 37) % 9) - 4}deg` }}
+                  onClick={() => {
+                    setSelected(selected === b.id ? null : b.id);
+                    setEditing(null);
+                    setJustWon(null);
+                  }}
+                  title={b.text}
+                >
+                  {b.text}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         {isDown ? (
           <div className="task" style={{ marginTop: 18 }}>

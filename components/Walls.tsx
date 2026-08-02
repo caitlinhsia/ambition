@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Wall } from "@/lib/store";
 import { allSteps } from "@/lib/shrinker";
+import { StartingType, shapeWall } from "@/lib/quiz";
 
 /** A miniature of the wall, so you can see its state without opening it. */
 function Mini({ wall }: { wall: Wall }) {
@@ -17,17 +18,22 @@ function Mini({ wall }: { wall: Wall }) {
 
 export default function Walls({
   walls,
+  type,
   onOpen,
   onAdd,
 }: {
   walls: Wall[];
+  type?: StartingType | null;
   onOpen: (id: string) => void;
   onAdd: (name: string, steps: string[]) => void;
 }) {
   const [name, setName] = useState("");
-  const [preview, setPreview] = useState<{ name: string; intro: string; steps: string[] } | null>(
-    null
-  );
+  const [preview, setPreview] = useState<{
+    name: string;
+    intro: string;
+    steps: string[];
+    note: string | null;
+  } | null>(null);
 
   const standing = walls.filter((w) => w.bricks.some((b) => b.state === "in"));
   const finished = walls.filter((w) => !w.bricks.some((b) => b.state === "in"));
@@ -60,6 +66,7 @@ export default function Walls({
             back
           </button>
         </div>
+        {preview.note ? <p className="typecue">{preview.note}</p> : null}
         <p className="note" style={{ margin: "14px 0 0" }}>
           you can change, add or bin any of these once it&apos;s up.
         </p>
@@ -81,7 +88,8 @@ export default function Walls({
             const v = name.trim();
             if (!v) return;
             const { intro, steps } = allSteps(v);
-            setPreview({ name: v, intro, steps });
+            const shaped = shapeWall(steps, type);
+            setPreview({ name: v, intro, steps: shaped.steps, note: shaped.note });
           }}
         >
           <input

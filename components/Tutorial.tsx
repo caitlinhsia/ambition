@@ -6,29 +6,29 @@ type Step = { title: string; body: string; hint?: string };
 
 const STEPS: Step[] = [
   {
-    title: "don't run at the wall",
-    body: "the thing you're avoiding is a wall, and throwing yourself at it doesn't work. budg3 never hands you the wall — it hands you one brick, small enough to actually pull out. then the next one.",
-    hint: "if a brick won't budge, swap it. that costs you nothing.",
+    title: "name what's in your way",
+    body: "an essay, the gym, a message you owe, or a way you want to feel. type it in and budg3 turns it into a wall — the whole thing broken into bricks small enough to actually lift.",
+    hint: "you see the bricks before the wall goes up. nothing is decided for you.",
   },
   {
-    title: "four ways at the wall",
-    body: "no idea where to start? hit the big button and it picks a brick. know exactly which wall it is? name it and budg3 breaks a piece off. you can also pick an area of your life, or go at it alongside someone.",
-    hint: "they all live under the start tab.",
+    title: "take one brick out",
+    body: "tap any brick in the wall and you can knock it out, reword it so it sounds like you, or move it out of the way for now. moving one aside isn't failing — it's still there when you want it.",
+    hint: "knocked-out bricks drop to a pile under the wall. the pile only grows.",
+  },
+  {
+    title: "when naming it is too much",
+    body: "some days you can't even pick. hit \"one brick\" and budg3 just hands you something small — a countdown, a feeling to pick from, or two minutes side by side.",
+    hint: "no wall required.",
   },
   {
     title: "build things that stick",
-    body: "habits you choose, and numbers you want to watch. a missed day pauses a run — it never resets it to zero, and nothing here ever turns red.",
+    body: "habits you choose and numbers you want to watch. a missed day pauses a run — it never resets it to zero, and nothing here ever turns red.",
     hint: "under build.",
   },
   {
-    title: "every brick gets counted",
-    body: "nothing you pull out disappears. you'll see today's pile building as you go, your week on the home screen, and the whole record whenever you want it.",
-    hint: "tapped something by accident? undo is right there.",
-  },
-  {
-    title: "that's it",
-    body: "no streaks to lose, no notifications nagging you, nothing shared anywhere. it's yours, and you can export or erase all of it any time.",
-    hint: "you can replay this from the ? in the corner.",
+    title: "nothing you do disappears",
+    body: "every brick is counted. you'll see today's building as you go, your week and your whole record under \"you\", and no streak you can lose.",
+    hint: "tapped something by accident? undo is right there. replay this from the ? any time.",
   },
 ];
 

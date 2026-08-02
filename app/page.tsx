@@ -271,6 +271,7 @@ export default function Home() {
               />
               <Walls
                 walls={s.state.walls}
+                type={type}
                 onOpen={(id) => setOpenWall(id)}
                 onAdd={(n, steps) => s.addWall(n, steps)}
               />

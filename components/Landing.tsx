@@ -1,6 +1,7 @@
 "use client";
 
 import { AREAS } from "@/lib/areas";
+import DemoWall from "./DemoWall";
 
 /**
  * The landing page. Someone arriving cold needs to know what this is before
@@ -39,6 +40,10 @@ export default function Landing({
         <button className="link" onClick={onSignIn}>
           already have an account? sign in →
         </button>
+      </section>
+
+      <section className="block">
+        <DemoWall onSignUp={onSignUp} />
       </section>
 
       <section className="strip">
@@ -96,12 +101,12 @@ export default function Landing({
         <h2 className="bh">what&apos;s inside</h2>
         <div className="feats">
           <div className="feat">
-            <b>the ten second start</b>
-            <span>one button, one brick, a countdown. for when picking is the hard part.</span>
+            <b>walls</b>
+            <span>name the thing and see it as bricks. knock them out one at a time.</span>
           </div>
           <div className="feat">
-            <b>the shrinker</b>
-            <span>name the wall and it knocks a single brick loose for you.</span>
+            <b>one brick</b>
+            <span>can&apos;t even pick? a button, a countdown, and something small to do.</span>
           </div>
           <div className="feat">
             <b>start with me</b>

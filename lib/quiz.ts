@@ -70,6 +70,15 @@ export type StartingType = {
   favours: Pool[];
   /** A line on the home screen written for this type. */
   cue: string;
+  /** How this person's walls get built. */
+  wall: {
+    /** Cap on bricks. Some people quit at brick nine. */
+    max: number;
+    /** Put the shortest bricks first, for when the issue is starting at all. */
+    easiestFirst: boolean;
+    /** Said out loud when a wall is built, so the tailoring isn't invisible. */
+    note: string;
+  };
 };
 
 export const TYPES: Record<string, StartingType> = {
@@ -81,6 +90,11 @@ export const TYPES: Record<string, StartingType> = {
     door: "shrink",
     favours: ["steady", "bored"],
     cue: "you see the whole thing. we only need the first move.",
+    wall: {
+      max: 12,
+      easiestFirst: true,
+      note: "built small and plentiful — you freeze at scale, so none of these are big.",
+    },
   },
   novelty: {
     key: "novelty",
@@ -90,6 +104,11 @@ export const TYPES: Record<string, StartingType> = {
     door: "start",
     favours: ["move", "bored"],
     cue: "short and interesting beats long and sensible. go.",
+    wall: {
+      max: 4,
+      easiestFirst: false,
+      note: "kept short on purpose — you'd lose interest by brick nine.",
+    },
   },
   night: {
     key: "night",
@@ -99,6 +118,11 @@ export const TYPES: Record<string, StartingType> = {
     door: "areas",
     favours: ["ground", "rest"],
     cue: "use the energy while it's here, then wind it down.",
+    wall: {
+      max: 6,
+      easiestFirst: false,
+      note: "a normal wall. it gets quieter here after 11.",
+    },
   },
   push: {
     key: "push",
@@ -108,6 +132,11 @@ export const TYPES: Record<string, StartingType> = {
     door: "start",
     favours: ["gentle", "rest"],
     cue: "small and steady. that's how you get furthest.",
+    wall: {
+      max: 6,
+      easiestFirst: true,
+      note: "easiest bricks first — no point starting with the heavy one.",
+    },
   },
 };
 
@@ -119,4 +148,20 @@ export function scoreQuiz(answers: { axis: Axis; value: number }[]): StartingTyp
     if (totals[k] > totals[best]) best = k;
   }
   return TYPES[best];
+}
+
+
+/**
+ * Shapes a wall to the person building it. Same thing you're facing, different
+ * wall — which is the point of the quiz actually meaning something.
+ */
+export function shapeWall(
+  steps: string[],
+  type?: StartingType | null
+): { steps: string[]; note: string | null } {
+  if (!type) return { steps, note: null };
+  const ordered = type.wall.easiestFirst
+    ? [...steps].sort((a, b) => a.length - b.length)
+    : [...steps];
+  return { steps: ordered.slice(0, type.wall.max), note: type.wall.note };
 }
