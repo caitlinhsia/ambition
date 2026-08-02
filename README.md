@@ -88,6 +88,25 @@ npm run dev
 On Vercel: **Settings → Environment Variables → GROQ_API_KEY**, then redeploy.
 Get a key at [console.groq.com/keys](https://console.groq.com/keys).
 
+### Checking it actually works
+
+Because every failure falls back to the rules, a broken key looks exactly like
+a working one from the outside. So the route reports on itself — open
+`/api/bricks` in a browser:
+
+```json
+{ "ready": true, "model": "llama-3.3-70b-versatile", "detail": "ready. walls are broken down by the model." }
+```
+
+`ready: false` comes with a `detail` saying which of the three things went
+wrong — no key set, key rejected, or the model retired. In that last case the
+response lists every model the account can use; pick one and set `GROQ_MODEL`.
+The key itself is never returned, in whole or in part.
+
+You can also tell from the app: build a wall for something obscure (say
+*get into beekeeping*). The model path says **"written for this one
+specifically"** above the bricks; the rules path doesn't.
+
 **What this changes about privacy.** The key lives only on the server — it is
 never `NEXT_PUBLIC_`, so it never reaches the browser. But with it enabled,
 **the name of a wall is sent to Groq**. Nothing else ever is: habits, trackers,

@@ -31,6 +31,68 @@ Rules:
 
 Return ONLY a JSON array of strings.`;
 
+/**
+ * Says whether this deployment can actually reach a model.
+ *
+ * Visit /api/bricks in a browser to check. It never returns the key or any
+ * part of it — only whether one is set, whether Groq accepts it, and whether
+ * the configured model still exists on that account. Those are the three ways
+ * this can be silently misconfigured while the app looks fine, because every
+ * one of them just falls back to the rules.
+ */
+export async function GET() {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) {
+    return NextResponse.json({
+      ready: false,
+      model: MODEL,
+      detail:
+        "no GROQ_API_KEY on this deployment. walls are built from the rules. add the key in Settings → Environment Variables, then redeploy.",
+    });
+  }
+
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/models", {
+      headers: { Authorization: `Bearer ${key}` },
+      signal: AbortSignal.timeout(8000),
+    });
+
+    if (!res.ok) {
+      return NextResponse.json({
+        ready: false,
+        model: MODEL,
+        status: res.status,
+        detail:
+          res.status === 401
+            ? "groq rejected the key. it's wrong, revoked, or has a stray space or quote around it."
+            : `groq returned ${res.status}.`,
+      });
+    }
+
+    const data = await res.json();
+    const ids: string[] = (data?.data ?? [])
+      .map((m: { id?: string }) => String(m?.id ?? ""))
+      .filter(Boolean)
+      .sort();
+    const available = ids.includes(MODEL);
+
+    return NextResponse.json({
+      ready: available,
+      model: MODEL,
+      detail: available
+        ? "ready. walls are broken down by the model."
+        : `${MODEL} isn't available on this account — it was probably retired. set GROQ_MODEL to one of the models below and redeploy.`,
+      models: ids,
+    });
+  } catch {
+    return NextResponse.json({
+      ready: false,
+      model: MODEL,
+      detail: "couldn't reach groq from the server (timeout or network).",
+    });
+  }
+}
+
 export async function POST(req: Request) {
   let thing = "";
   try {
