@@ -21,7 +21,14 @@ export type Tracker = {
   unit: string;
   /** date -> count */
   counts: Record<string, number>;
+  /** What you decided a full bar means. Unset means budg3 picks one for you —
+   *  see targetFor() in lib/daily.ts. Never a line you can fall below. */
+  goal?: number;
 };
+
+/** The two-tap version of a journal entry. Both fields are optional; a day
+ *  with only weather in it is still a day you showed up for. */
+export type DayLog = { weather?: string; mood?: string };
 
 /** One small task. "in" = still in the wall, "down" = knocked out,
  *  "aside" = moved out of the way for now, not a failure. */
@@ -59,6 +66,8 @@ export type State = {
   plans: Plan[];
   journal: JournalEntry[];
   walls: Wall[];
+  /** date -> how that day went */
+  dayLogs: Record<string, DayLog>;
 };
 
 const EMPTY: State = {
@@ -70,6 +79,7 @@ const EMPTY: State = {
   plans: [],
   journal: [],
   walls: [],
+  dayLogs: {},
 };
 
 function read(key: string): State {
@@ -413,8 +423,50 @@ export function useStore() {
     [update]
   );
 
+  /** Set today's count outright, for when tapping + eleven times is absurd. */
+  const setTrackerToday = useCallback(
+    (id: string, n: number) =>
+      update((s) => ({
+        ...s,
+        trackers: s.trackers.map((t) =>
+          t.id === id ? { ...t, counts: { ...t.counts, [today()]: Math.max(0, Math.round(n)) } } : t
+        ),
+      })),
+    [update]
+  );
+
+  /** Claim the target as yours, or hand it back to budg3 by passing null. */
+  const setTrackerGoal = useCallback(
+    (id: string, goal: number | null) =>
+      update((s) => ({
+        ...s,
+        trackers: s.trackers.map((t) => {
+          if (t.id !== id) return t;
+          if (goal === null || !(goal > 0)) {
+            const { goal: _dropped, ...rest } = t;
+            return rest;
+          }
+          return { ...t, goal: Math.round(goal) };
+        }),
+      })),
+    [update]
+  );
+
   const removeTracker = useCallback(
     (id: string) => update((s) => ({ ...s, trackers: s.trackers.filter((t) => t.id !== id) })),
+    [update]
+  );
+
+  /** Tapping the chip you already picked clears it — nothing here is a
+   *  question you're forced to answer. */
+  const setDayLog = useCallback(
+    (field: keyof DayLog, value: string | null) =>
+      update((s) => {
+        const d = today();
+        const prev = s.dayLogs[d] ?? {};
+        const next = { ...prev, [field]: value ?? undefined };
+        return { ...s, dayLogs: { ...s.dayLogs, [d]: next } };
+      }),
     [update]
   );
 
@@ -464,7 +516,10 @@ export function useStore() {
     removeHabit,
     addTracker,
     bumpTracker,
+    setTrackerToday,
+    setTrackerGoal,
     removeTracker,
+    setDayLog,
     exportAll,
     wipe,
   };

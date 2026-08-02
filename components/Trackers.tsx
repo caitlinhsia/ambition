@@ -5,6 +5,7 @@ import { Tracker, today } from "@/lib/store";
 import { celebrate } from "./Celebrate";
 import Sparkline from "./Sparkline";
 import { trackerSeries } from "@/lib/history";
+import { targetFor } from "@/lib/daily";
 
 const SUGGESTIONS: { name: string; unit: string }[] = [
   { name: "water", unit: "cups" },
@@ -22,9 +23,13 @@ const SUGGESTIONS: { name: string; unit: string }[] = [
 ];
 
 /**
- * Count whatever you decide matters. No targets and no goals on purpose —
- * a target you miss is just another way to fail, and nothing here should be
- * failable.
+ * Count whatever you decide matters.
+ *
+ * These are the same counts the bars in the journal fill in — this view is
+ * the history, that one is the day. Targets live here too, but only ever as
+ * the length of a bar: nothing goes red, nothing is overdue, and a day under
+ * the target is drawn exactly like a day over it. A target you can miss is
+ * just another way to fail, and nothing here should be failable.
  */
 export default function Trackers({
   trackers,
@@ -86,12 +91,13 @@ export default function Trackers({
           <ul className="list">
             {trackers.map((tr) => {
               const n = tr.counts[t] ?? 0;
+              const { target } = targetFor(tr);
               return (
                 <li key={tr.id} className="stacked">
                   <span className="grow">
                     <span className="what">{tr.name}</span>
                     <span className="when">
-                      today: {n} {tr.unit}
+                      today: {n} of {target} {tr.unit}
                     </span>
                   </span>
                   <button className="iconbtn" onClick={() => onBump(tr.id, -1)} aria-label={`less ${tr.name}`}>

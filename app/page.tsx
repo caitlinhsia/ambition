@@ -351,7 +351,19 @@ export default function Home() {
             <Record state={s.state} onExport={s.exportAll} onWipe={s.wipe} />
           )}
           {youMode === "journal" && (
-            <Journal entries={s.state.journal} onAdd={s.addJournal} onRemove={s.removeJournal} />
+            <Journal
+              entries={s.state.journal}
+              dayLogs={s.state.dayLogs}
+              trackers={s.state.trackers}
+              onAdd={s.addJournal}
+              onRemove={s.removeJournal}
+              onDayLog={s.setDayLog}
+              onAddTracker={s.addTracker}
+              onBump={s.bumpTracker}
+              onSetCount={s.setTrackerToday}
+              onSetGoal={s.setTrackerGoal}
+              onRemoveTracker={s.removeTracker}
+            />
           )}
         </>
       )}

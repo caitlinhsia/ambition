@@ -1538,3 +1538,179 @@ footer.foot {
   align-items: baseline;
   justify-content: space-between;
 }
+
+/* ---- the day: weather, mood, and bars you fill in ---- */
+.dblabel {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 18px 0 9px;
+}
+.dblabel:first-of-type {
+  margin-top: 4px;
+}
+.chip .mark {
+  font-size: 12px;
+  opacity: 0.75;
+}
+.chip.sel .mark {
+  opacity: 1;
+}
+.when .past {
+  color: var(--ink-faint);
+}
+
+.daybars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.daybar {
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+}
+.daybar:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+.dbhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.dbname {
+  font-size: 15px;
+  color: var(--ink);
+}
+.dbcount {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+/* Past the target is an achievement, not an error — same colour as a win. */
+.dbover {
+  color: var(--accent-ink);
+  font-weight: 400;
+}
+
+/* Segmented: one tappable block per unit, so filling it is a physical act. */
+.dbsegs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.dbseg {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 17px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  background: var(--paper);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.dbseg:hover {
+  border-color: var(--accent);
+}
+.dbseg.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.dbextra {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent-ink);
+  padding-left: 5px;
+  white-space: nowrap;
+}
+
+/* Continuous, for targets too big to tap one at a time. */
+.dbtrack {
+  height: 17px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  background: var(--paper);
+  overflow: hidden;
+}
+.dbfill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.18s ease-out;
+}
+
+.dbrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
+}
+/* Beats the width:100% on input[type=number], which outranks a bare class. */
+input.dbnum {
+  flex: 0 0 54px;
+  width: 54px;
+  font-size: 13px;
+  padding: 5px 6px;
+  text-align: center;
+}
+input.dbnum:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.dbnote {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted var(--line-2);
+  padding: 4px 0;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dbnote:hover {
+  color: var(--accent-ink);
+  border-bottom-color: var(--accent);
+}
+.dbgoal {
+  margin-top: 10px;
+}
+.dbrow .iconbtn {
+  flex: 0 0 auto;
+}
+
+.dbconfirm {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--flag);
+  background: transparent;
+  border: 1px solid var(--flag);
+  border-radius: var(--r);
+  padding: 5px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Narrow screens: the note drops to its own line rather than truncating to
+   "a common starting …", which tells you nothing. */
+@media (max-width: 560px) {
+  .dbrow {
+    flex-wrap: wrap;
+  }
+  .dbnote {
+    flex: 1 1 100%;
+    order: 3;
+    white-space: normal;
+  }
+}
