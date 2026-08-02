@@ -42,6 +42,8 @@ function Bar({
   // Removing a bar takes its whole history with it, and × sits two taps from
   // the + you press every day. Asking once costs nothing; a mis-tap costs weeks.
   const [confirming, setConfirming] = useState(false);
+  /** Non-null only while the number field has focus. */
+  const [typing, setTyping] = useState<string | null>(null);
   const n = tracker.counts[today()] ?? 0;
   const { target, source, note } = targetFor(tracker);
   const pct = Math.min(100, (n / target) * 100);
@@ -76,7 +78,7 @@ function Bar({
                   if (next > n) celebrate(e.currentTarget);
                   onSet(tracker.id, next);
                 }}
-                aria-label={`${i + 1} ${tracker.unit}`}
+                aria-label={`set to ${i + 1} ${tracker.unit}`}
               />
             );
           })}
@@ -102,13 +104,21 @@ function Bar({
         >
           +
         </button>
+        {/* While you're typing, the field holds your text; the rest of the
+            time it follows the count. Without that, clearing it to retype
+            writes a 0 over the day before you've typed the new number. */}
         <input
           className="dbnum"
           type="number"
           min={0}
           inputMode="numeric"
-          value={n}
-          onChange={(e) => onSet(tracker.id, Number(e.target.value) || 0)}
+          value={typing ?? String(n)}
+          onChange={(e) => {
+            const v = e.target.value;
+            setTyping(v);
+            if (v !== "" && Number.isFinite(Number(v))) onSet(tracker.id, Number(v));
+          }}
+          onBlur={() => setTyping(null)}
           aria-label={`exact ${tracker.name} today`}
         />
         <button
@@ -149,11 +159,15 @@ function Bar({
             setEditing(false);
           }}
         >
+          {/* min={0}, not 1: the handler below reads 0 as "no goal, you
+              pick", and min={1} had the browser block that submit outright —
+              so typing 0 did nothing at all while clearing the field worked. */}
           <input
             type="number"
-            min={1}
+            min={0}
             inputMode="numeric"
             value={draft}
+            placeholder="0 to let budg3 pick"
             onChange={(e) => setDraft(e.target.value)}
             aria-label={`goal for ${tracker.name}`}
           />

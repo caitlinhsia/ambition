@@ -14,6 +14,38 @@ import { NextResponse } from "next/server";
 
 const MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
 
+/**
+ * A light cap on how often one address can spend tokens.
+ *
+ * This route is public and every POST costs money on someone's Groq account,
+ * so without a cap the URL is a free model proxy for anyone who finds it.
+ * The map lives in one serverless instance, so this is a speed bump rather
+ * than a guarantee — traffic spread across instances gets proportionally more
+ * through. It's enough to stop a script, and the app degrades to its own
+ * rules when it trips, so a real person hitting the limit still gets a wall.
+ * Put a proper limiter in front if this ever gets real traffic.
+ */
+const WINDOW_MS = 60_000;
+const MAX_PER_WINDOW = 12;
+const hits = new Map<string, number[]>();
+
+function overLimit(req: Request): boolean {
+  const who =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown";
+  const now = Date.now();
+  const recent = (hits.get(who) ?? []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(who, recent);
+
+  // Don't let the map grow without bound on a long-lived instance.
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) if (v.every((t) => now - t >= WINDOW_MS)) hits.delete(k);
+  }
+  return recent.length > MAX_PER_WINDOW;
+}
+
 /** Things that need a person, not a task list. */
 const CRISIS =
   /\b(kill myself|killing myself|end my life|suicid|self.?harm|cut myself|cutting myself|want to die|better off dead|overdose)\b/i;
@@ -31,6 +63,9 @@ Rules:
 
 Return ONLY a JSON array of strings.`;
 
+let cachedCheck: { at: number; body: unknown } | null = null;
+const CHECK_TTL_MS = 60_000;
+
 /**
  * Says whether this deployment can actually reach a model.
  *
@@ -41,9 +76,19 @@ Return ONLY a JSON array of strings.`;
  * one of them just falls back to the rules.
  */
 export async function GET() {
+  // This is a diagnostic anyone can load, and it calls Groq. Cache it so
+  // refreshing the page can't eat the account's rate limit.
+  if (cachedCheck && Date.now() - cachedCheck.at < CHECK_TTL_MS) {
+    return NextResponse.json(cachedCheck.body);
+  }
+  const reply = (body: unknown) => {
+    cachedCheck = { at: Date.now(), body };
+    return NextResponse.json(body);
+  };
+
   const key = process.env.GROQ_API_KEY;
   if (!key) {
-    return NextResponse.json({
+    return reply({
       ready: false,
       model: MODEL,
       detail:
@@ -58,7 +103,7 @@ export async function GET() {
     });
 
     if (!res.ok) {
-      return NextResponse.json({
+      return reply({
         ready: false,
         model: MODEL,
         status: res.status,
@@ -76,7 +121,7 @@ export async function GET() {
       .sort();
     const available = ids.includes(MODEL);
 
-    return NextResponse.json({
+    return reply({
       ready: available,
       model: MODEL,
       detail: available
@@ -85,7 +130,7 @@ export async function GET() {
       models: ids,
     });
   } catch {
-    return NextResponse.json({
+    return reply({
       ready: false,
       model: MODEL,
       detail: "couldn't reach groq from the server (timeout or network).",
@@ -112,6 +157,12 @@ export async function POST(req: Request) {
   const key = process.env.GROQ_API_KEY;
   if (!key) {
     return NextResponse.json({ ok: false, reason: "no-key" }, { status: 200 });
+  }
+
+  // Checked after the key so a deployment without one never looks rate-limited,
+  // and returned as 200 so the client takes its normal fallback path.
+  if (overLimit(req)) {
+    return NextResponse.json({ ok: false, reason: "busy" }, { status: 200 });
   }
 
   try {
