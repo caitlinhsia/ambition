@@ -71,6 +71,36 @@ These aren't style preferences — they're the product:
    never a red one. Trackers have no target lines. Milestones mark totals, so
    they can only be reached, never broken.
 
+## Optional: better bricks with Groq
+
+Out of the box, walls are built from the rules in `lib/shrinker.ts`. Those
+cover a lot, but there's always a long tail where you get the generic steps.
+
+Set a `GROQ_API_KEY` and walls get broken down by a model instead, falling
+back to the rules on any failure — no key, timeout, bad response, offline.
+The rules stay the floor, so the app never needs the network to work.
+
+```bash
+cp .env.example .env.local     # then paste your key in
+npm run dev
+```
+
+On Vercel: **Settings → Environment Variables → GROQ_API_KEY**, then redeploy.
+Get a key at [console.groq.com/keys](https://console.groq.com/keys).
+
+**What this changes about privacy.** The key lives only on the server — it is
+never `NEXT_PUBLIC_`, so it never reaches the browser. But with it enabled,
+**the name of a wall is sent to Groq**. Nothing else ever is: habits, trackers,
+journal entries and history stay on the device. With no key set, nothing leaves
+the device at all.
+
+Two guards worth knowing about:
+- Input matching crisis language is refused before any model call, whether or
+  not a key is configured, and the app points to real support instead. A task
+  list is the wrong answer to that.
+- Model output must parse to at least three usable steps or it's discarded and
+  the rules are used.
+
 ## Accounts, and what "signed in" means today
 
 Sign-up is real — an email creates an account and all data (habits, streaks,

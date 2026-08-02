@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Wall } from "@/lib/store";
-import { allSteps } from "@/lib/shrinker";
+import { BrickSource, buildBricks } from "@/lib/bricks";
 import { StartingType, shapeWall } from "@/lib/quiz";
 
 /** A miniature of the wall, so you can see its state without opening it. */
@@ -33,8 +33,10 @@ export default function Walls({
     intro: string;
     steps: string[];
     note: string | null;
-    known: boolean;
+    source: BrickSource;
+    needsAPerson?: boolean;
   } | null>(null);
+  const [thinking, setThinking] = useState(false);
   const [own, setOwn] = useState("");
   const [mine, setMine] = useState<string[]>([]);
 
@@ -69,8 +71,17 @@ export default function Walls({
 
         {/* When budg3 doesn't recognise the thing, say so rather than
             pretending the generic bricks were written for it. */}
+        {preview.needsAPerson ? (
+          <p className="note" style={{ color: "var(--flag)", margin: "14px 0 8px" }}>
+            some things aren&apos;t a task list. if you&apos;re having a rough time, there are people
+            who will talk to you — the link&apos;s at the bottom of every page.
+          </p>
+        ) : null}
+
         <p className="note" style={{ margin: "14px 0 8px" }}>
-          {preview.known
+          {preview.source === "ai"
+            ? "written for this one specifically. change anything that doesn't fit."
+            : preview.source === "rules"
             ? "know it better than we do? add your own bricks too."
             : "these are the general ones — budg3 doesn't know this thing specifically. your own will be better."}
         </p>
@@ -127,14 +138,23 @@ export default function Walls({
         </p>
         <form
           className="field"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const v = name.trim();
-            if (!v) return;
-            const { intro, steps, known } = allSteps(v);
-            const shaped = shapeWall(steps, type);
+            if (!v || thinking) return;
+            setThinking(true);
+            const built = await buildBricks(v);
+            const shaped = shapeWall(built.steps, type);
             setMine([]);
-            setPreview({ name: v, intro, steps: shaped.steps, note: shaped.note, known });
+            setPreview({
+              name: v,
+              intro: built.intro,
+              steps: shaped.steps,
+              note: shaped.note,
+              source: built.source,
+              needsAPerson: built.needsAPerson,
+            });
+            setThinking(false);
           }}
         >
           <input
@@ -144,8 +164,8 @@ export default function Walls({
             placeholder="history essay, feeling happier, my room…"
             aria-label="name your wall"
           />
-          <button className="btn primary" type="submit">
-            build the wall
+          <button className="btn primary" type="submit" disabled={thinking}>
+            {thinking ? "breaking it down…" : "build the wall"}
           </button>
         </form>
       </div>
