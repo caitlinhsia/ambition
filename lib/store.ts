@@ -105,6 +105,20 @@ export function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+/** Nothing done yet. Onboarding answers alone don't count as work. */
+function isBlank(s: State): boolean {
+  return (
+    s.started === 0 &&
+    s.receipts.length === 0 &&
+    s.habits.length === 0 &&
+    s.trackers.length === 0 &&
+    s.plans.length === 0 &&
+    s.journal.length === 0 &&
+    s.walls.length === 0 &&
+    Object.keys(s.dayLogs).length === 0
+  );
+}
+
 /**
  * Streaks pause, they never punish. A missed day stops the run — it does not
  * reset it to zero, and nothing ever turns red. We report the current run and
@@ -149,10 +163,32 @@ export function useStore() {
     [account]
   );
 
-  /** Switch to an account and load its data. */
-  const useAccount = useCallback((acct: Account | null) => {
+  /**
+   * Switch to an account and load its data.
+   *
+   * `claimGuest` carries anything done before signing up across to the new
+   * account. The link that gets you here says "save my stuff", so losing it
+   * at that exact moment would be the worst possible time — and rule one is
+   * that there's nothing here you can lose. Only ever on sign-up, only into
+   * an account with nothing in it yet, and the guest slot is cleared after so
+   * a second new account can't adopt the same work.
+   */
+  const useAccount = useCallback((acct: Account | null, opts?: { claimGuest?: boolean }) => {
+    let next = read(dataKeyFor(acct));
+    if (opts?.claimGuest && acct) {
+      const guest = read(dataKeyFor(null));
+      if (!isBlank(guest) && isBlank(next)) {
+        next = guest;
+        write(dataKeyFor(acct), next);
+        try {
+          window.localStorage.removeItem(dataKeyFor(null));
+        } catch {
+          // storage blocked — the copy above is what matters
+        }
+      }
+    }
     setAccount(acct);
-    setState(read(dataKeyFor(acct)));
+    setState(next);
   }, []);
 
   const signOut = useCallback(() => {

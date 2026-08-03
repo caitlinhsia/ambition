@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Account, signIn, signUp } from "@/lib/account";
+import { Account, normalizeEmail, signIn, signUp } from "@/lib/account";
 
 /**
  * Sign up / sign in. Kept to a single field on purpose — every extra box is
@@ -14,22 +14,30 @@ export default function Auth({
   onSkip,
 }: {
   initialMode?: "up" | "in";
-  onIn: (a: Account) => void;
+  onIn: (a: Account, mode: "up" | "in") => void;
   onSkip: () => void;
 }) {
   const [mode, setMode] = useState<"up" | "in">(initialMode);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  /** The mode that would have worked, when the one you used didn't. */
+  const [fix, setFix] = useState<"up" | "in" | null>(null);
+
+  function attempt(as: "up" | "in") {
+    const res = as === "up" ? signUp(email) : signIn(email);
+    if (res.ok) {
+      setError("");
+      setFix(null);
+      onIn(res.account, as);
+    } else {
+      setError(res.error);
+      setFix(res.then ?? null);
+    }
+  }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    const res = mode === "up" ? signUp(email) : signIn(email);
-    if (res.ok) {
-      setError("");
-      onIn(res.account);
-    } else {
-      setError(res.error);
-    }
+    attempt(mode);
   }
 
   return (
@@ -63,6 +71,21 @@ export default function Auth({
         </p>
       ) : null}
 
+      {/* Being told the other button was the right one, with no way to press
+          it from here, is the annoying half of this. So offer it. */}
+      {fix ? (
+        <button
+          className="btn ghost"
+          style={{ marginTop: 12 }}
+          onClick={() => {
+            setMode(fix);
+            attempt(fix);
+          }}
+        >
+          {fix === "in" ? `sign in as ${normalizeEmail(email)} →` : `create it with ${normalizeEmail(email)} →`}
+        </button>
+      ) : null}
+
       <div className="row" style={{ marginTop: 16 }}>
         <button
           className="link"
@@ -70,6 +93,7 @@ export default function Auth({
           onClick={() => {
             setMode(mode === "up" ? "in" : "up");
             setError("");
+            setFix(null);
           }}
         >
           {mode === "up" ? "already have one? sign in →" : "new here? sign up →"}

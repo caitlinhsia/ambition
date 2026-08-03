@@ -130,9 +130,12 @@ Two guards worth knowing about:
 
 Sign-up is real — an email creates an account and all data (habits, streaks,
 trackers, receipts) is stored under it, so two accounts on the same browser
-never see each other's stuff. **But right now that storage is `localStorage`,
-so an account is device-local**: signing in on a phone won't show what you did
-on a laptop.
+never see each other's stuff. Anything done before signing up comes with you:
+signing up carries the guest slot's work into the new account, since the link
+that offers it says "save my stuff". **But right now that storage is
+`localStorage`, so an account is device-local**: signing in on a phone won't
+show what you did on a laptop, and signing in with an email that only exists
+on another device reports no account rather than finding it.
 
 That's deliberate — it keeps the app deployable with zero configuration and
 keeps personal data off a server until there's a considered place to put it.

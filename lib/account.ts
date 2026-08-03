@@ -51,11 +51,19 @@ export function currentAccount(): Account | null {
   return readAccounts()[email] ?? null;
 }
 
-export function signUp(emailRaw: string): { ok: true; account: Account } | { ok: false; error: string } {
+/** `then` names the mode that would have worked, so the interface can offer
+ *  it as one tap instead of leaving you to spot the link yourself. */
+export type AuthResult =
+  | { ok: true; account: Account }
+  | { ok: false; error: string; then?: "up" | "in" };
+
+export function signUp(emailRaw: string): AuthResult {
   const email = normalizeEmail(emailRaw);
   if (!isEmail(email)) return { ok: false, error: "that email looks off. mind checking it?" };
   const accounts = readAccounts();
-  if (accounts[email]) return { ok: false, error: "you already have an account with that email — sign in instead." };
+  if (accounts[email]) {
+    return { ok: false, error: "you've already got an account with that email.", then: "in" };
+  }
   const account: Account = { email, createdAt: Date.now() };
   accounts[email] = account;
   writeAccounts(accounts);
@@ -63,12 +71,14 @@ export function signUp(emailRaw: string): { ok: true; account: Account } | { ok:
   return { ok: true, account };
 }
 
-export function signIn(emailRaw: string): { ok: true; account: Account } | { ok: false; error: string } {
+export function signIn(emailRaw: string): AuthResult {
   const email = normalizeEmail(emailRaw);
   if (!isEmail(email)) return { ok: false, error: "that email looks off. mind checking it?" };
   const accounts = readAccounts();
   const account = accounts[email];
-  if (!account) return { ok: false, error: "no account here with that email yet. want to sign up?" };
+  if (!account) {
+    return { ok: false, error: "no account on this device with that email yet.", then: "up" };
+  }
   window.localStorage.setItem(ACTIVE, email);
   return { ok: true, account };
 }

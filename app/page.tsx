@@ -136,7 +136,7 @@ export default function Home() {
           <>
             <Auth
               initialMode={authMode}
-              onIn={(a) => s.useAccount(a)}
+              onIn={(a, mode) => s.useAccount(a, { claimGuest: mode === "up" })}
               onSkip={() => setSkippedAuth(true)}
             />
             <button className="link" onClick={() => setGate("landing")}>
@@ -203,7 +203,18 @@ export default function Home() {
           ?
         </button>
         {s.account ? (
-          <button className="link" style={{ marginTop: 0 }} onClick={s.signOut}>
+          <button
+            className="link"
+            style={{ marginTop: 0 }}
+            onClick={() => {
+              // Someone signing out has an account, so send them back to the
+              // front door with sign-in ready. Leaving the form on "create an
+              // account" meant typing your own email got you an error.
+              s.signOut();
+              setAuthMode("in");
+              setGate("landing");
+            }}
+          >
             sign out
           </button>
         ) : (
