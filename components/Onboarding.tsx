@@ -61,7 +61,7 @@ export default function Onboarding({
           done
         </button>
         <p className="note" style={{ margin: "12px 0 0" }}>
-          stays on your device. not a real personality test — just a way to tailor what you see.
+          not a real personality test — just a way to tailor what you see.
         </p>
       </div>
     );

@@ -44,7 +44,9 @@ vercel --prod   # production deploy
 | path | what's in it |
 |---|---|
 | `app/page.tsx` | Shell, auth gate, tab routing, wind-down mode |
-| `lib/account.ts` | **Accounts — the one file to change for real cross-device sync** |
+| `lib/account.ts` | Sign up / sign in — local by default, code-based when synced |
+| `lib/cloud.ts` | The optional Supabase client. Inert with no env vars set |
+| `lib/merge.ts` | Combines two devices' data with nothing lost — see below |
 | `lib/areas.ts` | Life areas (school, body, creative, people…) with starts and habit ideas |
 | `lib/feelings.ts` | The feeling menu (numb → joyful) and the step pools it routes to |
 | `lib/shrinker.ts` | Turns a dreaded thing into one small first move |
@@ -126,29 +128,64 @@ Two guards worth knowing about:
 - Model output must parse to at least three usable steps or it's discarded and
   the rules are used.
 
-## Accounts, and what "signed in" means today
+## Accounts, and whether they sync
 
-Sign-up is real — an email creates an account and all data (habits, streaks,
-trackers, receipts) is stored under it, so two accounts on the same browser
-never see each other's stuff. Anything done before signing up comes with you:
-signing up carries the guest slot's work into the new account, since the link
-that offers it says "save my stuff". **But right now that storage is
-`localStorage`, so an account is device-local**: signing in on a phone won't
-show what you did on a laptop, and signing in with an email that only exists
-on another device reports no account rather than finding it.
+Sign-up is real either way — an email creates an account and all data
+(habits, streaks, trackers, receipts) is stored under it, so two accounts
+never see each other's stuff. What differs is where "stored" means:
 
-That's deliberate — it keeps the app deployable with zero configuration and
-keeps personal data off a server until there's a considered place to put it.
+**Out of the box: local.** Data lives in this browser's `localStorage`. An
+account is device-local — signing in on a phone won't show what you did on a
+laptop, and there's no password, because there's nothing to protect it from
+that isn't already the device itself. Nothing ever leaves it. This is
+deliberate: it keeps the app deployable with zero configuration and keeps
+personal data off a server until there's a considered place to put it.
 
-To make accounts sync across devices, replace the four functions in
-`lib/account.ts` (`signUp`, `signIn`, `signOut`, `currentAccount`) with an auth
-provider and a database, and persist `State` server-side instead of in
-`localStorage`. Nothing else in the app needs to change — everything reads
-accounts through that one interface. Practical options: Supabase (email auth +
-Postgres in one), or Auth.js with Vercel Postgres and Resend for magic links.
+**Set two env vars: synced.** Add `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` (see `.env.example`) and the same account
+opens on any device. Sign-in becomes a six-digit code emailed to you instead
+of a bare email field — with data now on a server, proving you can read the
+inbox is what stops anyone typing your email and reading your journal.
 
-Before storing this data on a server, be aware it may include minors' personal
-information — worth deciding on retention, deletion, and a privacy policy first.
+### Setting sync up
+
+1. Create a free project at [supabase.com](https://supabase.com).
+2. **SQL Editor → New query** → paste in `supabase/schema.sql` → **Run**.
+   This creates one table (`states`) and locks it down with row-level
+   security, so the public anon key can only ever read or write the row
+   belonging to whoever is signed in — never anyone else's.
+3. **Authentication → Providers → Email**: turn **on** "Enable email OTP" /
+   magic link (naming varies by Supabase version) and turn **off** "Confirm
+   email" if present, since the code itself is the confirmation.
+4. **Settings → API**: copy the Project URL and the `anon` `public` key
+   (never the `service_role` key — that one bypasses row-level security
+   entirely and must never reach a browser) into `.env.local` or Vercel's
+   environment variables, then redeploy.
+
+### How two devices editing offline reconcile
+
+Sync isn't last-write-wins — a stale phone overwriting an evening's laptop
+work would break rule one, *nothing you can lose*. Instead `lib/merge.ts`
+combines both sides: receipts, habits, journal entries and walls are unioned;
+counters and tracker counts take the higher value; a brick that's been
+knocked out of the wall on either device stays knocked out. The trade-off is
+that deleting something on one device doesn't delete it on the other until
+that device syncs too — union can't tell "never happened" from "happened
+somewhere I haven't heard from yet" apart, and losing a habit is worse than
+briefly still seeing one you meant to remove. `lib/merge.test.ts` has the
+whole contract as running tests, including that merging is order-independent
+and that repeated merges settle instead of drifting.
+
+Sync happens on sign-in, when the tab regains focus, and a few seconds after
+you make a change (batched, so knocking out five bricks is one upload). A
+small `syncing…` / `saved here only` note appears near the top only when
+there's something worth saying — it's never an alarm, since everything is
+always saved to the device first regardless of whether the network is there.
+
+Before turning this on for real users, be aware this data may include
+minors' personal information — worth deciding on retention, deletion, and a
+privacy policy first. "Erase everything" (**you → your record**) already
+deletes the server row along with the local copy.
 
 ## Not medical software
 

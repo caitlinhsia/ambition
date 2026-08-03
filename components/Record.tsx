@@ -1,6 +1,7 @@
 "use client";
 
 import { Receipt, State, streakOf, today } from "@/lib/store";
+import { cloudEnabled } from "@/lib/cloud";
 import WeekOverview from "./WeekOverview";
 
 /**
@@ -15,7 +16,7 @@ export default function Record({
 }: {
   state: State;
   onExport: () => void;
-  onWipe: () => void;
+  onWipe: () => void | Promise<void>;
 }) {
   const t = today();
   const startedToday = state.receipts.filter(
@@ -82,14 +83,19 @@ export default function Record({
           <button
             className="btn ghost"
             onClick={() => {
-              if (confirm("erase everything? this can't be undone.")) onWipe();
+              const warning = cloudEnabled
+                ? "erase everything, on every device this account is signed into? this can't be undone."
+                : "erase everything? this can't be undone.";
+              if (confirm(warning)) onWipe();
             }}
           >
             erase everything
           </button>
         </div>
         <p className="note" style={{ margin: "12px 0 0" }}>
-          your data, stored on this device.
+          {cloudEnabled
+            ? "your data, stored under your account and synced across your devices."
+            : "your data, stored on this device."}
         </p>
       </div>
     </>

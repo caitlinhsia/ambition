@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useStore } from "@/lib/store";
+import { SyncState, useStore } from "@/lib/store";
 import { TYPES } from "@/lib/quiz";
 import Landing from "@/components/Landing";
 import Auth from "@/components/Auth";
@@ -202,6 +202,7 @@ export default function Home() {
         >
           ?
         </button>
+        <SyncDot state={s.sync} />
         {s.account ? (
           <button
             className="link"
@@ -381,6 +382,22 @@ export default function Home() {
 
       <Foot />
     </main>
+  );
+}
+
+/**
+ * Whether your work has left this device.
+ *
+ * Shown only when there's something to say. Sync failing is worth knowing
+ * about — it means a second device won't see today — but it's never an alarm:
+ * everything still saved locally and the next merge picks it up.
+ */
+function SyncDot({ state }: { state: SyncState }) {
+  if (state === "off" || state === "idle") return null;
+  return (
+    <span className={"syncdot " + state} title={state === "error" ? "saved here, not synced yet" : "syncing"}>
+      {state === "working" ? "syncing…" : "saved here only"}
+    </span>
   );
 }
 

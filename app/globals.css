@@ -1714,3 +1714,16 @@ input.dbnum:focus {
     white-space: normal;
   }
 }
+
+/* ---- sync status ---- */
+/* Never an alarm: work is always saved on the device first, so the worst
+   this reports is that a second device hasn't seen it yet. */
+.syncdot {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.syncdot.error {
+  color: var(--flag);
+}

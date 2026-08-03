@@ -2,23 +2,29 @@
   "name": "budg3",
   "version": "0.1.0",
   "private": true,
-  "description": "learn to start — a gentle, local-first app for teens who can't get going",
+  "description": "learn to start \u2014 a gentle, local-first app for teens who can't get going",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
-    "next": "^15.5.22",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "@supabase/supabase-js": "^2.112.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "next": "^15.5.22",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }
